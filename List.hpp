@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/03/28 00:49:25 by badam            ###   ########.fr       */
+/*   Updated: 2021/03/31 18:34:20 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,23 @@ class	List: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 		{
 			_parent::_push_front(val);
 		}
+
+		void	push_back(const_reference val)
+		{
+			_parent::_push_back(val);
+		}
+
+		void	pop_front(void)
+		{
+			_parent::_pop_front();
+		}
+
+		void	pop_back(void)
+		{
+			_parent::_pop_back();
+		}
+
+		// resize
 };
 
 #endif
