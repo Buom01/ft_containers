@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/06 05:58:08 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/06 06:32:07 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ class	ACommon
 
 			return (*this);
 		};
-
-
 
 		bool			empty(void) const
 		{
@@ -354,6 +352,8 @@ class	ACommon
 
 			_size = 0;
 		}
+
+		// get_allocator
 };
 
 #endif

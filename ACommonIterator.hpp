@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 23:07:46 by badam             #+#    #+#             */
-/*   Updated: 2021/03/30 23:24:17 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/06 06:39:11 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class	ACommonIterator: public ACommon<Category, T, Alloc>
 	public:
 		typedef	Iterator<Category, T, Alloc>	iterator;
 		//typedef	Iterator<Category, T>	const_iterator;
-		//typedef	Iterator<Category, T>	reverse_iterator;
+		//typedef	Iterator<Category, T>	reverse_iterator;  // May set a child of itertor which set _reversed = true automatically
 		//typedef	Iterator<Category, T>	const_reverse_iterator;
 
 		reference		front(void)
