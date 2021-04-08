@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/06 06:32:07 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/08 23:10:07 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ class	ACommon
 		typedef	std::ptrdiff_t	difference_type;
 		typedef	std::size_t		size_type;
 
-	private:
+	protected:
 		typedef		Iterator<Category, T, Alloc> _iterator;
 		typedef		struct s_commonItem<T>		 _item;
 
-	protected:
 		_iterator	*_begin;
 		_iterator	*_end;
 		_iterator	*_rbegin;
@@ -128,6 +127,32 @@ class	ACommon
 			delete item;
 		}
 
+		void		_update_front(_item *newfront)
+		{
+			_front = newfront;
+			delete _begin;
+			_begin = new _iterator(&_back, newfront);
+		}
+
+		void		_update_back(_item *newback)
+		{
+			_back = newback;
+			//delete _rbegin;
+			//_rbegin = new _iterator(&_front, newback, true);
+		}
+
+		void		_update(_item *newfront, _item *newback)
+		{
+			_front = newfront;
+			_back = newback;
+
+			delete _begin;
+			_begin = new _iterator(&_back, newfront);
+			//delete _rbegin;
+			//_rbegin = new _iterator(&_front, newback, true);
+		}
+
+
 		size_type	_max_size(void) const
 		{
 			return (2^(64-sizeof(value_type))-1);
@@ -143,17 +168,14 @@ class	ACommon
 				item->prev = _back;
 				_back->next = item;
 				_front->prev = item;
-				_front = item;
+				_update_front(item);
 			}
 			else
 			{
-				_front = item;
-				_back = item;
 				item->next = item;
 				item->prev = item;
+				_update(item, item);
 			}
-			delete _begin;
-			_begin = new _iterator(&_back, _front);
 			++_size;
 		}
 
@@ -167,17 +189,14 @@ class	ACommon
 				item->prev = _back;
 				_back->next = item;
 				_front->prev = item;
-				_back = item;
+				_update_back(item);
 			}
 			else
 			{
-				_front = item;
-				_back = item;
 				item->next = item;
 				item->prev = item;
+				_update(item, item);
 			}
-			//delete _rbegin;
-			//_rbegin = new _iterator(&_front, _back, true);
 			++_size;
 		}
 
@@ -191,18 +210,15 @@ class	ACommon
 				delete _front;
 				if (newfront == _back)
 				{
-					_front = NULL;
-					_back = NULL;
+					_update(NULL, NULL);
 				}
 				else
 				{
 					newfront->prev = _back;
 					_back->next = newfront;
-					_front = newfront;
+					_update_front(newfront);
 				}
 			}
-			delete _begin;
-			_begin = new _iterator(&_back, _front);
 			--_size;
 		}
 
@@ -216,18 +232,15 @@ class	ACommon
 				delete _back;
 				if (newback == _front)
 				{
-					_front = NULL;
-					_back = NULL;
+					_update(NULL, NULL);
 				}
 				else
 				{
 					newback->next = _front;
 					_front->prev = newback;
-					_back = newback;
+					_update_back(newback);
 				}
 			}
-			//delete _rbegin;
-			//_rbegin = new _iterator(&_front, _back, true);
 			--_size;
 		}
 
@@ -268,23 +281,29 @@ class	ACommon
 			}
 		}
 
-		// may handle reverse differently
 		_iterator	_erase(_iterator position)
 		{
-			_iterator	prev_it	= _iterator(position);
-			_item		*next	= position.getElem()->next;
-			_item		*prev	= position.getElem()->prev;
+			_iterator	next_it	= _iterator(position);
 
-			next->prev = prev;
-			prev->next = next;
+			++next_it;
 
-			--prev_it;
-			_delete(position.getElem());
+			if (position.getElem() == _begin->getElem())
+				_pop_front();
+			else if (position.getElem() == _rbegin->getElem())
+				_pop_back();
+			else
+			{
+				_item		*next	= position.getElem()->next;
+				_item		*prev	= position.getElem()->prev;
 
-			// may refresh front / back
-			--_size;
+				next->prev = prev;
+				prev->next = next;
 
-			return (prev_it);
+				_delete(position.getElem());
+				--_size;
+			}
+
+			return (next_it);
 		}
 
 		// may handle reverse differently
@@ -353,7 +372,13 @@ class	ACommon
 			_size = 0;
 		}
 
-		// get_allocator
+		allocator_type	_get_allocator(void) const
+		{
+			// may review that
+			allocator_type	allocator;
+
+			return (allocator);
+		}
 };
 
 #endif
