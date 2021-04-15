@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/08 23:10:07 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/15 05:56:25 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ class	ACommon
 		{
 			_begin = new _iterator(&_back, NULL);
 			_end = new _iterator(&_back, NULL);
+			_rbegin = new _iterator(&_back, NULL, true);
+			_rend = new _iterator(&_back, NULL, true);
 			_size = 0;
 			_front = NULL;
 			_back = NULL;
@@ -67,6 +69,7 @@ class	ACommon
 		ACommon(const ACommon &src)
 		{
 			_begin = NULL;
+			_rbegin = NULL;
 			_front = NULL;
 			*this = src;
 		};
@@ -86,14 +89,16 @@ class	ACommon
 			{
 				delete _begin;
 				delete _end;
+				delete _rbegin;
+				delete _rend;
 			}
 			_begin = new _iterator(ref.begin());
 			_end = new _iterator(ref.end());
+			_rbegin = new _iterator(ref.rbegin());
+			_rend = new _iterator(ref.rend());
 
 			// should free old list and assign new one
-			// along the size
-			// can use assign ?
-			// may use ease and iter over content with _push_back
+			// ! may use ease and iter over content with _push_back !
 			_front = NULL;
 			_back = NULL;
 			_size = ref.size();
@@ -137,8 +142,8 @@ class	ACommon
 		void		_update_back(_item *newback)
 		{
 			_back = newback;
-			//delete _rbegin;
-			//_rbegin = new _iterator(&_front, newback, true);
+			delete _rbegin;
+			_rbegin = new _iterator(&_front, newback, true);
 		}
 
 		void		_update(_item *newfront, _item *newback)
@@ -148,8 +153,8 @@ class	ACommon
 
 			delete _begin;
 			_begin = new _iterator(&_back, newfront);
-			//delete _rbegin;
-			//_rbegin = new _iterator(&_front, newback, true);
+			delete _rbegin;
+			_rbegin = new _iterator(&_front, newback, true);
 		}
 
 
@@ -258,7 +263,10 @@ class	ACommon
 
 			++_size;
 
-			//may refresh front / back
+			if (next == _front)
+				_update_front(item);
+			if (next == _back)
+				_update_back(item);
 
 			return (--position);
 		}
@@ -287,9 +295,9 @@ class	ACommon
 
 			++next_it;
 
-			if (position.getElem() == _begin->getElem())
+			if (position.getElem() == _front)
 				_pop_front();
-			else if (position.getElem() == _rbegin->getElem())
+			else if (position.getElem() == _back)
 				_pop_back();
 			else
 			{
@@ -309,34 +317,22 @@ class	ACommon
 		// may handle reverse differently
 		_iterator	_erase(_iterator first, _iterator last)
 		{
-			_iterator	prev_it	= _iterator(first);
+			_iterator	it		= first;
+			_iterator	it_next	= first;
+			_iterator	it_prev	= first;
 			
-			--prev_it;
+			--it_prev;
+			if (it_prev.getElem() == last.getElem())
+				it_prev = _end;
 
+			while (it != last)
 			{
-				_item		*next	= last.getElem()->next;
-				_item		*prev	= first.getElem()->prev;
-
-				next->prev = prev;
-				prev->next = next;
+				++it_next;
+				_erase(*it);
+				it = it_next;
 			}
 
-			{
-				_iterator	it		= first;
-				_iterator	next	= first;
-
-				while (it != last)
-				{
-					++next;
-					_delete(*it);
-					--_size;
-					it = next;
-				}
-			}
-
-			// may refresh front / back
-
-			return (prev_it);
+			return (it_prev);
 		}
 
 		// swap
@@ -347,16 +343,16 @@ class	ACommon
 			_item	*next = NULL;
 
 			delete _begin;
-			//delete _rbegin;
+			delete _rbegin;
 			if (destroy)
 			{
 				delete _end;
-				//delete _rend;
+				delete _rend;
 			}
 			else
 			{
 				_begin = new _iterator(&_back, NULL);
-				//_rbegin = new _iterator(&_back, NULL);
+				_rbegin = new _iterator(&_back, NULL);
 			}
 
 			if (_front)

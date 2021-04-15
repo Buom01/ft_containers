@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/03/31 01:57:09 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/15 05:21:45 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,11 @@ class	Iterator: public std::iterator<Category, T>
 		_item	*getElem(void) const
 		{
 			return (_elem);
+		};
+
+		_item	**getElemPtr(void)
+		{
+			return (&_elem);
 		};
 
 		_item	**getBack(void) const

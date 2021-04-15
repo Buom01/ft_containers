@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/04/08 23:43:12 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/15 05:58:12 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,99 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 			}
 		}
 
-		// all operator
-		// reverse (may be easier to do at parent level ?)
+		void	merge(list &x)
+		{
+			// TODO
+			(void)x;
+		}
+
+		template <class Compare>
+		void	merge (list &x, Compare comp)
+		{
+			_iterator	it	=	_parent::_begin;
+			_iterator	itx	=	x._begin;
+
+			while (itx != _parent::_end)
+			{
+				if (it == _parent::_end || comp(*itx, *it))
+					splice(it, x, itx++);
+				else
+					++it;
+			}
+		}
+
+		void	sort(void)
+		{
+			//TODO
+		}
+
+	private:
+		template <class Compare>
+		_iterator 	_sort(Compare comp, _iterator items, size_type size, size_type begin)
+		{
+			while (begin--)
+				++items;
+
+			if (size > 1)
+			{
+				size_type	size_A				= size / 2;
+				size_type	size_B				= (size + 1) / 2;
+				_iterator	prev_last_sorted	= items;
+
+				_iterator	A		= _sort(comp, items, size_A, 0);
+				_iterator	B		= _sort(comp, items, size_B, size_A);
+
+				--prev_last_sorted;
+				while (size_A || size_B)
+				{
+					if (size_A && comp(*A, *B))
+					{
+						splice((++prev_last_sorted)--, this, A++);
+						--size_A;
+					}
+					else
+					{
+						splice((++prev_last_sorted)--, this, B++);
+						--size_B;
+					}
+				}
+				while (--size)
+					--prev_last_sorted;
+				return (prev_last_sorted);
+			}
+			else
+				return (items);
+		}
+
+	public:
+		template <class Compare>
+		void	sort(Compare comp)
+		{
+			if (!_parent::_begin)
+				return ;
+
+			_update_front(_sort(comp, _parent::_begin, _parent::getSize()).getElem());
+			_update_back(_parent::_front->prev);
+		}
+
+		void	reverse(void)
+		{
+			_item	*front	= _parent::_front;
+			_item	*back	= _parent::_back;
+			_item	*i		= front;
+			_item	*tmp	= NULL;
+
+			if (!front)
+				return ;
+			while (tmp != front)
+			{
+				tmp = i->next;
+				i->next = i->prev;
+				i->prev = tmp;
+				i = tmp;
+			}
+			_parent::_update(back, front);
+		}
 
 		allocator_type	get_allocator(void) const
 		{
