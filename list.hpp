@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   List.hpp                                           :+:      :+:    :+:   */
+/*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/04/26 09:41:15 by bastien          ###   ########.fr       */
+/*   Updated: 2021/04/26 10:32:33 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 # define LIST_HPP
 
-# include "ACommonIterator.hpp"
+# include "common_iterator.hpp"
 
+
+namespace ft
+{
 
 template < class T, class Alloc = std::allocator<T> >
-class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc> 
+class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc> 
 {
-	typedef	ACommon<std::bidirectional_iterator_tag, T, Alloc>	_parent;
+	typedef	ft::common<std::bidirectional_iterator_tag, T, Alloc>	_parent;
 	using typename _parent::_iterator;
 	using typename _parent::_item;
 
@@ -347,5 +350,7 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 				return (items);
 		}
 };
+
+}
 
 #endif

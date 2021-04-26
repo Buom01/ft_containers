@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ACommon.hpp                                        :+:      :+:    :+:   */
+/*   common.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/26 09:56:05 by bastien          ###   ########.fr       */
+/*   Updated: 2021/04/26 10:34:00 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ACOMMON_HPP
-# define ACOMMON_HPP
+#ifndef COMMON_HPP
+# define COMMON_HPP
 
 # include <iostream>
 # include <string>
 
 
+namespace ft
+{
+
 template< class T >
-struct s_commonItem
+struct s_common_item
 {
 	T					*content;
-	struct s_commonItem	*next;
-	struct s_commonItem *prev;
+	struct s_common_item	*next;
+	struct s_common_item	*prev;
 };
 
 
 template< class Category, class T, class Alloc >
-class	Iterator;
+class	iterator;
 
 template< class Category, class T, class Alloc >
-class	ACommon
+class	common
 {
 	public:
 		typedef	T				value_type;
@@ -43,8 +46,8 @@ class	ACommon
 		typedef	std::size_t		size_type;
 
 	protected:
-		typedef		Iterator<Category, T, Alloc> _iterator;
-		typedef		struct s_commonItem<T>		 _item;
+		typedef		iterator<Category, T, Alloc>	_iterator;
+		typedef		struct s_common_item<T>			_item;
 
 		_iterator	*_begin;
 		_iterator	*_end;
@@ -55,7 +58,7 @@ class	ACommon
 		_item		*_back;
 
 	public:
-		ACommon(void)
+		common(void)
 		{
 			_begin = new _iterator(&_back, NULL);
 			_end = new _iterator(&_back, NULL);
@@ -66,7 +69,7 @@ class	ACommon
 			_back = NULL;
 		};
 
-		ACommon(const ACommon &src)
+		common(const common &src)
 		{
 			_begin = NULL;
 			_rbegin = NULL;
@@ -74,13 +77,13 @@ class	ACommon
 			*this = src;
 		};
 
-		virtual	~ACommon(void)
+		virtual	~common(void)
 		{
 			_clear(true);
 		};
 
 
-		ACommon	&operator=(const ACommon &ref)
+		common	&operator=(const common &ref)
 		{
 			_iterator	it;
 
@@ -326,7 +329,7 @@ class	ACommon
 			return (it_prev);
 		}
 
-		void	_swap(ACommon &x)
+		void	_swap(common &x)
 		{
 			{
 				_iterator	*tmp;
@@ -398,5 +401,7 @@ class	ACommon
 			return (allocator);
 		}
 };
+
+}
 
 #endif

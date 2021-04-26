@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Iterator.hpp                                       :+:      :+:    :+:   */
+/*   iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/04/15 05:21:45 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/26 10:38:16 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,53 @@
 
 # include <iterator>
 
-# include "ACommon.hpp"
+# include "common.hpp"
 
+
+namespace ft
+{
 
 template< class Category, class T, class Alloc>
-class	ACommon;
+class	common;
 
 template< class Category, class T, class Alloc >
-class	Iterator: public std::iterator<Category, T>
+class	iterator: public std::iterator<Category, T>
 {
 	protected:
-		typedef Iterator<Category, T, Alloc>	_self;
-		typedef	ACommon<Category, T, Alloc>		_container;
-		typedef	struct s_commonItem<T>			_item;
+		typedef iterator<Category, T, Alloc>	_self;
+		typedef	ft::common<Category, T, Alloc>	_container;
+		typedef	struct s_common_item<T>			_item;
 
 		_item	**_back;
 		_item 	*_elem;
 		bool	_reversed;
 
 	public:
-		Iterator(void)
+		iterator(void)
 		{
 			_back = NULL;
 			_elem = NULL;
 			_reversed = false;
 		};
 
-		Iterator(const Iterator &src)
+		iterator(const iterator &src)
 		{
 			*this = src;
 		};
 
-		Iterator(_item **back, _item *elem, bool reversed = false)
+		iterator(_item **back, _item *elem, bool reversed = false)
 		{
 			_back = back;
 			_elem = elem;
 			_reversed = reversed;
 		};
 
-		virtual	~Iterator(void)
+		virtual	~iterator(void)
 		{
 		};
 
 
-		Iterator	&operator=(const Iterator &ref)
+		iterator	&operator=(const iterator &ref)
 		{
 			if (this != &ref)
 			{
@@ -70,7 +73,7 @@ class	Iterator: public std::iterator<Category, T>
 			return (*this);
 		};
 
-		Iterator	&operator++(void)
+		iterator	&operator++(void)
 		{
 			if (_elem == *_back)
 				_elem = NULL;
@@ -80,7 +83,7 @@ class	Iterator: public std::iterator<Category, T>
 			return (*this);
 		};
 
-		Iterator	operator++(int)
+		iterator	operator++(int)
 		{
 			_self	tmp(*this);
 
@@ -88,10 +91,10 @@ class	Iterator: public std::iterator<Category, T>
 			return (tmp);
 		};
 
-		Iterator	&operator--(void);
-		Iterator	operator--(int);
-		bool		operator==(const Iterator &ref);
-		bool		operator!=(const Iterator &ref)
+		iterator	&operator--(void);
+		iterator	operator--(int);
+		bool		operator==(const iterator &ref);
+		bool		operator!=(const iterator &ref)
 		{
 			return (ref.getElem() != _elem);
 		};
@@ -138,5 +141,7 @@ class	Iterator: public std::iterator<Category, T>
 			return (_reversed);
 		};
 };
+
+}
 
 #endif
