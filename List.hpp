@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/04/15 05:58:12 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/26 09:41:15 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,18 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 			return (_parent::_max_size());
 		}
 
-		// assign
+		template <class InputIterator>
+		void			assign(InputIterator first, InputIterator last)
+		{
+			_parent::_clear();
+			_parent::_insert(_parent::_begin, first, last);
+		}
+
+		void			assign(size_type n, const T &val)
+		{
+			_parent::_clear();
+			_parent::_insert(_parent::_begin, n, val);
+		}
 
 		void			push_front(const_reference val)
 		{
@@ -83,9 +94,22 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 			return (_parent::_erase(first, last));
 		}
 
-		// parent::swap
+		void			swap(list &x)
+		{
+			_parent::_swap(x);
+		}
 
-		// resize
+		void			resize(size_type n, T val = T())
+		{
+			_iterator	it	= _parent::_begin;
+
+			while (n-- && it != _parent::_end)
+					++it;
+			if (n)
+				_parent::_insert(_parent::_end, n, val);
+			else
+				_parent::_erase(it, _parent::_end);
+		}
 
 		void			clear(void)
 		{
@@ -178,7 +202,15 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 
 		void	unique(void)
 		{
-			// TODO
+			static struct s_binary_pred
+			{
+				bool	operator() (const T first, const T second)
+				{
+					return (first == second);
+				}
+			} binary_pred;
+
+			unique(binary_pred);
 		}
 
 		template <class BinaryPredicate>
@@ -204,8 +236,15 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 
 		void	merge(list &x)
 		{
-			// TODO
-			(void)x;
+			static struct s_comp
+			{
+				bool	operator() (const T first, const T second)
+				{
+					return (first < second);
+				}
+			} comp;
+
+			merge(x, comp);
 		}
 
 		template <class Compare>
@@ -225,7 +264,49 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 
 		void	sort(void)
 		{
-			//TODO
+			static struct s_comp
+			{
+				bool	operator() (const T first, const T second)
+				{
+					return (first < second);
+				}
+			} comp;
+
+			sort(comp);
+		}
+
+		template <class Compare>
+		void	sort(Compare comp)
+		{
+			if (!_parent::_begin)
+				return ;
+
+			_update_front(_sort(comp, _parent::_begin, _parent::getSize()).getElem());
+			_update_back(_parent::_front->prev);
+		}
+
+		void	reverse(void)
+		{
+			_item	*front	= _parent::_front;
+			_item	*back	= _parent::_back;
+			_item	*i		= front;
+			_item	*tmp	= NULL;
+
+			if (!front)
+				return ;
+			while (tmp != front)
+			{
+				tmp = i->next;
+				i->next = i->prev;
+				i->prev = tmp;
+				i = tmp;
+			}
+			_parent::_update(back, front);
+		}
+
+		allocator_type	get_allocator(void) const
+		{
+			return (_parent::_get_allocator());
 		}
 
 	private:
@@ -264,41 +345,6 @@ class	list: public ACommonIterator<std::bidirectional_iterator_tag, T, Alloc>
 			}
 			else
 				return (items);
-		}
-
-	public:
-		template <class Compare>
-		void	sort(Compare comp)
-		{
-			if (!_parent::_begin)
-				return ;
-
-			_update_front(_sort(comp, _parent::_begin, _parent::getSize()).getElem());
-			_update_back(_parent::_front->prev);
-		}
-
-		void	reverse(void)
-		{
-			_item	*front	= _parent::_front;
-			_item	*back	= _parent::_back;
-			_item	*i		= front;
-			_item	*tmp	= NULL;
-
-			if (!front)
-				return ;
-			while (tmp != front)
-			{
-				tmp = i->next;
-				i->next = i->prev;
-				i->prev = tmp;
-				i = tmp;
-			}
-			_parent::_update(back, front);
-		}
-
-		allocator_type	get_allocator(void) const
-		{
-			return (_parent::_get_allocator());
 		}
 };
 

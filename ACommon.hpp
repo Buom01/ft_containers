@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/15 05:56:25 by badam            ###   ########.fr       */
+/*   Updated: 2021/04/26 09:56:05 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,19 @@ class	ACommon
 
 		ACommon	&operator=(const ACommon &ref)
 		{
+			_iterator	it;
+
 			if (this == &ref)
 				return (*this);
 
-			if (_begin)
-			{
-				delete _begin;
-				delete _end;
-				delete _rbegin;
-				delete _rend;
-			}
-			_begin = new _iterator(ref.begin());
-			_end = new _iterator(ref.end());
-			_rbegin = new _iterator(ref.rbegin());
-			_rend = new _iterator(ref.rend());
+			_clear();
 
-			// should free old list and assign new one
-			// ! may use ease and iter over content with _push_back !
-			_front = NULL;
-			_back = NULL;
-			_size = ref.size();
+			it = ref.begin();
+			while(it != ref.end())
+			{
+				_push_back(*it);
+				++it;
+			}
 
 			return (*this);
 		};
@@ -249,7 +242,6 @@ class	ACommon
 			--_size;
 		}
 
-		// may handle reverse differently
 		_iterator	_insert(_iterator position, const T &val)
 		{
 			_item	*next = position.getElem();
@@ -274,7 +266,7 @@ class	ACommon
 		void		_insert(_iterator position, size_type n, const T &val)
 		{
 			while (n--)
-				insert(position, val);
+				_insert(position, val);
 		}
 
 		template <class InputIterator>
@@ -314,7 +306,6 @@ class	ACommon
 			return (next_it);
 		}
 
-		// may handle reverse differently
 		_iterator	_erase(_iterator first, _iterator last)
 		{
 			_iterator	it		= first;
@@ -335,7 +326,38 @@ class	ACommon
 			return (it_prev);
 		}
 
-		// swap
+		void	_swap(ACommon &x)
+		{
+			{
+				_iterator	*tmp;
+
+				tmp = _begin;
+				_begin = x._begin;
+				x._begin = tmp;
+				tmp = _rbegin;
+				_rbegin = x._rbegin;
+				x._rbegin = tmp;
+			}
+			{
+				size_type	tmp;
+
+				tmp = _size;
+				_size = x._size;
+				x._size = _size;
+			}
+			{
+				_item	*tmp;
+	
+				tmp = _front;
+				_front = x._front;
+				x._front = _front;
+				tmp = _back;
+				_back = x._back;
+				x._back = _back;
+			}
+			// should swap the allocator too if propagate_on_container_swap
+			// https://www.cplusplus.com/reference/memory/allocator_traits/#types
+		}
 
 		void	_clear(bool	destroy = false)
 		{
@@ -370,7 +392,7 @@ class	ACommon
 
 		allocator_type	_get_allocator(void) const
 		{
-			// may review that
+			// may review that and usage of allocator in all code
 			allocator_type	allocator;
 
 			return (allocator);
