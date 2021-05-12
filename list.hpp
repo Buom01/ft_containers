@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/04/26 10:32:33 by bastien          ###   ########.fr       */
+/*   Updated: 2021/05/12 15:48:51 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 namespace ft
 {
 
-template < class T, class Alloc = std::allocator<T> >
+template< class T, class Alloc = std::allocator<T> >
 class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc> 
 {
 	typedef	ft::common<std::bidirectional_iterator_tag, T, Alloc>	_parent;
@@ -33,6 +33,35 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 
 	public:
+		explicit list(const allocator_type &alloc = allocator_type())
+		{
+			_parent::_init(alloc);
+		}
+
+		explicit list(size_type n, const T &val = T(),
+				const allocator_type &alloc = allocator_type())
+		{
+			_parent::_init(alloc);
+			assign(n, val);
+		}
+
+/*
+		list(x, y) with int use this instead of the right one
+
+		template <class InputIterator>
+		list (InputIterator first, InputIterator last,
+				const allocator_type &alloc = allocator_type())
+		{
+			_parent::_init(alloc);
+			assign<InputIterator>(first, last);
+		}
+*/
+
+		list (const list &x)
+		{
+			*this = x;
+		}
+
 		size_type		max_size(void) const
 		{
 			return (_parent::_max_size());
@@ -42,13 +71,13 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		void			assign(InputIterator first, InputIterator last)
 		{
 			_parent::_clear();
-			_parent::_insert(_parent::_begin, first, last);
+			_parent::template _insert<InputIterator>(*_parent::_begin, first, last);
 		}
 
 		void			assign(size_type n, const T &val)
 		{
 			_parent::_clear();
-			_parent::_insert(_parent::_begin, n, val);
+			_parent::_insert(*(_parent::_begin), n, val);
 		}
 
 		void			push_front(const_reference val)
@@ -116,7 +145,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 		void			clear(void)
 		{
-			_parent::clear();
+			_parent::_clear();
 		}
 
 		void	splice(_iterator position, list &x)

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/04/26 10:34:00 by bastien          ###   ########.fr       */
+/*   Updated: 2021/05/12 15:49:39 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ class	common
 		_item		*_front;
 		_item		*_back;
 
-	public:
-		common(void)
+		void		_init(const allocator_type &alloc = allocator_type())
 		{
+			(void)alloc;  // May use it too
+
 			_begin = new _iterator(&_back, NULL);
 			_end = new _iterator(&_back, NULL);
 			_rbegin = new _iterator(&_back, NULL, true);
@@ -67,16 +68,19 @@ class	common
 			_size = 0;
 			_front = NULL;
 			_back = NULL;
-		};
+		}
 
+	public:
+		common()
+		{};
+
+	protected:
 		common(const common &src)
 		{
-			_begin = NULL;
-			_rbegin = NULL;
-			_front = NULL;
 			*this = src;
 		};
 
+	public:
 		virtual	~common(void)
 		{
 			_clear(true);
@@ -245,8 +249,18 @@ class	common
 			--_size;
 		}
 
-		_iterator	_insert(_iterator position, const T &val)
+		_iterator	_insert(_iterator position, const_reference val)
 		{
+			// may redo _insert in all cases, and push_back and push_front
+			// should depend on it
+			// 
+			// same for erase
+			if (position == *_end)
+				_push_back(val);
+			else if (position == *_begin)
+				_push_front(val);
+			else
+			{
 			_item	*next = position.getElem();
 			_item	*prev = next->prev;
 			_item	*item = _allocate(val);
@@ -262,11 +276,11 @@ class	common
 				_update_front(item);
 			if (next == _back)
 				_update_back(item);
-
+			}
 			return (--position);
 		}
 
-		void		_insert(_iterator position, size_type n, const T &val)
+		void		_insert(_iterator position, size_type n, const_reference val)
 		{
 			while (n--)
 				_insert(position, val);
@@ -367,19 +381,6 @@ class	common
 			_item	*item = _front;
 			_item	*next = NULL;
 
-			delete _begin;
-			delete _rbegin;
-			if (destroy)
-			{
-				delete _end;
-				delete _rend;
-			}
-			else
-			{
-				_begin = new _iterator(&_back, NULL);
-				_rbegin = new _iterator(&_back, NULL);
-			}
-
 			if (_front)
 			{
 				while (next != _front)
@@ -389,6 +390,16 @@ class	common
 					item = next;
 				}
 			}
+
+			if (destroy)
+			{
+				delete _begin;
+				delete _rbegin;
+				delete _end;
+				delete _rend;
+			}
+			else
+				_update(NULL, NULL);
 
 			_size = 0;
 		}
