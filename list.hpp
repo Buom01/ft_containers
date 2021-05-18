@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/05/12 15:48:51 by badam            ###   ########.fr       */
+/*   Updated: 2021/05/18 17:14:02 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		void			assign(size_type n, const T &val)
 		{
 			_parent::_clear();
-			_parent::_insert(*(_parent::_begin), n, val);
+			_parent::_insert(*_parent::_begin, n, val);
 		}
 
 		void			push_front(const_reference val)
@@ -133,14 +133,17 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 		void			resize(size_type n, T val = T())
 		{
-			_iterator	it	= _parent::_begin;
+			_iterator	it	= *_parent::_begin;
 
-			while (n-- && it != _parent::_end)
-					++it;
+			while (n && it != *_parent::_end)
+			{
+				--n;
+				++it;
+			}
 			if (n)
-				_parent::_insert(_parent::_end, n, val);
+				_parent::_insert(*_parent::_end, n, val);
 			else
-				_parent::_erase(it, _parent::_end);
+				_parent::_erase(it, *_parent::_end);
 		}
 
 		void			clear(void)
@@ -150,7 +153,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 		void	splice(_iterator position, list &x)
 		{
-			splice(position, x, x._begin, x._end);
+			splice(position, x, *(x._begin), *(x._end));
 		}
 
 		void	splice(_iterator position, list &x, _iterator i)
@@ -221,9 +224,9 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		template <class Predicate>
 		void	remove_if(Predicate pred)
 		{
-			_iterator	it	= _parent::_begin;
+			_iterator	it	= *_parent::_begin;
 
-			while (it != _parent::_end)
+			while (it != *_parent::_end)
 			{
 				if (pred(*it))
 					it = _parent::_erase(it);
@@ -248,13 +251,13 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		template <class BinaryPredicate>
 		void	unique(BinaryPredicate binary_pred)
 		{
-			_iterator	prev	= _parent::_begin;
+			_iterator	prev	= *_parent::_begin;
 			_iterator	it		= prev;
 
-			if (prev == _parent::_end)
+			if (prev == *_parent::_end)
 				return ;
 			++it;
-			while (it != _parent::_end)
+			while (it != *_parent::_end)
 			{
 				if (binary_pred(*it, *prev))
 					it = _parent::_erase(it);
@@ -282,12 +285,12 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		template <class Compare>
 		void	merge (list &x, Compare comp)
 		{
-			_iterator	it	=	_parent::_begin;
-			_iterator	itx	=	x._begin;
+			_iterator	it	=	*_parent::_begin;
+			_iterator	itx	=	*(x._begin);
 
-			while (itx != _parent::_end)
+			while (itx != *_parent::_end)
 			{
-				if (it == _parent::_end || comp(*itx, *it))
+				if (it == *_parent::_end || comp(*itx, *it))
 					splice(it, x, itx++);
 				else
 					++it;
@@ -310,10 +313,10 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		template <class Compare>
 		void	sort(Compare comp)
 		{
-			if (!_parent::_begin)
+			if (!_parent::_begin)  // Must review this two lines
 				return ;
 
-			_update_front(_sort(comp, _parent::_begin, _parent::getSize()).getElem());
+			_update_front(_sort(comp, *_parent::_begin, _parent::getSize()).getElem());
 			_update_back(_parent::_front->prev);
 		}
 

@@ -6,12 +6,13 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/05/12 15:00:58 by user             ###   ########.fr       */
+/*   Updated: 2021/05/18 14:40:13 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include "tests.hpp"
 
 namespace ft
 {
@@ -24,18 +25,24 @@ bool	maydo(std::string testname, std::string selection);
 template< class iterator >
 void	dump(iterator i, iterator end)
 {
+	size_t	limit	= DUMP_LIMIT;
+
 	std::cout << "[";
 	if (i == end)
 		std::cout << "]" << std::endl;
 	else
-		while (i != end)
+	{
+		while (i != end && --limit)
 		{
 			std::cout << *(i++);
 			if (i != end)
-				std::cout << ",";
+				std::cout << ", ";
 			else
 				std::cout << "]" << std::endl;
 		}
+		if (!limit && i != end)
+			std::cout << "...]" << std::endl;
+	}
 }
 
 template< class iterator_a, class iterator_b >
@@ -55,9 +62,13 @@ bool	exectest(bool (*test_fct_a)(container_a &a),
 		bool (*test_fct_b)(container_b &b),
 		container_a &a, container_b &b)
 {
-	if (!test_fct_a(a))
-		return (false);
-	if (!test_fct_b(b))
+	bool	ret_a;
+	bool	ret_b;
+
+	ret_a = test_fct_a(a);
+	ret_b = test_fct_b(b);
+
+	if (!ret_a || !ret_b)
 		return (false);
 	return (isequal(a.begin(), a.end(), b.begin(), b.end()));
 }

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/05/12 15:49:39 by badam            ###   ########.fr       */
+/*   Updated: 2021/05/18 17:13:25 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ class	common
 			if (_front)
 			{
 				newfront = _front->next;
-				delete _front;
+				_delete(_front);
 				if (newfront == _back)
 				{
 					_update(NULL, NULL);
@@ -234,7 +234,7 @@ class	common
 			if (_back)
 			{
 				newback = _back->prev;
-				delete _back;
+				_delete(_back);
 				if (newback == _front)
 				{
 					_update(NULL, NULL);
@@ -249,53 +249,47 @@ class	common
 			--_size;
 		}
 
-		_iterator	_insert(_iterator position, const_reference val)
+		_iterator	_insert(_iterator next, const_reference val)
 		{
-			// may redo _insert in all cases, and push_back and push_front
-			// should depend on it
-			// 
-			// same for erase
-			if (position == *_end)
+			_iterator	prev	= next;
+			--prev;
+
+			if (!_end || next == *_end)
 				_push_back(val);
-			else if (position == *_begin)
+			else if (prev == *_begin)
 				_push_front(val);
 			else
 			{
-			_item	*next = position.getElem();
-			_item	*prev = next->prev;
-			_item	*item = _allocate(val);
+				_item	*item	= _allocate(val);
 
-			item->next = next;
-			item->prev = prev;
-			prev->next = item;
-			next->prev = item;
-
-			++_size;
-
-			if (next == _front)
-				_update_front(item);
-			if (next == _back)
-				_update_back(item);
+				prev.getElem()->next = item;
+				next.getElem()->prev = item;
+				item->next = next.getElem();
+				item->prev = prev.getElem();
+				++_size;
 			}
-			return (--position);
+
+			return (--next);
 		}
 
-		void		_insert(_iterator position, size_type n, const_reference val)
+		_iterator	_insert(_iterator position, size_type n, const_reference val)
 		{
-			while (n--)
-				_insert(position, val);
+			if (n)
+				while (n--)
+					position = _insert(position, val);
+
+			return (position);
 		}
 
 		template <class InputIterator>
-		void		_insert(_iterator position, InputIterator first, InputIterator last)
+		_iterator	_insert(_iterator position, InputIterator first, InputIterator last)
 		{
-			InputIterator	it	= first;
+			InputIterator	it	= last;
 
-			while (it != last)
-			{
-				_insert(position, *it);
-				++it;
-			}
+			while (it-- != first)
+				position = _insert(position, *it);
+
+			return (position);
 		}
 
 		_iterator	_erase(_iterator position)
@@ -326,35 +320,20 @@ class	common
 		_iterator	_erase(_iterator first, _iterator last)
 		{
 			_iterator	it		= first;
-			_iterator	it_next	= first;
 			_iterator	it_prev	= first;
 			
 			--it_prev;
 			if (it_prev.getElem() == last.getElem())
-				it_prev = _end;
+				it_prev = *_end;
 
 			while (it != last)
-			{
-				++it_next;
-				_erase(*it);
-				it = it_next;
-			}
+				it = _erase(it);
 
 			return (it_prev);
 		}
 
 		void	_swap(common &x)
 		{
-			{
-				_iterator	*tmp;
-
-				tmp = _begin;
-				_begin = x._begin;
-				x._begin = tmp;
-				tmp = _rbegin;
-				_rbegin = x._rbegin;
-				x._rbegin = tmp;
-			}
 			{
 				size_type	tmp;
 
@@ -363,15 +342,14 @@ class	common
 				x._size = _size;
 			}
 			{
-				_item	*tmp;
-	
-				tmp = _front;
-				_front = x._front;
-				x._front = _front;
-				tmp = _back;
-				_back = x._back;
-				x._back = _back;
+				_item	*xfront	= x._front;
+				_item	*xback	= x._back;
+
+				x._update(_front, _back);
+				_update(xfront, xback);
 			}
+
+
 			// should swap the allocator too if propagate_on_container_swap
 			// https://www.cplusplus.com/reference/memory/allocator_traits/#types
 		}
