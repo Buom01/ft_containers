@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/05/18 17:24:03 by badam            ###   ########.fr       */
+/*   Updated: 2021/05/19 15:28:42 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	modifiers(std::string selection)
 	);
 
 	test(
-		list_pushpop_frontback< std::list<E> >,
-		list_pushpop_frontback< ft::list<E> >,
-		"list_pushpop_frontback",
+		list_pop_frontback< std::list<E> >,
+		list_pop_frontback< ft::list<E> >,
+		"list_pop_frontback",
 		selection
 	);
 
@@ -51,6 +51,34 @@ void	modifiers(std::string selection)
 		list_swap< std::list<E> >,
 		list_swap< ft::list<E> >,
 		"list_swap",
+		selection
+	);
+
+	test(
+		list_erase< std::list<E> >,
+		list_erase< ft::list<E> >,
+		"list_erase",
+		selection
+	);
+
+	test(
+		list_insert_1< std::list<E> >,
+		list_insert_1< ft::list<E> >,
+		"list_insert_1",
+		selection
+	);
+
+	test(
+		list_insert_3< std::list<E> >,
+		list_insert_3< ft::list<E> >,
+		"list_insert_3",
+		selection
+	);
+
+	test(
+		list_insert_4< std::list<E> >,
+		list_insert_4< ft::list<E> >,
+		"list_insert_4",
 		selection
 	);
 

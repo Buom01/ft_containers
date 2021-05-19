@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/05/18 17:13:25 by badam            ###   ########.fr       */
+/*   Updated: 2021/05/19 15:29:32 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ class	common
 			{
 				newfront = _front->next;
 				_delete(_front);
-				if (newfront == _back)
+				if (newfront == _front)
 				{
 					_update(NULL, NULL);
 				}
@@ -235,7 +235,7 @@ class	common
 			{
 				newback = _back->prev;
 				_delete(_back);
-				if (newback == _front)
+				if (newback == _back)
 				{
 					_update(NULL, NULL);
 				}
@@ -254,9 +254,9 @@ class	common
 			_iterator	prev	= next;
 			--prev;
 
-			if (!_end || next == *_end)
+			if (!_end || prev.getElem() == _back)
 				_push_back(val);
-			else if (prev == *_begin)
+			else if (next.getElem() == _front)
 				_push_front(val);
 			else
 			{
@@ -320,16 +320,14 @@ class	common
 		_iterator	_erase(_iterator first, _iterator last)
 		{
 			_iterator	it		= first;
-			_iterator	it_prev	= first;
-			
-			--it_prev;
-			if (it_prev.getElem() == last.getElem())
-				it_prev = *_end;
+
+			if (first == last)
+				return (last);
 
 			while (it != last)
 				it = _erase(it);
 
-			return (it_prev);
+			return (last);
 		}
 
 		void	_swap(common &x)
