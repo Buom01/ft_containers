@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/05/18 14:40:13 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/15 22:05:02 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,50 @@ bool	test(bool (*test_fct_a)(container_a &a),
 
 	return (true);
 }
+
+template <class T>
+struct s_pred_val
+{
+	const T *refval;
+	bool	operator() (const T& value)
+	{
+		return (value == *refval);
+	}
+	void	set_refval(const T &val)
+	{
+		refval = &val;
+	}
+};
+
+template <class T>
+struct s_pred_const
+{
+	bool	ret;
+	bool	operator() (const T& value)
+	{
+		(void)value;
+
+		return (ret);
+	}
+	void	set_ret(const bool new_ret)
+	{
+		ret = new_ret;
+	}
+};
+
+template <class T>
+struct s_pred_unique_two
+{
+	bool	operator() (const T first, const T second)
+	{
+		T	diff;
+
+		diff = first - second;
+		if (diff < 0)
+			diff *= -1;
+		return (diff <= 1);
+	}
+};
 
 
 }

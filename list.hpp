@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/05/19 15:19:32 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/15 22:46:45 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 		void	splice(_iterator position, list &x)
 		{
+			if (!position.getElem())
+				--position;
 			splice(position, x, *(x._begin), *(x._end));
 		}
 
@@ -168,12 +170,26 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		{
 			size_type	movelength	= 0;
 			_iterator	incLast		= last;
-			_item		next		= position.getElem();
-			_item		prev		= next->prev;
+			_iterator	i;
+			_item		*next;
+			_item		*prev;
 
+
+			if (!x.size() || !(first.getElem()))
+				return ;
+
+			i = first;
+			while (i++ != last)
+				++movelength;
+
+			i = position;
+			--i;
+			prev = i.getElem();
+			next = prev ? prev->next : NULL;
+			
 			--incLast;
 
-			if (!_parent::_front || position.getElem() == _parent::_front.getElem())
+			if (!_parent::_front || position.getElem() == _parent::_front)
 				_parent::_update_front(first.getElem());
 			if (!_parent::_back || !position.getElem())
 				_parent::_update_back(incLast.getElem());
@@ -181,42 +197,49 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			if (x._front == first.getElem() && x._back == incLast.getElem())
 				x._update(NULL, NULL);
 			else if (x._front == first.getElem())
-				x._update_front(last.getElem());
+				x._update_front(incLast.getElem()->next);
 			else if (x._back == incLast.getElem())
 				x._update_back(first.getElem()->prev);
 
-			if (!first.getElem()->prev != incLast.getElem())
+			if (incLast.getElem()->next != first.getElem())
 			{
+				std::cout << "1: " << incLast.getElem() << std::endl;
+				std::cout << "2: " << incLast.getElem()->next << std::endl;
+				std::cout << "3: " << incLast.getElem()->next->prev << std::endl;
 				incLast.getElem()->next->prev = first.getElem()->prev;
 				first.getElem()->prev->next = incLast.getElem()->next;
 			}
 
-			prev->next = first.getElem();
-			next->prev = incLast.getElem();
+			if (prev)
+			{
+				prev->next = first.getElem();
+				next->prev = incLast.getElem();
+			}
 			first.getElem()->prev = prev;
 			incLast.getElem()->next = next;
 
-			while (first++ != last)
-				++movelength;
+			std::cout << "movelength: " << movelength << std::endl;
 			x._size -= movelength;
 			_parent::_size += movelength;
 		}
 
+	private:
+		struct s_is_val
+		{
+			const T *refval;
+  			bool	operator() (const T& value)
+			{
+				return (value == *refval);
+			}
+			void	set_refval(const T &val)
+			{
+				refval = &val;
+			}
+		} is_val;
+		
+	public:
 		void	remove(const T &val)
 		{
-			static struct s_is_val
-			{
-				const T *refval;
-  				bool	operator() (const T& value)
-				{
-					return (value == *refval);
-				}
-				void	set_refval(const T *val)
-				{
-					refval = val;
-				}
-			} is_val;
-
 			is_val.set_refval(val);
 			remove_if(is_val);
 		}
@@ -235,16 +258,18 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			}
 		}
 
+	private:
+	struct s_binary_pred
+	{
+		bool	operator() (const T first, const T second)
+		{
+			return (first == second);
+		}
+	} binary_pred;
+
+	public:
 		void	unique(void)
 		{
-			static struct s_binary_pred
-			{
-				bool	operator() (const T first, const T second)
-				{
-					return (first == second);
-				}
-			} binary_pred;
-
 			unique(binary_pred);
 		}
 
@@ -297,17 +322,19 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			}
 		}
 
+	private:
+		struct s_sort_comp
+		{
+			bool	operator() (const T first, const T second)
+			{
+				return (first < second);
+			}
+		} sort_comp;
+
+	public:
 		void	sort(void)
 		{
-			static struct s_comp
-			{
-				bool	operator() (const T first, const T second)
-				{
-					return (first < second);
-				}
-			} comp;
-
-			sort(comp);
+			sort(sort_comp);
 		}
 
 		template <class Compare>
@@ -316,8 +343,15 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			if (!_parent::_begin)  // Must review this two lines
 				return ;
 
-			_update_front(_sort(comp, *_parent::_begin, _parent::getSize()).getElem());
-			_update_back(_parent::_front->prev);
+			_parent::_update_front(
+				_sort(
+					comp,
+					*_parent::_begin,
+					_parent::_size,
+					0
+				).getElem()
+			);
+			_parent::_update_back(_parent::_front->prev);
 		}
 
 		void	reverse(void)
@@ -346,37 +380,45 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 	private:
 		template <class Compare>
-		_iterator 	_sort(Compare comp, _iterator items, size_type size, size_type begin)
+		_iterator 	_sort(Compare comp, _iterator items, size_type size, size_type offset)
 		{
-			while (begin--)
+			std::cout << "offset: " << offset << std::endl;
+			while (offset--)
 				++items;
 
 			if (size > 1)
 			{
+				std::cout << "began sort: " << size << std::endl;
 				size_type	size_A				= size / 2;
 				size_type	size_B				= (size + 1) / 2;
 				_iterator	prev_last_sorted	= items;
 
-				_iterator	A		= _sort(comp, items, size_A, 0);
-				_iterator	B		= _sort(comp, items, size_B, size_A);
-
+				std::cout << "sizeA: " << size_A << "; ";
+				std::cout << "sizeB: " << size_B << "; ";
+				std::cout << "size: " << size_A + size_B << std::endl;
 				--prev_last_sorted;
+				_iterator	A		= _sort(comp, items, size_A, 0);
+				++prev_last_sorted;
+				_iterator	B		= _sort(comp, items, size_B, size_A);
+				--prev_last_sorted;
+
 				while (size_A || size_B)
 				{
-					if (size_A && comp(*A, *B))
+					if (size_A && (!size_B || comp(*A, *B)))
 					{
-						splice((++prev_last_sorted)--, this, A++);
+						std::cout << "A: " << *A << std::endl;
+						splice((++prev_last_sorted)--, *this, A++);
 						--size_A;
 					}
 					else
 					{
-						splice((++prev_last_sorted)--, this, B++);
+						std::cout << "B: " << *B << std::endl;
+						splice((++prev_last_sorted)--, *this, B++);
 						--size_B;
 					}
 				}
-				while (--size)
-					--prev_last_sorted;
-				return (prev_last_sorted);
+				std::cout << "-----------" << std::endl;
+				return (++prev_last_sorted);
 			}
 			else
 				return (items);

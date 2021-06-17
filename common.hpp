@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/05/19 15:29:32 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/15 22:43:40 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <string>
+# include <limits>
 
 
 namespace ft
@@ -160,7 +161,7 @@ class	common
 
 		size_type	_max_size(void) const
 		{
-			return (2^(64-sizeof(value_type))-1);
+			return (std::numeric_limits<size_type>::max());
 		}
 
 		void 		_push_front(const_reference val)

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/04/26 12:10:27 by bastien          ###   ########.fr       */
+/*   Updated: 2021/06/09 16:37:37 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,15 @@ class	iterator: public std::iterator<Category, T>
 
 		iterator	&operator++(void)
 		{
-			if (_elem == NULL)
-				_elem = (*_back)->next;
-			else if (_elem == *_back)
-				_elem = NULL;
-			else
-				_elem = _elem->next;
+			if (*_back)
+			{
+				if (_elem == NULL)
+					_elem = (*_back)->next;
+				else if (_elem == *_back)
+					_elem = NULL;
+				else
+					_elem = _elem->next;
+			}
 
 			return (*this);
 		};
@@ -95,12 +98,15 @@ class	iterator: public std::iterator<Category, T>
 
 		iterator	&operator--(void)
 		{
-			if (_elem == NULL)
-				_elem = (*_back);
-			else if (_elem == (*_back)->next)
-				_elem = NULL;
-			else
-				_elem = _elem->prev;
+			if (*_back)
+			{
+				if (_elem == NULL)
+					_elem = (*_back);
+				else if (_elem == (*_back)->next)
+					_elem = NULL;
+				else
+					_elem = _elem->prev;
+			}
 
 			return (*this);
 		};

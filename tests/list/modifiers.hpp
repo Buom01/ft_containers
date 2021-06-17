@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 14:24:18 by user              #+#    #+#             */
-/*   Updated: 2021/05/19 15:38:17 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/15 22:54:26 by bastien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ bool	list_clear(container &list)
 template <class container>
 bool	list_swap(container &list)
 {
-	container			list2;
-	container			list3;
+	container						list2;
+	container						list3;
 	typename container::iterator	first;
 	typename container::iterator	second;
 	typename container::iterator	third;
@@ -223,7 +223,7 @@ bool	list_insert_1(container &list)
 }
 
 template <class container>
-bool	list_insert_3(container &list)
+bool	list_insert_2(container &list)
 {
 	typename container::iterator	pos;
 	typename container::iterator	ret;
@@ -255,7 +255,7 @@ bool	list_insert_3(container &list)
 }
 
 template <class container>
-bool	list_insert_4(container &list)
+bool	list_insert_3(container &list)
 {
 	typename container::iterator	pos;
 	container						list1;
@@ -307,6 +307,79 @@ bool	list_resize(container &list)
 	list.push_back(7);
 
 	return (list.size() == 8);
+}
+
+template <class container>
+bool	list_assign_1(container &list)
+{
+	list.assign(0u, 0);
+	if (list.size() != 0)
+		return (false);
+
+	list.assign(10u, 0);
+	return (true);
+}
+
+template <class container>
+bool	list_assign_2(container &list)
+{
+	list.push_back(2);
+
+	list.assign(10u, 1);
+	return (true);
+}
+
+template <class container>
+bool	list_assign_3(container &list)
+{
+	list.push_back(2);
+
+	list.assign(10u, 1);
+	list.assign(5u, 2);
+	return (true);
+}
+
+template <class container>
+bool	list_assign_4(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+	
+	list.assign(list2.begin(), list2.end());
+	return (true);
+}
+
+template <class container>
+bool	list_assign_5(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.push_back(9);
+	
+	list.assign(list2.begin(), list2.begin());
+	return (true);
+}
+
+template <class container>
+bool	list_assign_6(container &list)
+{
+	container	list2;
+
+	list.push_back(9);
+	
+	list.assign(list2.begin(), list2.end());
+	return (true);
 }
 
 }
