@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/06/15 22:53:49 by bastien          ###   ########.fr       */
+/*   Updated: 2021/06/23 10:24:16 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,14 +175,77 @@ void	modifiers(std::string selection)
 		selection
 	);
 
-/*
 	test(
-		list_splice< std::list<E> >,
-		list_splice< ft::list<E> >,
-		"list_splice",
+		list_splice_3_1< std::list<E> >,
+		list_splice_3_1< ft::list<E> >,
+		"list_splice_3_1",
 		selection
 	);
 
+	test(
+		list_splice_3_2< std::list<E> >,
+		list_splice_3_2< ft::list<E> >,
+		"list_splice_3_2",
+		selection
+	);
+
+	test(
+		list_splice_3_3< std::list<E> >,
+		list_splice_3_3< ft::list<E> >,
+		"list_splice_3_3",
+		selection
+	);
+
+	test(
+		list_splice_3_4< std::list<E> >,
+		list_splice_3_4< ft::list<E> >,
+		"list_splice_3_4",
+		selection
+	);
+
+	test(
+		list_splice_3_5< std::list<E> >,
+		list_splice_3_5< ft::list<E> >,
+		"list_splice_3_5",
+		selection
+	);
+
+	test(
+		list_splice_3_6< std::list<E> >,
+		list_splice_3_6< ft::list<E> >,
+		"list_splice_3_6",
+		selection
+	);
+
+	test(
+		list_splice_3_7< std::list<E> >,
+		list_splice_3_7< ft::list<E> >,
+		"list_splice_3_7",
+		selection
+	);
+
+	test(
+		list_splice_3_8< std::list<E> >,
+		list_splice_3_8< ft::list<E> >,
+		"list_splice_3_8",
+		selection
+	);
+
+	test(
+		list_splice_2< std::list<E> >,
+		list_splice_2< ft::list<E> >,
+		"list_splice_2",
+		selection
+	);
+
+	test(
+		list_splice_1< std::list<E> >,
+		list_splice_1< ft::list<E> >,
+		"list_splice_1",
+		selection
+	);
+
+/*
 	test(
 		list_sort_1< std::list<E> >,
 		list_sort_1< ft::list<E> >,

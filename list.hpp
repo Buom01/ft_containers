@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/06/15 22:46:45 by bastien          ###   ########.fr       */
+/*   Updated: 2021/06/23 10:18:56 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,12 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			size_type	movelength	= 0;
 			_iterator	incLast		= last;
 			_iterator	i;
-			_item		*next;
+			_item		*ifirst;
+			_item		*ilast;
 			_item		*prev;
+			_item		*next;
+			_item		*xprev;
+			_item		*xnext;
 
 
 			if (!x.size() || !(first.getElem()))
@@ -182,43 +186,48 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			while (i++ != last)
 				++movelength;
 
+			--last;
 			i = position;
 			--i;
+
+			ifirst = first.getElem();
+			ilast = last.getElem();
+			xprev = ifirst->prev;
+			xnext = ilast->next;
 			prev = i.getElem();
-			next = prev ? prev->next : NULL;
-			
-			--incLast;
+			next = position.getElem();
 
-			if (!_parent::_front || position.getElem() == _parent::_front)
-				_parent::_update_front(first.getElem());
-			if (!_parent::_back || !position.getElem())
-				_parent::_update_back(incLast.getElem());
-
-			if (x._front == first.getElem() && x._back == incLast.getElem())
+			if (ifirst->prev == ilast)
 				x._update(NULL, NULL);
-			else if (x._front == first.getElem())
-				x._update_front(incLast.getElem()->next);
-			else if (x._back == incLast.getElem())
-				x._update_back(first.getElem()->prev);
-
-			if (incLast.getElem()->next != first.getElem())
+			else
 			{
-				std::cout << "1: " << incLast.getElem() << std::endl;
-				std::cout << "2: " << incLast.getElem()->next << std::endl;
-				std::cout << "3: " << incLast.getElem()->next->prev << std::endl;
-				incLast.getElem()->next->prev = first.getElem()->prev;
-				first.getElem()->prev->next = incLast.getElem()->next;
+				xprev->next = xnext;
+				xnext->prev = xprev;
+				if (ilast == x._back)
+					x._update_back(xprev);
+				else if (ifirst == x._front)
+					x._update_front(xnext);
 			}
 
-			if (prev)
+			if (!prev || !next)
 			{
-				prev->next = first.getElem();
-				next->prev = incLast.getElem();
+				ifirst->prev = ilast;
+				ilast->next = ifirst;					
+				_parent::_update(ifirst, ilast);
 			}
-			first.getElem()->prev = prev;
-			incLast.getElem()->next = next;
+			else
+			{
+				prev->next = ifirst;
+				ifirst->prev = prev;
+				next->prev = ilast;
+				ilast->next = next;
 
-			std::cout << "movelength: " << movelength << std::endl;
+				if (next == _parent::_front)
+					_parent::_update_back(ilast);
+				else if (prev == _parent::_back)
+					_parent::_update_front(ifirst);
+			}
+
 			x._size -= movelength;
 			_parent::_size += movelength;
 		}

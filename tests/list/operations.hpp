@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 08:43:45 by badam             #+#    #+#             */
-/*   Updated: 2021/06/15 22:03:27 by bastien          ###   ########.fr       */
+/*   Updated: 2021/06/23 10:23:41 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,154 @@ bool	list_unique(container &list)
 }
 
 template <class container>
-bool	list_splice(container &list)
+bool	list_splice_3_1(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, ++list2.begin(), --list2.end());
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_2(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, ++list2.begin(), list2.end());
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_3(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, list2.begin(), --list2.end());
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_4(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, list2.begin(), ++list2.begin());
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_5(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, ++list2.begin(), ++(++list2.begin()));
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_6(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, list2.begin(), ++(++list2.begin()));
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_7(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, --(--list2.end()), list2.end());
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_3_8(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, --list2.begin(), --(list2.begin()));
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, ++(++(list2.begin())));
+
+	if (list2.size() != 4 || list.size() != 1)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_1(container &list)
 {
 	container	list2;
 	container	list3;
