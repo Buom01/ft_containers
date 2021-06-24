@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/06/23 10:18:56 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/24 18:08:58 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 
 		void	splice(_iterator position, list &x)
 		{
-			if (!position.getElem())
-				--position;
 			splice(position, x, *(x._begin), *(x._end));
 		}
 
@@ -166,10 +164,9 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			splice(position, x, i, end);
 		}
 
-		void	splice(_iterator position, list &x, _iterator first, _iterator last)
+		void	splice(_iterator position, list &x, _iterator first, _iterator last)  // had to use const_iterator
 		{
 			size_type	movelength	= 0;
-			_iterator	incLast		= last;
 			_iterator	i;
 			_item		*ifirst;
 			_item		*ilast;
@@ -179,7 +176,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			_item		*xnext;
 
 
-			if (!x.size() || !(first.getElem()))
+			if (!x.size() || !(first.getElem()) || first == position)
 				return ;
 
 			i = first;
@@ -197,7 +194,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			prev = i.getElem();
 			next = position.getElem();
 
-			if (ifirst->prev == ilast)
+			if (ifirst->prev == ilast && &x != this)
 				x._update(NULL, NULL);
 			else
 			{
@@ -209,7 +206,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 					x._update_front(xnext);
 			}
 
-			if (!prev || !next)
+			if (!prev && !next)
 			{
 				ifirst->prev = ilast;
 				ilast->next = ifirst;					
@@ -217,15 +214,23 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			}
 			else
 			{
-				prev->next = ifirst;
-				ifirst->prev = prev;
-				next->prev = ilast;
-				ilast->next = next;
-
-				if (next == _parent::_front)
+				if (!next)
+				{
 					_parent::_update_back(ilast);
-				else if (prev == _parent::_back)
+					next = prev->next;
+				}
+				else if (!prev)
+				{
 					_parent::_update_front(ifirst);
+					prev = next->prev;
+				}
+
+				{
+					prev->next = ifirst;
+					ifirst->prev = prev;
+					next->prev = ilast;
+					ilast->next = next;
+				}
 			}
 
 			x._size -= movelength;
@@ -356,8 +361,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 				_sort(
 					comp,
 					*_parent::_begin,
-					_parent::_size,
-					0
+					_parent::_size
 				).getElem()
 			);
 			_parent::_update_back(_parent::_front->prev);
@@ -388,6 +392,51 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		}
 
 	private:
+		_iterator	_advance(_iterator it, size_type n)
+		{
+			while (n--)
+				++it;
+			return (it);
+		}
+
+		template <class Compare>
+		_iterator 	_sort(Compare &comp, _iterator items, size_type size)
+		{
+			if (size > 1)
+			{
+				size_type	size_A	= size / 2;
+				size_type	size_B	= (size + 1) / 2;
+				_iterator	A		= items;
+				_iterator	B		= _advance(items, size_A);
+				_iterator	begin = items;
+
+				--begin;
+				A = _sort(comp, A, size_A);
+				B = _sort(comp, B, size_B);
+
+				while (size_A || size_B)
+				{
+					if (size_A && (!size_B || comp(*A, *B)))
+					{
+						std::cout << "A: " << *A << std::endl;
+						splice(begin, *this, A++);
+						--size_A;
+					}
+					else
+					{
+						std::cout << "B: " << *B << std::endl;
+						splice(begin, *this, B++);
+						--size_B;
+					}
+				}
+				std::cout << "-----------" << std::endl;
+				return (++begin);
+			}
+			else
+				return (items);
+		}
+
+/*
 		template <class Compare>
 		_iterator 	_sort(Compare comp, _iterator items, size_type size, size_type offset)
 		{
@@ -432,6 +481,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			else
 				return (items);
 		}
+*/
 };
 
 }

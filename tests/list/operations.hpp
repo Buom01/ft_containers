@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 08:43:45 by badam             #+#    #+#             */
-/*   Updated: 2021/06/23 10:23:41 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/24 17:59:25 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ bool	list_splice_3_8(container &list)
 }
 
 template <class container>
-bool	list_splice_2(container &list)
+bool	list_splice_2_1(container &list)
 {
 	container	list2;
 
@@ -355,6 +355,46 @@ bool	list_splice_2(container &list)
 	list.splice(list.begin(), list2, ++(++(list2.begin())));
 
 	if (list2.size() != 4 || list.size() != 1)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_2(container &list)
+{
+	container	list2;
+
+	list.push_back(1);
+
+	list2.push_back(0);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.begin(), list2, list2.begin());
+
+	if (list2.size() != 3 || list.size() != 2)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_3(container &list)
+{
+	container	list2;
+
+	list.push_back(0);
+
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+
+	list.splice(list.end(), list2, list2.begin());
+
+	if (list2.size() != 3 || list.size() != 2)
 		return (false);
 
 	return (true);
@@ -414,6 +454,82 @@ bool	list_splice_1(container &list)
 
 	list2.splice(list2.begin(), list);
 	list.splice(--(list.end()), list2);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_undefined_1(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.splice(list.end(), list, list.begin());
+
+	if (list.size() != 5)
+		return (false);
+	if (*(list.begin()) != 1)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_undefined_2(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.splice(list.begin(), list, list.begin());
+
+	if (list.size() != 5)
+		return (false);
+	if (*(list.begin()) != 0)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_undefined_3(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.splice(list.end(), list, ++list.begin());
+
+	if (list.size() != 5)
+		return (false);
+	if (*(list.begin()) != 0)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_splice_2_undefined_4(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.splice(list.begin(), list, ++list.begin());
+
+	if (list.size() != 5)
+		return (false);
+	if (*(list.begin()) != 1)
+		return (false);
 
 	return (true);
 }

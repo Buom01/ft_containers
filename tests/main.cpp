@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/06/23 10:24:16 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/23 12:09:29 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,9 +232,23 @@ void	modifiers(std::string selection)
 	);
 
 	test(
-		list_splice_2< std::list<E> >,
-		list_splice_2< ft::list<E> >,
-		"list_splice_2",
+		list_splice_2_1< std::list<E> >,
+		list_splice_2_1< ft::list<E> >,
+		"list_splice_2_1",
+		selection
+	);
+
+	test(
+		list_splice_2_2< std::list<E> >,
+		list_splice_2_2< ft::list<E> >,
+		"list_splice_2_2",
+		selection
+	);
+
+	test(
+		list_splice_2_3< std::list<E> >,
+		list_splice_2_3< ft::list<E> >,
+		"list_splice_2_3",
 		selection
 	);
 
@@ -245,7 +259,34 @@ void	modifiers(std::string selection)
 		selection
 	);
 
-/*
+	test(
+		list_splice_2_undefined_1< std::list<E> >,
+		list_splice_2_undefined_1< ft::list<E> >,
+		"list_splice_2_undefined_1",
+		selection
+	);
+
+	test(
+		list_splice_2_undefined_2< std::list<E> >,
+		list_splice_2_undefined_2< ft::list<E> >,
+		"list_splice_2_undefined_2",
+		selection
+	);
+
+	test(
+		list_splice_2_undefined_3< std::list<E> >,
+		list_splice_2_undefined_3< ft::list<E> >,
+		"list_splice_2_undefined_3",
+		selection
+	);
+
+	test(
+		list_splice_2_undefined_4< std::list<E> >,
+		list_splice_2_undefined_4< ft::list<E> >,
+		"list_splice_2_undefined_4",
+		selection
+	);
+
 	test(
 		list_sort_1< std::list<E> >,
 		list_sort_1< ft::list<E> >,
@@ -273,7 +314,6 @@ void	modifiers(std::string selection)
 		"list_sort_4",
 		selection
 	);
-*/
 }
 
 void	do_tests(std::string selection)
