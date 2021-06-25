@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 08:43:45 by badam             #+#    #+#             */
-/*   Updated: 2021/06/24 17:59:25 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 15:26:10 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -535,7 +535,70 @@ bool	list_splice_2_undefined_4(container &list)
 }
 
 template <class container>
+bool	list_splice_2_undefined_5(container &list)
+{
+	typename container::iterator	it	= list.begin();
+	--it;
+
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.splice(list.begin(), list, ++list.begin());
+	list.splice(list.begin(), list, ++(++list.begin()));
+
+	if (list.size() != 5)
+		return (false);
+	if (*(list.begin()) != 2)
+		return (false);
+	if (*(++it) != 2)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
 bool	list_sort_1(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+	list.push_back(5);
+	list.push_back(6);
+	list.push_back(7);
+
+	list.sort();
+	if (list.size() != 8)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_sort_2(container &list)
+{
+	list.push_back(7);
+	list.push_back(6);
+	list.push_back(5);
+	list.push_back(4);
+	list.push_back(3);
+	list.push_back(2);
+	list.push_back(1);
+	list.push_back(0);
+
+	list.sort();
+	if (list.size() != 8)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_sort_3(container &list)
 {
 	list.push_back(0);
 	list.push_back(1);
@@ -556,7 +619,69 @@ bool	list_sort_1(container &list)
 }
 
 template <class container>
-bool	list_sort_2(container &list)
+bool	list_sort_4(container &list)
+{
+	list.push_back(9);
+	list.push_back(8);
+	list.push_back(7);
+	list.push_back(6);
+	list.push_back(5);
+	list.push_back(4);
+	list.push_back(3);
+	list.push_back(2);
+	list.push_back(1);
+	list.push_back(0);
+
+	list.sort();
+	if (list.size() != 10)
+		return (false);
+
+	return (true);
+}
+
+
+template <class container>
+bool	list_sort_5(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+	list.push_back(5);
+	list.push_back(6);
+	list.push_back(7);
+	list.push_back(8);
+
+	list.sort();
+	if (list.size() != 9)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_sort_6(container &list)
+{
+	list.push_back(8);
+	list.push_back(7);
+	list.push_back(6);
+	list.push_back(5);
+	list.push_back(4);
+	list.push_back(3);
+	list.push_back(2);
+	list.push_back(1);
+	list.push_back(0);
+
+	list.sort();
+	if (list.size() != 9)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_sort_7(container &list)
 {
 	list.push_back(4);
 	list.push_back(4);
@@ -581,7 +706,7 @@ bool	compare_reverted(const T &first, const T &second)
 }
 
 template <class container>
-bool	list_sort_3(container &list)
+bool	list_sort_8(container &list)
 {
 	list.push_back(4);
 	list.push_back(3);
@@ -597,7 +722,7 @@ bool	list_sort_3(container &list)
 }
 
 template <class container>
-bool	list_sort_4(container &list)
+bool	list_sort_9(container &list)
 {
 	list.push_back(4);
 	list.push_back(2);
@@ -607,6 +732,56 @@ bool	list_sort_4(container &list)
 
 	list.sort(compare_reverted<int>);
 	if (list.size() != 5)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_sort_10(container &list)
+{
+	list.push_back(4);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(6);
+	list.push_back(7);
+	list.push_back(8);
+	list.push_back(9);
+	list.push_back(4);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(1);
+	list.push_back(5);
+	list.push_back(259);
+	list.push_back(6);
+	list.push_back(262);
+	list.push_back(6);
+	list.push_back(7);
+	list.push_back(8);
+	list.push_back(9);
+	list.push_back(10);
+	list.push_back(11);
+	list.push_back(12);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(10);
+	list.push_back(0);
+	list.push_back(258);
+	list.push_back(0);
+	list.push_back(4);
+	list.push_back(11);
+	list.push_back(3);
+	list.push_back(1);
+	list.push_back(0);
+	list.push_back(4);
+	list.push_back(2);
+	list.push_back(4);
+	list.push_back(2);
+	list.push_back(1);
+	list.push_back(0);
+
+	list.sort(compare_reverted<unsigned char>);
+	if (list.size() != 39)
 		return (false);
 
 	return (true);

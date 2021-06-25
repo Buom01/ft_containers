@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/06/24 18:08:58 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 15:27:16 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,80 +408,37 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 				size_type	size_B	= (size + 1) / 2;
 				_iterator	A		= items;
 				_iterator	B		= _advance(items, size_A);
-				_iterator	begin = items;
+				_iterator	begin	= items;
+				_iterator	sorted;
 
 				--begin;
 				A = _sort(comp, A, size_A);
+				++begin;
 				B = _sort(comp, B, size_B);
+				--begin;
 
+				sorted = begin;
 				while (size_A || size_B)
 				{
-					if (size_A && (!size_B || comp(*A, *B)))
+					if (size_B && (!size_A || comp(*B, *A)))
 					{
-						std::cout << "A: " << *A << std::endl;
-						splice(begin, *this, A++);
-						--size_A;
+						splice((++sorted)--, *this, B++);
+						++sorted;
+						--size_B;
 					}
 					else
 					{
-						std::cout << "B: " << *B << std::endl;
-						splice(begin, *this, B++);
-						--size_B;
+						splice((++sorted)--, *this, A++);
+						++sorted;
+						--size_A;
 					}
 				}
-				std::cout << "-----------" << std::endl;
-				return (++begin);
+				++begin;
+				return (begin);
 			}
 			else
 				return (items);
 		}
-
-/*
-		template <class Compare>
-		_iterator 	_sort(Compare comp, _iterator items, size_type size, size_type offset)
-		{
-			std::cout << "offset: " << offset << std::endl;
-			while (offset--)
-				++items;
-
-			if (size > 1)
-			{
-				std::cout << "began sort: " << size << std::endl;
-				size_type	size_A				= size / 2;
-				size_type	size_B				= (size + 1) / 2;
-				_iterator	prev_last_sorted	= items;
-
-				std::cout << "sizeA: " << size_A << "; ";
-				std::cout << "sizeB: " << size_B << "; ";
-				std::cout << "size: " << size_A + size_B << std::endl;
-				--prev_last_sorted;
-				_iterator	A		= _sort(comp, items, size_A, 0);
-				++prev_last_sorted;
-				_iterator	B		= _sort(comp, items, size_B, size_A);
-				--prev_last_sorted;
-
-				while (size_A || size_B)
-				{
-					if (size_A && (!size_B || comp(*A, *B)))
-					{
-						std::cout << "A: " << *A << std::endl;
-						splice((++prev_last_sorted)--, *this, A++);
-						--size_A;
-					}
-					else
-					{
-						std::cout << "B: " << *B << std::endl;
-						splice((++prev_last_sorted)--, *this, B++);
-						--size_B;
-					}
-				}
-				std::cout << "-----------" << std::endl;
-				return (++prev_last_sorted);
-			}
-			else
-				return (items);
-		}
-*/
 };
 
 }

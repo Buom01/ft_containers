@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/06/23 12:09:29 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 15:11:11 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,13 @@ void	modifiers(std::string selection)
 	);
 
 	test(
+		list_splice_2_undefined_5< std::list<E> >,
+		list_splice_2_undefined_5< ft::list<E> >,
+		"list_splice_2_undefined_5",
+		selection
+	);
+
+	test(
 		list_sort_1< std::list<E> >,
 		list_sort_1< ft::list<E> >,
 		"list_sort_1",
@@ -312,6 +319,48 @@ void	modifiers(std::string selection)
 		list_sort_4< std::list<E> >,
 		list_sort_4< ft::list<E> >,
 		"list_sort_4",
+		selection
+	);
+
+	test(
+		list_sort_5< std::list<E> >,
+		list_sort_5< ft::list<E> >,
+		"list_sort_5",
+		selection
+	);
+
+	test(
+		list_sort_6< std::list<E> >,
+		list_sort_6< ft::list<E> >,
+		"list_sort_6",
+		selection
+	);
+
+	test(
+		list_sort_7< std::list<E> >,
+		list_sort_7< ft::list<E> >,
+		"list_sort_7",
+		selection
+	);
+
+	test(
+		list_sort_8< std::list<E> >,
+		list_sort_8< ft::list<E> >,
+		"list_sort_8",
+		selection
+	);
+
+	test(
+		list_sort_9< std::list<E> >,
+		list_sort_9< ft::list<E> >,
+		"list_sort_9",
+		selection
+	);
+
+	test(
+		list_sort_10< std::list<E> >,
+		list_sort_10< ft::list<E> >,
+		"list_sort_10",
 		selection
 	);
 }
