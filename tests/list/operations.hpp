@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 08:43:45 by badam             #+#    #+#             */
-/*   Updated: 2021/06/25 15:26:10 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 16:31:33 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@ namespace ft
 {
 namespace tests
 {
+
+template <class T>
+bool	compare_char(const T &first, const T &second)
+{
+	return (
+		static_cast<unsigned char>(first) <
+		static_cast<unsigned char>(second)
+	);
+}
+
+template <class T>
+bool	compare_reverted(const T &first, const T &second)
+{
+	return (first > second);
+}
 
 template <class container>
 bool	list_remove(container &list)
@@ -138,10 +153,10 @@ bool	list_reverse(container &list)
 	list.push_back(2);
 	list.reverse();
 	list.push_back(9);
+	list.push_back(10);
 	list.reverse();
 	list.push_back(1);
 	list.reverse();
-	list.push_back(10);
 	list.reverse();
 	list.push_back(0);
 	list.reverse();
@@ -699,12 +714,6 @@ bool	list_sort_7(container &list)
 	return (true);
 }
 
-template <class T>
-bool	compare_reverted(const T &first, const T &second)
-{
-	return (first > second);
-}
-
 template <class container>
 bool	list_sort_8(container &list)
 {
@@ -714,7 +723,7 @@ bool	list_sort_8(container &list)
 	list.push_back(1);
 	list.push_back(0);
 
-	list.sort(compare_reverted<int>);
+	list.sort(compare_reverted<E>);
 	if (list.size() != 5)
 		return (false);
 
@@ -730,7 +739,7 @@ bool	list_sort_9(container &list)
 	list.push_back(1);
 	list.push_back(0);
 
-	list.sort(compare_reverted<int>);
+	list.sort(compare_reverted<E>);
 	if (list.size() != 5)
 		return (false);
 
@@ -780,8 +789,138 @@ bool	list_sort_10(container &list)
 	list.push_back(1);
 	list.push_back(0);
 
-	list.sort(compare_reverted<unsigned char>);
+	list.sort(compare_char<E>);
 	if (list.size() != 39)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_merge_1(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(2);
+	list2.push_back(3);
+	list2.push_back(4);
+	list2.push_back(6);
+	list2.push_back(6);
+	list2.push_back(7);
+	list2.push_back(9);
+
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+	list.push_back(5);
+	list.push_back(6);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(10);
+
+	list.merge(list2);
+
+	if (list.size() != 20)
+		return (false);
+	if (list2.size() != 0)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_merge_2(container &list)
+{
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
+
+	list.merge(list);
+
+	if (list.size() != 5)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_merge_3(container &list)
+{
+	container	list2;
+
+	list2.push_back(9);
+	list2.push_back(7);
+	list2.push_back(6);
+	list2.push_back(6);
+	list2.push_back(4);
+	list2.push_back(3);
+	list2.push_back(2);
+	list2.push_back(1);
+	list2.push_back(0);
+
+	list.push_back(10);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(6);
+	list.push_back(5);
+	list.push_back(4);
+	list.push_back(3);
+	list.push_back(2);
+	list.push_back(1);
+	list.push_back(0);
+
+	list.merge(list2, compare_reverted<E>);
+
+	if (list.size() != 20)
+		return (false);
+	if (list2.size() != 0)
+		return (false);
+
+	return (true);
+}
+
+template <class container>
+bool	list_merge_4(container &list)
+{
+	container	list2;
+
+	list2.push_back(0);
+	list2.push_back(0);
+	list2.push_back(256);
+	list2.push_back(0);
+	list2.push_back(0);
+	list2.push_back(1);
+	list2.push_back(1);
+	list2.push_back(257);
+	list2.push_back(258);
+	list2.push_back(2);
+	list2.push_back(266);
+
+	list.push_back(0);
+	list.push_back(0);
+	list.push_back(0);
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(2);
+	list.push_back(6);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(8);
+	list.push_back(10);
+
+	list.merge(list2, compare_char<E>);
+
+	if (list.size() != 22)
+		return (false);
+	if (list2.size() != 0)
 		return (false);
 
 	return (true);

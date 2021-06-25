@@ -6,7 +6,7 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/06/25 15:11:11 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 16:24:32 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,6 +361,34 @@ void	modifiers(std::string selection)
 		list_sort_10< std::list<E> >,
 		list_sort_10< ft::list<E> >,
 		"list_sort_10",
+		selection
+	);
+
+	test(
+		list_merge_1< std::list<E> >,
+		list_merge_1< ft::list<E> >,
+		"list_merge_1",
+		selection
+	);
+
+	test(
+		list_merge_2< std::list<E> >,
+		list_merge_2< ft::list<E> >,
+		"list_merge_2",
+		selection
+	);
+
+	test(
+		list_merge_3< std::list<E> >,
+		list_merge_3< ft::list<E> >,
+		"list_merge_3",
+		selection
+	);
+
+	test(
+		list_merge_4< std::list<E> >,
+		list_merge_4< ft::list<E> >,
+		"list_merge_4",
 		selection
 	);
 }

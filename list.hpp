@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/06/25 15:27:16 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/25 16:09:41 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,17 +308,19 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			}
 		}
 
+	private:
+	struct s_comp_pred
+	{
+		bool	operator() (const T first, const T second)
+		{
+			return (first < second);
+		}
+	} comp_pred;
+
+	public:
 		void	merge(list &x)
 		{
-			static struct s_comp
-			{
-				bool	operator() (const T first, const T second)
-				{
-					return (first < second);
-				}
-			} comp;
-
-			merge(x, comp);
+			merge(x, comp_pred);
 		}
 
 		template <class Compare>
@@ -327,6 +329,8 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 			_iterator	it	=	*_parent::_begin;
 			_iterator	itx	=	*(x._begin);
 
+			if (&x == this)
+				return ;
 			while (itx != *_parent::_end)
 			{
 				if (it == *_parent::_end || comp(*itx, *it))
