@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:21:10 by badam             #+#    #+#             */
-/*   Updated: 2021/06/25 16:09:41 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/27 08:11:46 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,7 +358,7 @@ class	list: public ft::common_iterator<std::bidirectional_iterator_tag, T, Alloc
 		template <class Compare>
 		void	sort(Compare comp)
 		{
-			if (!_parent::_begin)  // Must review this two lines
+			if (!_parent::_begin)
 				return ;
 
 			_parent::_update_front(

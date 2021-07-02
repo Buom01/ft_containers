@@ -6,11 +6,12 @@
 /*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/06/25 16:24:32 by badam            ###   ########.fr       */
+/*   Updated: 2021/06/27 09:27:34 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tests.hpp"
+#include "list/access.hpp"
 #include "list/modifiers.hpp"
 #include "list/capacity.hpp"
 #include "list/operations.hpp"
@@ -24,6 +25,44 @@ namespace tests
 inline bool	maydo(std::string testname, std::string selection)
 {
 	return (selection.compare(testname) <= 0);
+}
+
+void	access(std::string selection)
+{
+	test(
+		list_access_1< std::list<E> >,
+		list_access_1< ft::list<E> >,
+		"list_access_1",
+		selection
+	);
+
+	test(
+		list_access_2< std::list<E> >,
+		list_access_2< ft::list<E> >,
+		"list_access_2",
+		selection
+	);
+
+	test(
+		list_access_3< std::list<E> >,
+		list_access_3< ft::list<E> >,
+		"list_access_3",
+		selection
+	);
+
+	test(
+		list_access_4< std::list<E> >,
+		list_access_4< ft::list<E> >,
+		"list_access_4",
+		selection
+	);
+
+	test(
+		list_access_5< std::list<E> >,
+		list_access_5< ft::list<E> >,
+		"list_access_5",
+		selection
+	);
 }
 
 void	modifiers(std::string selection)
@@ -139,7 +178,10 @@ void	modifiers(std::string selection)
 		"list_assign_6",
 		selection
 	);
+}
 
+void	operations(std::string selection)
+{
 	test(
 		list_remove< std::list<E> >,
 		list_remove< ft::list<E> >,
@@ -391,11 +433,14 @@ void	modifiers(std::string selection)
 		"list_merge_4",
 		selection
 	);
+
 }
 
 void	do_tests(std::string selection)
 {
+	access(selection);
 	modifiers(selection);
+	operations(selection);
 }
 
 
