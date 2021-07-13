@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/07/06 14:41:58 by badam            ###   ########.fr       */
+/*   Updated: 2021/07/13 13:07:43 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,32 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 			tmp = *a;
 			*a = *b;
 			*b = tmp;
+		}
+
+		_memove(_item *dst, _item *src, size_type n)
+		{
+			size_type	i;
+
+			if (dst < src)
+			{
+				i = 0;
+				while(i < n)
+				{
+					_parent::_alloc::construct(dst + n, src[n]);
+					_parent::_alloc::destroy(src + n);
+					++i;
+				}
+			}
+			else
+			{
+				i = n;
+				while(i > 0)
+				{
+					_parent::_alloc::construct(dst + n - 1, src[n - 1]);
+					_parent::_alloc::destroy(src + n - 1);
+					--i;
+				}
+			}
 		}
 
 		void	_init(const allocator_type &alloc, size_type capacity = 10)
@@ -175,14 +201,17 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 			_content = _parent::_alloc::allocate(n, oldcontent);
 			while (i < _parent::_size)
 			{
-				 _parent::_alloc::construct(&(_content[i]), oldcontent[i]);
-				 _parent::_alloc::destroy(&(oldcontent[i]));
+				 _parent::_alloc::construct(_content + i, oldcontent[i]);
+				 _parent::_alloc::destroy(oldcontent + i);
 				++i;
 			}
 			if (oldcontent)
 				_parent::_alloc::deallocate(oldcontent, _capacity);
 			_capacity = n;
-			//_update(...);
+			if (_parent::size)
+				_update(_content[0], _content[_parent::_size - 1]);
+			else
+				_update(NULL, NULL);
 		}
 
 		reference		operator[](size_type n)
@@ -267,10 +296,9 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 		{
 			_preextend_size(n);
 
-			// magic here, may use memmove
-			//_content[size()] = val;
+			_content[size()] = val;
+			_update_back(_content[size()]);
 			++_parent::_size;
-			_update_back(...);
 		}
 
 		template <class InputIterator>
@@ -287,7 +315,10 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 
 		iterator	erase(iterator position)
 		{
-			// magic here, may use memmove
+			
+			_parent::_alloc::destroy(position.getElem());
+			_memmove(position.getElem(), ++position.getElem(),
+				_parent::_size - position.getIndex());
 			--_parent::_size;
 			if (size() + 110 < _capacity)
 				reserve(size() + 10);
@@ -295,6 +326,7 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 
 		iterator	erase(iterator first, iterator last)
 		{
+			// REWRITE later
 			while (last != first)
 				erase(--last);
 		}
@@ -316,7 +348,6 @@ class vector: public ft::core< T, Alloc, *T, iterator_array>
 		{
 			_parent::_size = 0;
 			reserve(10);
-			//_update(NULL, NULL);  // reserve should do the update
 		}
 
 		allocator_type	get_allocator(void) const

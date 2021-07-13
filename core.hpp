@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/07/05 13:38:51 by badam            ###   ########.fr       */
+/*   Updated: 2021/07/13 13:42:19 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ class	core
 		void		_init(const allocator_type &alloc)
 		{
 			_alloc = &alloc;
-			_begin = new iterator(&_back, NULL);
-			_end = new iterator(&_back, NULL);
-			_rbegin = new iterator(&_back, NULL, true);
-			_rend = new iterator(&_back, NULL, true);
+			_begin = new iterator(&_front, &_back, NULL);
+			_end = new iterator(&_front, &_back, NULL);
+			_rbegin = new iterator(&_back, &_front, NULL, true);
+			_rend = new iterator(&_back, &_front, NULL, true);
 			_size = 0;
 			_front = NULL;
 			_back = NULL;
@@ -94,14 +94,14 @@ class	core
 		{
 			_front = newfront;
 			delete _begin;
-			_begin = new iterator(&_back, newfront);
+			_begin = new iterator(&_front, &_back, newfront);
 		}
 
 		void		_update_back(_item *newback)
 		{
 			_back = newback;
 			delete _rbegin;
-			_rbegin = new iterator(&_front, newback, true);
+			_rbegin = new iterator(&_back, &_front, newback, true);
 		}
 
 		void		_update(_item *newfront, _item *newback)
@@ -110,9 +110,9 @@ class	core
 			_back = newback;
 
 			delete _begin;
-			_begin = new iterator(&_back, newfront);
+			_begin = new iterator(&_front, &_back, newfront);
 			delete _rbegin;
-			_rbegin = new iterator(&_front, newback, true);
+			_rbegin = new iterator(&_back, &_front, newback, true);
 		}
 
 
