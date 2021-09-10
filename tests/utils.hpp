@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/06/15 22:05:02 by bastien          ###   ########.fr       */
+/*   Updated: 2021/08/30 16:34:06 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include "tests.hpp"
-
-namespace ft
-{
-namespace tests
-{
-
 
 bool	maydo(std::string testname, std::string selection);
 
@@ -58,40 +52,43 @@ bool	isequal(iterator_a begin_a, iterator_a end_a,
 }
 
 template< class container_a, class container_b >
-bool	exectest(bool (*test_fct_a)(container_a &a),
-		bool (*test_fct_b)(container_b &b),
+int	exectest(int (*test_fct_a)(container_a &a),
+		int (*test_fct_b)(container_b &b),
 		container_a &a, container_b &b)
 {
-	bool	ret_a;
-	bool	ret_b;
+	int	ret_a;
+	int	ret_b;
 
 	ret_a = test_fct_a(a);
 	ret_b = test_fct_b(b);
 
-	if (!ret_a || !ret_b)
-		return (false);
-	return (isequal(a.begin(), a.end(), b.begin(), b.end()));
+	if (ret_a != 0)
+		return (-1 * ret_a);
+	if (ret_b != 0)
+		return (ret_b);
+	return (!isequal(a.begin(), a.end(), b.begin(), b.end()) * 1000);
 }
 
 template< class container_a, class container_b >
-bool	test(bool (*test_fct_a)(container_a &a),
-		bool (*test_fct_b)(container_b &b),
+bool	test(int (*test_fct_a)(container_a &a),
+		int (*test_fct_b)(container_b &b),
 		std::string testname, std::string selection)
 {
 	if (maydo(testname, selection))
 	{
+		int			ret;
 		container_a	a;
 		container_b	b;
 
 		std::cout << testname << ": ";
-		if (exectest(test_fct_a, test_fct_b, a, b))
+		if ((ret = exectest(test_fct_a, test_fct_b, a, b)) == 0)
 		{
 			std::cout << "OK - ";
 			dump(b.begin(), b.end());
 		}	
 		else
 		{
-			std::cout << "KO" << std::endl;
+			std::cout << "KO (return " << ret << ")" << std::endl;
 			std::cout << ">>>>>>>>" << std::endl;
 			dump(a.begin(), a.end());
 			std::cout << "--------" << std::endl;
@@ -147,7 +144,3 @@ struct s_pred_unique_two
 		return (diff <= 1);
 	}
 };
-
-
-}
-}

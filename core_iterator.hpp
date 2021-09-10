@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/07/13 13:42:19 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/09 14:39:03 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,22 @@
 
 # include <iterator>
 
-# include "core.hpp"
-
 
 namespace ft
 {
 
-template< class Category, class T, class Alloc, class Item, class Iterator>
-class	core;
-
-template< class Category, class T, class Alloc, class Item>
+template< class Category, class T, class Item>
 class	iterator: public std::iterator<Category, T>
 {
 	protected:
 		typedef	Item			_item;
+		typedef	Item*			_item_ptr;
 		typedef	std::size_t		_size_type;
 
-		_item	**_front;
-		_item	**_back;
-		_item 	*_elem;
-		bool	_reversed;
+		_item_ptr	*_front;
+		_item_ptr	*_back;
+		_item_ptr	_elem;
+		bool		_reversed;
 
 	public:
 		iterator(void)
@@ -50,7 +46,7 @@ class	iterator: public std::iterator<Category, T>
 			*this = src;
 		};
 
-		iterator(_item **front, _item **back, _item *elem, bool reversed = false)
+		iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem, bool reversed = false)
 		{
 			_front = front;
 			_back = back;
