@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/09 15:36:28 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/10 17:12:04 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,39 +240,41 @@ int	vector_insert_1(container &vector)
 }
 
 template <class container>
-bool	vector_insert_2(container &vector)
+int		vector_insert_2(container &vector)
 {
 	typename container::iterator	pos;
 	typename container::iterator	ret;
 
 	vector.insert(vector.end(), 0u, 0);
 	if (vector.size() != 0)
-		return (false);
+		return (1);
+
 	vector.insert(vector.begin(), 0u, 0);
 	if (vector.size() != 0)
-		return (false);
+		return (2);
+
 	vector.insert(vector.end(), 1u, 1);
 	if (vector.size() != 1)
-		return (false);
+		return (3);
+
 	vector.insert(vector.end(), 2u, 3);
 	if (vector.size() != 3)
-		return (false);
+		return (4);
+
 	vector.insert(vector.begin(), 3u, 0);
 	if (vector.size() != 6)
-		return (false);
+		return (5);
 
-	pos = vector.end();
-	--pos;
-	--pos;
+	std::advance(pos = vector.end(), -2);
 	vector.insert(pos, 4u, 2);
 	if (vector.size() != 10)
-		return (false);
+		return (6);
 
-	return (true);
+	return (0);
 }
 
 template <class container>
-bool	vector_insert_3(container &vector)
+int		vector_insert_3(container &vector)
 {
 	typename container::iterator	pos;
 	container						vector1;
@@ -291,23 +293,45 @@ bool	vector_insert_3(container &vector)
 
 	vector.insert(vector.end(), vector3.begin(), vector3.end());
 	if (vector.size() != 3)
-		return (false);
+		return (1);
+
 	vector.insert(vector.begin(), vector1.begin(), vector1.end());
 	if (vector.size() != 6)
-		return (false);
-	pos = vector.begin();
-	++pos;
-	++pos;
-	++pos;
+		return (2);
+
+	std::advance(pos = vector.begin(), 3);
 	vector.insert(pos, vector2.begin(), vector2.end());
 	if (vector.size() != 9)
-		return (false);
+		return (3);
 
-	return (true);
+	return (0);
 }
 
 template <class container>
-bool	vector_resize(container &vector)
+int		vector_resize_1(container &vector)
+{
+	vector.resize(0);
+	if (vector.size() != 0)
+		return (1);
+	
+	return (0);
+}
+
+template <class container>
+int		vector_resize_2(container &vector)
+{
+	vector.push_back(1);
+	vector.resize(7);
+	vector.push_back(2);
+
+	if (vector.size() != 8)
+		return (1);
+	
+	return (0);
+}
+
+template <class container>
+int		vector_resize_3(container &vector)
 {
 	vector.resize(1);
 	vector.push_back(1);
@@ -323,41 +347,86 @@ bool	vector_resize(container &vector)
 
 	vector.push_back(7);
 
-	return (vector.size() == 8);
+	if (vector.size() != 8)
+		return (1);
+	
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_1(container &vector)
+int		vector_resize_4(container &vector)
+{
+	vector.push_back(1);
+	vector.push_back(2);
+	vector.push_back(3);
+
+	vector.resize(0);
+
+	if (vector.size() != 0)
+		return (1);
+	
+	return (0);
+}
+
+template <class container>
+int		vector_resize_5(container &vector)
+{
+	vector.resize(0);
+	vector.resize(1);
+	vector.resize(100);
+	vector.resize(1000);
+	vector.resize(0);
+
+	if (vector.size() != 0)
+		return (1);
+	
+	return (0);
+}
+
+template <class container>
+int		vector_assign_1(container &vector)
 {
 	vector.assign(0u, 0);
 	if (vector.size() != 0)
-		return (false);
+		return (1);
 
 	vector.assign(10u, 0);
-	return (true);
+
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_2(container &vector)
+int		vector_assign_2(container &vector)
 {
 	vector.push_back(2);
 
 	vector.assign(10u, 1);
-	return (true);
+
+	if (vector.size() != 10)
+		return (1);
+
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_3(container &vector)
+int		vector_assign_3(container &vector)
 {
 	vector.push_back(2);
 
 	vector.assign(10u, 1);
+	if (vector.size() != 10)
+		return (1);
+
 	vector.assign(5u, 2);
-	return (true);
+
+	if (vector.size() != 5)
+		return (1);
+
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_4(container &vector)
+int		vector_assign_4(container &vector)
 {
 	container	vector2;
 
@@ -368,11 +437,14 @@ bool	vector_assign_4(container &vector)
 	vector2.push_back(4);
 	
 	vector.assign(vector2.begin(), vector2.end());
-	return (true);
+	if (vector.size() != 5)
+		return (1);
+
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_5(container &vector)
+int		vector_assign_5(container &vector)
 {
 	container	vector2;
 
@@ -385,18 +457,24 @@ bool	vector_assign_5(container &vector)
 	vector.push_back(9);
 	
 	vector.assign(vector2.begin(), vector2.begin());
-	return (true);
+	if (vector.size() != 0)
+		return (1);
+
+	return (0);
 }
 
 template <class container>
-bool	vector_assign_6(container &vector)
+int		vector_assign_6(container &vector)
 {
 	container	vector2;
 
 	vector.push_back(9);
 	
 	vector.assign(vector2.begin(), vector2.end());
-	return (true);
+	if (vector.size() != 0)
+		return (1);
+
+	return (0);
 }
 
 #endif

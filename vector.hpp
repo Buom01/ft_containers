@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/10 16:09:08 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/10 17:46:21 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include <stdexcept>
+# include "utils.hpp"
 # include "core.hpp"
 # include "vector_iterator.hpp"
 
@@ -43,7 +44,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 		using typename _parent::size_type;
 
 	protected:
-		size_type	_capacity;  // Do constructors and init following
+		size_type	_capacity;
 		pointer		_content;
 
 		void		_ensure_capacity(size_type n)
@@ -80,6 +81,11 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			}
 		}
 
+		size_type	_get_iterator_index(iterator pos)
+		{
+			return (pos.getElem() ? pos.getElem() - _content : _parent::_size);
+		}
+
 		void		_autoupdate(void)
 		{
 			if (_parent::_size)
@@ -87,33 +93,6 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			else
 				_parent::_update(NULL, NULL);
 		}
-
-		iterator	_advance(iterator it, size_type n)  // safe way. Maye use "+=" and "-="
-		{
-			if (n > 0)
-			{
-				while (n--)
-					++it;
-			}
-			else
-				while (n++)
-					--it;
-					
-			return (it);
-		}
-
-		// void		_dump(pointer _content, size_type n) // DEBUG ONLY
-		// {
-		// 	size_type	i	= 0;
-
-		// 	std::cout << "[";
-		// 	while (i < n)
-		// 	{
-		// 		std::cout << _content[i] << ", ";
-		// 		++i;
-		// 	}
-		// 	std::cout << "]" << std::endl;
-		// }
 
 		void		_init(const allocator_type &alloc, size_type capacity = 10)
 		{
@@ -154,7 +133,9 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 		{
 			if (_content)
 			{
-				// free up there
+				while (_parent::_size)
+					_parent::_alloc->destroy(_content + --_parent::_size);
+				_parent::_alloc->deallocate(_content, _capacity);
 			}
 		};
 
@@ -165,12 +146,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			if (this == &ref)
 				return (*this);
 
-			it = ref.begin();
-			while(it != ref.end())
-			{
-				push_back(*it); // may use insert
-				++it;
-			}
+			assign(ref.begin(), ref.end());
 
 			return (*this);
 		};
@@ -225,16 +201,16 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			size_type	i			= 0;
 			pointer		oldcontent	= _content;
 
-			if (n <= _capacity)
-				return ;
 			if (n > max_size())
 				throw new std::length_error("n");
+			if (n + 100 > _capacity && n < _capacity)
+				return ;
 
 			_content = (*_parent::_alloc).allocate(n, oldcontent);
 			while (i < _parent::_size)
 			{
-				 _parent::_alloc->construct(_content + i, oldcontent[i]);
-				 _parent::_alloc->destroy(oldcontent + i);
+				_parent::_alloc->construct(_content + i, oldcontent[i]);
+				_parent::_alloc->destroy(oldcontent + i);
 				++i;
 			}
 			if (oldcontent)
@@ -293,8 +269,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 		void	assign(InputIterator first, InputIterator last)
 		{
 			clear();
-			while (first != last)
-				push_back(*(first++));
+			insert(*_parent::_end, first, last);
 		}
 
 		void	assign(size_type n, const value_type &val)
@@ -315,38 +290,51 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 
 		iterator	insert(iterator position, const value_type &val)
 		{
-			size_type	position_index	= position.getElem() ? position.getElem() - _content : _parent::_size;
+			size_type	position_index	= _get_iterator_index(position);
 
-			insert(position, 1, val);
+			insert(position, 1u, val);
 
-			return (_advance(begin(), position_index));
+			return (ft::advance(begin(), position_index));
 		}
 
 		void		insert(iterator position, size_type n, const value_type &val)
 		{
-			size_type	position_index	= position.getElem() ? position.getElem() - _content : _parent::_size;
-			size_type	i				= n;
+			size_type	position_index	= _get_iterator_index(position);
+			size_type	i				= 0;
 
 			_extend_size(n);
 
-			if (_parent::_size >= position_index + n)
-				_memmove(_content + position_index + n, _content + position_index,  _parent::_size - position_index);
-			while (i)
-				_parent::_alloc->construct(_content + position_index + --i, val);
+			if (position_index < _parent::_size)
+				_memmove(_content + position_index + n, _content + position_index, _parent::_size - position_index);
+			while (i < n)
+				_parent::_alloc->construct(_content + position_index + i++, val);
 
 			_parent::_size += n;
 			_autoupdate();
 		}
 
-		// template <class InputIterator>
-		// void		insert(iterator position, InputIterator first, InputIterator last)
-		// {
-		// }
+		template <class InputIterator>
+		void		insert(iterator position, InputIterator first, InputIterator last)
+		{
+			size_type	n				= ft::distance(first, last);
+			size_type	position_index	= _get_iterator_index(position);
+			size_type	i				= 0;
+
+			_extend_size(n);
+
+			if (position_index < _parent::_size)
+				_memmove(_content + position_index + n, _content + position_index, _parent::_size - position_index);
+			while (i < n)
+				_parent::_alloc->construct(_content + position_index + i++, *(first++));
+
+			_parent::_size += n;
+			_autoupdate();
+		}
 
 		iterator	erase(iterator first, iterator last)
 		{
-			size_type	first_index	= first.getElem() ? first.getElem() - _content : _parent::_size;
-			size_type	last_index	= last.getElem() ? last.getElem() - _content : _parent::_size;
+			size_type	first_index	= _get_iterator_index(first);
+			size_type	last_index	= _get_iterator_index(last);
 			size_type	n			= last_index - first_index;
 			size_type	i			= n;
 			
@@ -355,16 +343,12 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			if (_parent::_size > last_index)
 				_memmove(_content + first_index, _content + last_index, _parent::_size - last_index);
 
-			--first;
 			_parent::_size -= n;
 			_autoupdate();
 
+			reserve(_parent::_size + 10);
 
-			// It would invalidate below use of iterator
-			// if (_parent::_size + 110 < _capacity)
-			// 	reserve(_parent::_size + 10);
-
-			return (++first);
+			return (ft::advance(begin(), first_index));
 		}
 
 		iterator	erase(iterator position)
@@ -382,20 +366,15 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 
 		void		clear(void)
 		{
-			if (_parent::size())
-				erase(begin(), end());
+			erase(begin(), end());
 		}
 
 		allocator_type	get_allocator(void) const
 		{
-			// may review that and usage of allocator in all code
-			allocator_type	allocator;
-
-			return (allocator);
+			return (_parent::_get_allocator());
 		}
 
 		// relational operators
-		// swap
 		// vector<bool>
 };
 

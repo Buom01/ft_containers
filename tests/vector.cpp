@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/09/09 14:57:47 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/10 17:10:46 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,97 @@ void	modifiers(std::string selection)
 		vector_insert_1< std::vector<E> >,
 		vector_insert_1< ft::vector<E> >,
 		"vector_insert_1",
+		selection
+	);
+	
+	test(
+		vector_insert_2< std::vector<E> >,
+		vector_insert_2< ft::vector<E> >,
+		"vector_insert_2",
+		selection
+	);
+	
+	test(
+		vector_insert_3< std::vector<E> >,
+		vector_insert_3< ft::vector<E> >,
+		"vector_insert_3",
+		selection
+	);
+	
+	test(
+		vector_resize_1< std::vector<E> >,
+		vector_resize_1< ft::vector<E> >,
+		"vector_resize_1",
+		selection
+	);
+	
+	test(
+		vector_resize_2< std::vector<E> >,
+		vector_resize_2< ft::vector<E> >,
+		"vector_resize_2",
+		selection
+	);
+	
+	test(
+		vector_resize_3< std::vector<E> >,
+		vector_resize_3< ft::vector<E> >,
+		"vector_resize_3",
+		selection
+	);
+	
+	test(
+		vector_resize_4< std::vector<E> >,
+		vector_resize_4< ft::vector<E> >,
+		"vector_resize_4",
+		selection
+	);
+	
+	test(
+		vector_resize_5< std::vector<E> >,
+		vector_resize_5< ft::vector<E> >,
+		"vector_resize_5",
+		selection
+	);
+	
+	test(
+		vector_assign_1< std::vector<E> >,
+		vector_assign_1< ft::vector<E> >,
+		"vector_assign_1",
+		selection
+	);
+	
+	test(
+		vector_assign_2< std::vector<E> >,
+		vector_assign_2< ft::vector<E> >,
+		"vector_assign_2",
+		selection
+	);
+	
+	test(
+		vector_assign_3< std::vector<E> >,
+		vector_assign_3< ft::vector<E> >,
+		"vector_assign_3",
+		selection
+	);
+	
+	test(
+		vector_assign_4< std::vector<E> >,
+		vector_assign_4< ft::vector<E> >,
+		"vector_assign_4",
+		selection
+	);
+	
+	test(
+		vector_assign_5< std::vector<E> >,
+		vector_assign_5< ft::vector<E> >,
+		"vector_assign_5",
+		selection
+	);
+	
+	test(
+		vector_assign_6< std::vector<E> >,
+		vector_assign_6< ft::vector<E> >,
+		"vector_assign_6",
 		selection
 	);
 }

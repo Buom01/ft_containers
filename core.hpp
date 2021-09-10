@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/09/07 16:22:37 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/10 17:44:09 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ class	core
 			_size = 0;
 			_front = NULL;
 			_back = NULL;
+		}
+
+		void		_destroy()
+		{
+			delete _begin;
+			delete _rbegin;
+			delete _end;
+			delete _rend;
 		}
 
 	public:
@@ -139,20 +147,9 @@ class	core
 			_swap_pointer(&_back, &x._back);
 		}
 
-		void	_destroy()
-		{
-			delete _begin;
-			delete _rbegin;
-			delete _end;
-			delete _rend;
-		}
-
 		allocator_type	_get_allocator(void) const
 		{
-			// may review that and usage of allocator in all code
-			allocator_type	allocator;
-
-			return (allocator);
+			return (_alloc);
 		}
 
 	public:
