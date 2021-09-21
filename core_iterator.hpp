@@ -6,31 +6,36 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/09/09 14:39:03 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/21 13:32:52 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CORE_ITERATOR_HPP
 # define CORE_ITERATOR_HPP
 
-# include <iterator>
-
 
 namespace ft
 {
 
-template< class Category, class T, class Item>
-class	iterator: public std::iterator<Category, T>
+template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+class	iterator
 {
+	public:
+		typedef	Category		iterator_category;
+		typedef	T				value_type;
+		typedef	Distance		difference_type;
+		typedef	Pointer			pointer;
+		typedef	Reference		reference;
+
 	protected:
-		typedef	Item			_item;
-		typedef	Item*			_item_ptr;
+		typedef	T				_value_type;
+		typedef	T				_item;
+		typedef	pointer			_item_ptr;
 		typedef	std::size_t		_size_type;
 
 		_item_ptr	*_front;
 		_item_ptr	*_back;
 		_item_ptr	_elem;
-		bool		_reversed;
 
 	public:
 		iterator(void)
@@ -38,7 +43,6 @@ class	iterator: public std::iterator<Category, T>
 			_front = NULL;
 			_back = NULL;
 			_elem = NULL;
-			_reversed = false;
 		};
 
 		iterator(const iterator &src)
@@ -46,12 +50,11 @@ class	iterator: public std::iterator<Category, T>
 			*this = src;
 		};
 
-		iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem, bool reversed = false)
+		iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem)
 		{
 			_front = front;
 			_back = back;
 			_elem = elem;
-			_reversed = reversed;
 		};
 
 		virtual	~iterator(void)
@@ -66,7 +69,6 @@ class	iterator: public std::iterator<Category, T>
 				_front = ref.getFront();
 				_back = ref.getBack();
 				_elem = ref.getElem();
-				_reversed = ref.getReversed();
 			}
 
 			return (*this);
@@ -100,11 +102,6 @@ class	iterator: public std::iterator<Category, T>
 		_item	**getBack(void) const
 		{
 			return (_back);
-		};
-
-		bool	getReversed(void) const
-		{
-			return (_reversed);
 		};
 };
 

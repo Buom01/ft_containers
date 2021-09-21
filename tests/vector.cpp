@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/09/10 17:10:46 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/21 13:07:45 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,85 @@
 # define TESTS_VECTOR_CPP
 
 #include "tests.hpp"
+#include "vector/members.hpp"
 #include "vector/access.hpp"
+#include "vector/iterator.hpp"
+#include "vector/capacity.hpp"
 #include "vector/modifiers.hpp"
-//#include "vector/capacity.hpp"
-//#include "vector/operations.hpp"
+#include "vector/nonmember.hpp"
 
+void	members(std::string selection)
+{
+	test(
+		vector_memberstypes_1< std::vector<E> >,
+		vector_memberstypes_1< ft::vector<E> >,
+		"vector_memberstypes_1",
+		selection
+	);
+
+	test(
+		vector_memberstypes_2< std::vector<E> >,
+		vector_memberstypes_2< ft::vector<E> >,
+		"vector_memberstypes_2",
+		selection
+	);
+
+	test(
+		vector_contructors< std::vector<E> >,
+		vector_contructors< ft::vector<E> >,
+		"vector_contructors",
+		selection
+	);
+
+	test(
+		vector_equal< std::vector<E> >,
+		vector_equal< ft::vector<E> >,
+		"vector_equal",
+		selection
+	);
+	
+	test(
+		vector_assign_1< std::vector<E> >,
+		vector_assign_1< ft::vector<E> >,
+		"vector_assign_1",
+		selection
+	);
+	
+	test(
+		vector_assign_2< std::vector<E> >,
+		vector_assign_2< ft::vector<E> >,
+		"vector_assign_2",
+		selection
+	);
+	
+	test(
+		vector_assign_3< std::vector<E> >,
+		vector_assign_3< ft::vector<E> >,
+		"vector_assign_3",
+		selection
+	);
+	
+	test(
+		vector_assign_4< std::vector<E> >,
+		vector_assign_4< ft::vector<E> >,
+		"vector_assign_4",
+		selection
+	);
+	
+	test(
+		vector_assign_5< std::vector<E> >,
+		vector_assign_5< ft::vector<E> >,
+		"vector_assign_5",
+		selection
+	);
+	
+	test(
+		vector_assign_6< std::vector<E> >,
+		vector_assign_6< ft::vector<E> >,
+		"vector_assign_6",
+		selection
+	);
+}
 void	access(std::string selection)
 {
 	test(
@@ -49,12 +123,64 @@ void	access(std::string selection)
 		selection
 	);
 
-	// test(
-	// 	vector_access_5< std::vector<E> >,
-	// 	vector_access_5< ft::vector<E> >,
-	// 	"vector_access_5",
-	// 	selection
-	// );
+	test(
+		vector_access_5< std::vector<E> >,
+		vector_access_5< ft::vector<E> >,
+		"vector_access_5",
+		selection
+	);
+}
+
+void	iterator(std::string selection)
+{
+	test(
+		vector_iterator_1< std::vector<E> >,
+		vector_iterator_1< ft::vector<E> >,
+		"vector_iterator_1",
+		selection
+	);
+
+	test(
+		vector_iterator_2< std::vector<E> >,
+		vector_iterator_2< ft::vector<E> >,
+		"vector_iterator_2",
+		selection
+	);
+
+	test(
+		vector_iterator_3< std::vector<E> >,
+		vector_iterator_3< ft::vector<E> >,
+		"vector_iterator_3",
+		selection
+	);
+
+	test(
+		vector_iterator_4< std::vector<E> >,
+		vector_iterator_4< ft::vector<E> >,
+		"vector_iterator_4",
+		selection
+	);
+}
+
+/*
+** empty() and size() members are both
+** tested along other tests
+*/
+void	capacity(std::string selection)
+{
+	test(
+		vector_capacity_maxsize< std::vector<E> >,
+		vector_capacity_maxsize< ft::vector<E> >,
+		"vector_capacity_maxsize",
+		selection
+	);
+
+	test(
+		vector_capacity_reservecapacity< std::vector<E> >,
+		vector_capacity_reservecapacity< ft::vector<E> >,
+		"vector_capacity_reservecapacity",
+		selection
+	);
 }
 
 void	modifiers(std::string selection)
@@ -149,61 +275,27 @@ void	modifiers(std::string selection)
 		"vector_resize_5",
 		selection
 	);
-	
-	test(
-		vector_assign_1< std::vector<E> >,
-		vector_assign_1< ft::vector<E> >,
-		"vector_assign_1",
-		selection
-	);
-	
-	test(
-		vector_assign_2< std::vector<E> >,
-		vector_assign_2< ft::vector<E> >,
-		"vector_assign_2",
-		selection
-	);
-	
-	test(
-		vector_assign_3< std::vector<E> >,
-		vector_assign_3< ft::vector<E> >,
-		"vector_assign_3",
-		selection
-	);
-	
-	test(
-		vector_assign_4< std::vector<E> >,
-		vector_assign_4< ft::vector<E> >,
-		"vector_assign_4",
-		selection
-	);
-	
-	test(
-		vector_assign_5< std::vector<E> >,
-		vector_assign_5< ft::vector<E> >,
-		"vector_assign_5",
-		selection
-	);
-	
-	test(
-		vector_assign_6< std::vector<E> >,
-		vector_assign_6< ft::vector<E> >,
-		"vector_assign_6",
-		selection
-	);
 }
 
-void	operations(std::string selection)
+void	nonmemeber(std::string selection)
 {
-	static_cast<void>(selection);
+	test(
+		vector_nm_equal< std::vector<E> >,
+		vector_nm_equal< ft::vector<E> >,
+		"vector_nm_equal",
+		selection
+	);
 }
 
 void	do_tests(std::string selection)
 {
-	access(selection);
-	// iterator
+	members(selection);
+	access(selection); 
+	iterator(selection);  // should test consts
+	// Iterator in details should also be tested (const / reversed too)
+	capacity(selection);
 	modifiers(selection);
-	operations(selection);
+	nonmemeber(selection);
 }
 
 #endif

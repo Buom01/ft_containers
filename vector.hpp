@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/10 17:46:21 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/21 13:39:01 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ namespace ft
 {
 
 template< class T, class Alloc = std::allocator<T> >
-class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
+class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >
 {
 	typedef vector< T, Alloc >								_self;
-	typedef	ft::core< T, Alloc, T,	vector_iterator<T> >	_parent;
+	typedef	ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >	_parent;
 
 
 	using typename _parent::_item;
@@ -40,6 +40,9 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 		using typename _parent::pointer;
 		using typename _parent::const_pointer;
 		using typename _parent::iterator;
+		using typename _parent::const_iterator;
+		using typename _parent::reverse_iterator;
+		using typename _parent::const_reverse_iterator;
 		using typename _parent::difference_type;
 		using typename _parent::size_type;
 
@@ -125,8 +128,8 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 
 		vector(const vector &x)
 		{
-			_init(allocator_type());
-			this = x;
+			_init(x.get_allocator());
+			*this = x;
 		};
 
 		virtual	~vector(void)
@@ -151,24 +154,44 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			return (*this);
 		};
 
-		iterator	begin(void) const
+		iterator				begin(void)
 		{
 			return (*_parent::_begin);
 		};
 
-		iterator	end(void) const
+		const_iterator			begin(void) const
+		{
+			return (*_parent::_cbegin);
+		};
+
+		iterator				end(void)
 		{
 			return (*_parent::_end);
 		}
 
-		iterator	rbegin(void) const
+		const_iterator			end(void) const
+		{
+			return (*_parent::_cend);
+		}
+
+		reverse_iterator		rbegin(void)
 		{
 			return (*_parent::_rbegin);
 		};
 
-		iterator	rend(void) const
+		const_reverse_iterator	rbegin(void) const
+		{
+			return (*_parent::_crbegin);
+		};
+
+		reverse_iterator		rend(void)
 		{
 			return (*_parent::_rend);
+		}
+
+		const_reverse_iterator	rend(void) const
+		{
+			return (*_parent::_crend);
 		}
 
 		size_type	max_size(void) const
@@ -265,6 +288,16 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 			return (*_parent::_back);
 		}
 
+		pointer			data()
+		{
+			return (_content);
+		}
+
+		const_pointer	data() const
+		{
+			return (_content);
+		}
+
 		template <class InputIterator>
 		void	assign(InputIterator first, InputIterator last)
 		{
@@ -316,7 +349,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 		template <class InputIterator>
 		void		insert(iterator position, InputIterator first, InputIterator last)
 		{
-			size_type	n				= ft::distance(first, last);
+			size_type	n				= static_cast<size_type>(ft::distance<InputIterator>(first, last));
 			size_type	position_index	= _get_iterator_index(position);
 			size_type	i				= 0;
 
@@ -379,5 +412,54 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T> >
 };
 
 }
+
+
+// template< class T, class Alloc >
+// bool operator==(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+// {
+// 	typename ft::vector<T,Alloc>::const_iterator	lit	= lhs.begin();
+// 	typename ft::vector<T,Alloc>::const_iterator	rit	= rhs.begin();
+
+// 	if (lhs.size() != rhs.size())
+// 		return (false);
+	
+// 	while (lit != lhs.end() || rit != rhs.end())
+// 	{
+// 		if (*lit != *rhs)
+// 			return (false);
+		
+// 		++lit;
+// 		++rhs;
+// 	}
+	
+// 	return (true);
+// }
+
+template< class T, class Alloc >
+bool operator==(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+{
+	typename ft::vector<T,Alloc>::size_type	i	= 0;
+
+	if (lhs.size() != rhs.size())
+		return (false);
+	
+	while (i < lhs.size())
+	{
+		if (lhs.at(i) != rhs.at(i))
+			return (false);
+		
+		++i;
+	}
+	
+	return (true);
+}
+
+template< class T, class Alloc >
+bool operator!=(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+{
+	return (!(lhs == rhs));
+}
+
+
 
 #endif

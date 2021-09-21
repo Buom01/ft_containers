@@ -6,24 +6,18 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/07 14:41:46 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/20 20:30:29 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_ACCESS_HPP
-# define VECTOR_ACCESS_HPP
+#ifndef TESTS_VECTOR_ACCESS_HPP
+# define TESTS_VECTOR_ACCESS_HPP
 
 template <class container>
 int	vector_access_1(container &vector)
 {
 	if (vector.begin() != vector.end())
 		return (1);
-
-	if (++(vector.begin()) != ++(vector.end()))
-		return (2);
-	
-	if (--(vector.begin()) != --(vector.end()))
-		return (3);
 
 	return (0);
 }
@@ -34,18 +28,9 @@ int	vector_access_2(container &vector)
 	if (vector.rbegin() != vector.rend())
 		return (1);
 
-	if (++(vector.rbegin()) != ++(vector.rend()))
-		return (2);
-	
-	if (--(vector.rbegin()) != --(vector.rend()))
-		return (3);
-
 	return (0);
 }
 
-/*
- * Below depend of `push_back` which is tested later
- */
 template <class container>
 int	vector_access_3(container &vector)
 {
@@ -70,32 +55,26 @@ int	vector_access_3(container &vector)
 template <class container>
 int	vector_access_4(container &vector)
 {
-	typename container::iterator	it;
-
 	vector.push_back(0);
 	vector.push_back(1);
 	vector.push_back(2);
 	vector.push_back(3);
 	vector.push_back(4);
 
-	it = vector.begin();
-
-	if (*it != 0)
+	if (vector.at(0) != vector[0] || vector[0] != 0)
 		return (1);
-	if (*(++it) != 1)
+
+	if (vector.at(1) != vector[1] || vector[1] != 1)
 		return (2);
-	if (*(++it) != 2)
+
+	if (vector.at(2) != vector[2] || vector[2] != 2)
 		return (3);
-	if (*(++it) != 3)
+
+	if (vector.at(3) != vector[3] || vector[3] != 3)
 		return (4);
-	if (*(--it) != 2)
+
+	if (vector.at(4) != vector[4] || vector[4] != 4)
 		return (5);
-	if (*(++it) != 3)
-		return (6);
-	if (*(++it) != 4)
-		return (7);
-	if (++it != vector.end())
-		return (8);
 
 	return (0);
 }
@@ -103,7 +82,8 @@ int	vector_access_4(container &vector)
 template <class container>
 int	vector_access_5(container &vector)
 {
-	typename container::reverse_iterator	it;
+	const E	*const_data;
+	E	*data				= vector.data();
 
 	vector.push_back(0);
 	vector.push_back(1);
@@ -111,24 +91,27 @@ int	vector_access_5(container &vector)
 	vector.push_back(3);
 	vector.push_back(4);
 
-	it = vector.rbegin();
+	data		= vector.data();
+	const_data	= vector.data();
 
-	if (*it != 4)
+	if (*data != 0)
 		return (1);
-	if (*(++it) != 3)
+
+	*data = 9;
+
+	if (*(++data) != 1)
 		return (2);
-	if (*(++it) != 2)
+
+	if (*(++data) != 2)
 		return (3);
-	if (*(++it) != 1)
+
+	if (*(++data) != 3)
 		return (4);
-	if (*(--it) != 2)
+
+	if (*(++data) != 4)
 		return (5);
-	if (*(++it) != 1)
-		return (6);
-	if (*(++it) != 0)
-		return (7);
-	if (++it != vector.rend())
-		return (8);
+	
+
 	return (0);
 }
 
