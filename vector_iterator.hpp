@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:33:31 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 21:24:00 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 # define VECTOR_ITERATOR_HPP
 
 # include "core_iterator.hpp"
+# include "reverse_iterator.hpp"
 # include "vector.hpp"
 
 
 namespace ft
 {
 
-template< class T >
-class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
+template< class T, class RT = T>
+class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T, std::ptrdiff_t, T*, T&>
+// class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T, std::ptrdiff_t, RT*, RT&>
 {
-	typedef ft::vector_iterator<T>								_self;
-	typedef ft::iterator<std::random_access_iterator_tag, T>	_parent;
+	typedef vector_iterator																_self;
+	typedef ft::iterator<std::random_access_iterator_tag, T, std::ptrdiff_t, T*, T&>	_parent;
+	// typedef ft::iterator<std::random_access_iterator_tag, T, std::ptrdiff_t, RT*, RT&>	_parent;
+	typedef	vector_iterator< T, T >														_forced_vector_iterator;
+	typedef	vector_iterator< T, const T >												_forced_const_vector_iterator;
 
 	protected: 
 		using typename _parent::_size_type;
@@ -42,14 +47,49 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 		vector_iterator(void): _parent()
 		{};
 
-		// vector_iterator(const vector_iterator &src): _parent(src)
-		// {};
+		vector_iterator(const vector_iterator &src): _parent(src)
+		{};
 
 		vector_iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem): _parent(front, back, elem)
 		{};
 
 
-		_self	&operator++(void)
+		reference	operator*(void) const
+		{
+			return (*_parent::_elem);
+		};
+
+		pointer 	operator->(void) const
+		{
+			return (_parent::_elem);
+		};
+
+
+		_self	&operator=(const _forced_vector_iterator &ref)  // Should patch theses
+		{
+			if (this != (static_cast<const void *>(&ref)))
+			{
+				_parent::_front = ref.getFront();
+				_parent::_back = ref.getBack();
+				_parent::_elem = ref.getElem();
+			}
+
+			return (*this);
+		};
+
+		_self	&operator=(const _forced_const_vector_iterator &ref)  // Should patch theses
+		{
+			if (this != (static_cast<const void *>(&ref)))
+			{
+				_parent::_front = ref.getFront();
+				_parent::_back = ref.getBack();
+				_parent::_elem = ref.getElem();
+			}
+
+			return (*this);
+		};
+
+		_self		&operator++(void)
 		{
 			if (_parent::_elem == NULL)
 				_parent::_elem = *_parent::_front;
@@ -61,7 +101,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (*this);
 		};
 
-		_self	operator++(int)
+		_self		operator++(int)
 		{
 			_self	tmp(*this);
 
@@ -69,7 +109,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (tmp);
 		};
 
-		_self	&operator--(void)
+		_self		&operator--(void)
 		{
 			if (_parent::_elem == NULL)
 				_parent::_elem = *_parent::_back;
@@ -81,7 +121,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (*this);
 		};
 
-		_self	operator--(int)
+		_self		operator--(int)
 		{
 			_self	tmp(*this);
 
@@ -89,27 +129,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (tmp);
 		};
 
-		T			operator*(void)
-		{
-			return (*_parent::_elem);
-		};
-
-		const T		operator*(void) const
-		{
-			return (*_parent::_elem);
-		};
-
-		T			&operator->(void)
-		{
-			return (*_parent::_elem);
-		};
-
-		const T		&operator->(void) const
-		{
-			return (*_parent::_elem);
-		};
-
-		_self	&operator+=(difference_type n)
+		_self		&operator+=(difference_type n)
 		{
 			if (n < 0)
 				(*this) -= -n;
@@ -121,7 +141,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (*this);
 		};
 
-		_self	&operator-=(difference_type n)
+		_self		&operator-=(difference_type n)
 		{
 			if (n < 0)
 				(*this) += -n;
@@ -133,7 +153,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (*this);
 		};
 
-		_self	operator+(difference_type n)
+		_self		operator+(difference_type n) const
 		{
 			_self	tmp(*this);
 
@@ -142,7 +162,7 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (tmp);
 		};
 
-		_self	operator-(difference_type n)
+		_self		operator-(difference_type n) const
 		{
 			_self	tmp(*this);
 
@@ -151,32 +171,37 @@ class	vector_iterator: public ft::iterator<std::random_access_iterator_tag, T>
 			return (tmp);
 		};
 
-		bool	operator<=(const _self &ref)
+		difference_type operator-(_self it) const
+		{
+			return (_parent::_elem - it.getElem());
+		}
+
+		bool	operator<=(const _self &ref) const
 		{
 			return (ref.getElem() <= _parent::_elem);
 		};
 
-		bool	operator<(const _self &ref)
+		bool	operator<(const _self &ref) const
 		{
 			return (ref.getElem() < _parent::_elem);
 		};
 
-		bool	operator>=(const _self &ref)
+		bool	operator>=(const _self &ref) const
 		{
 			return (ref.getElem() >= _parent::_elem);
 		};
 
-		bool	operator>(const _self &ref)
+		bool	operator>(const _self &ref) const
 		{
 			return (ref.getElem() > _parent::_elem);
 		};
 
-		T		&operator[](difference_type n)
+		reference	operator[](difference_type n) const
 		{
 			return (*(*this + n));
 		}
 
-		_size_type	getIndex(void)
+		_size_type	getIndex(void) const
 		{
 			return (_parent::_elem - *_parent::_begin);
 		}

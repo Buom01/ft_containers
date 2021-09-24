@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/20 20:30:29 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 19:20:28 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ template <class container>
 int	vector_access_5(container &vector)
 {
 	const E	*const_data;
-	E	*data				= vector.data();
+	E		*data			= vector.data();
 
 	vector.push_back(0);
 	vector.push_back(1);
@@ -110,7 +110,22 @@ int	vector_access_5(container &vector)
 
 	if (*(++data) != 4)
 		return (5);
-	
+
+
+	if (const_data[0] != 9)
+		return (6);
+
+	if (const_data[1] != 1)
+		return (7);
+
+	if (const_data[2] != 2)
+		return (8);
+
+	if (const_data[3] != 3)
+		return (9);
+
+	if (const_data[4] != 4)
+		return (10);
 
 	return (0);
 }

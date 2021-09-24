@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/20 21:58:36 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/21 15:29:03 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,11 @@ int	vector_equal(container &vector)
 template <class container>
 int		vector_assign_1(container &vector)
 {
-	vector.assign(0u, 0);
+	vector.assign(0, 0);
 	if (vector.size() != 0 || !vector.empty())
 		return (1);
 
-	vector.assign(10u, 0);
+	vector.assign(10, 0);
 
 	return (0);
 }
@@ -145,7 +145,7 @@ int		vector_assign_2(container &vector)
 {
 	vector.push_back(2);
 
-	vector.assign(10u, 1);
+	vector.assign(10, 1);
 
 	if (vector.size() != 10 || vector.empty())
 		return (1);
@@ -158,11 +158,11 @@ int		vector_assign_3(container &vector)
 {
 	vector.push_back(2);
 
-	vector.assign(10u, 1);
+	vector.assign(10, 1);
 	if (vector.size() != 10 || vector.empty())
 		return (1);
 
-	vector.assign(5u, 2);
+	vector.assign(5, 2);
 
 	if (vector.size() != 5 || vector.empty())
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:07:45 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 21:04:38 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,30 +134,58 @@ void	access(std::string selection)
 void	iterator(std::string selection)
 {
 	test(
-		vector_iterator_1< std::vector<E> >,
-		vector_iterator_1< ft::vector<E> >,
+		vector_iterator_1< std::vector<E>, std::vector<E>::iterator >,
+		vector_iterator_1< ft::vector<E>, ft::vector<E>::iterator >,
 		"vector_iterator_1",
 		selection
 	);
 
 	test(
-		vector_iterator_2< std::vector<E> >,
-		vector_iterator_2< ft::vector<E> >,
+		vector_iterator_1< std::vector<E>, std::vector<E>::const_iterator >,
+		vector_iterator_1< ft::vector<E>, ft::vector<E>::const_iterator >,
+		"vector_iterator_1_const",
+		selection
+	);
+
+	test(
+		vector_iterator_2< std::vector<E>, std::vector<E>::iterator >,
+		vector_iterator_2< ft::vector<E>, ft::vector<E>::iterator >,
 		"vector_iterator_2",
 		selection
 	);
 
 	test(
-		vector_iterator_3< std::vector<E> >,
-		vector_iterator_3< ft::vector<E> >,
-		"vector_iterator_3",
+		vector_iterator_2< std::vector<E>, std::vector<E>::const_iterator >,
+		vector_iterator_2< ft::vector<E>, ft::vector<E>::const_iterator >,
+		"vector_iterator_2",
 		selection
 	);
 
 	test(
-		vector_iterator_4< std::vector<E> >,
-		vector_iterator_4< ft::vector<E> >,
-		"vector_iterator_4",
+		vector_reverse_iterator_1< std::vector<E>, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_1< ft::vector<E>, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_1",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_1< std::vector<E>, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_1",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_2< std::vector<E>, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_2< ft::vector<E>, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_2",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_2< std::vector<E>, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_2< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_2",
 		selection
 	);
 }
@@ -289,6 +317,8 @@ void	nonmemeber(std::string selection)
 
 void	do_tests(std::string selection)
 {
+	// SHOULD TEST TIME !
+
 	members(selection);
 	access(selection); 
 	iterator(selection);  // should test consts

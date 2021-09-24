@@ -6,17 +6,17 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/20 21:16:37 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 19:13:43 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_VECTOR_ITERATOR_HPP
 # define TESTS_VECTOR_ITERATOR_HPP
 
-template <class container>
+template <class container, class iterator>
 int	vector_iterator_1(container &vector)
 {
-	typename container::iterator	it;
+	iterator	it;
 
 	vector.push_back(0);
 	vector.push_back(1);
@@ -46,10 +46,10 @@ int	vector_iterator_1(container &vector)
 	return (0);
 }
 
-template <class container>
+template <class container, class iterator>
 int	vector_iterator_2(container &vector)
 {
-	typename container::iterator	it;
+	iterator	it;
 
 	vector.push_back(0);
 	vector.push_back(1);
@@ -79,10 +79,10 @@ int	vector_iterator_2(container &vector)
 	return (0);
 }
 
-template <class container>
-int	vector_iterator_3(container &vector)
+template <class container, class iterator>
+int	vector_reverse_iterator_1(container &vector)
 {
-	typename container::reverse_iterator	it;
+	iterator	it;
 
 	vector.push_back(0);
 	vector.push_back(1);
@@ -111,10 +111,10 @@ int	vector_iterator_3(container &vector)
 	return (0);
 }
 
-template <class container>
-int	vector_iterator_4(container &vector)
+template <class container, class iterator>
+int	vector_reverse_iterator_2(container &vector)
 {
-	typename container::reverse_iterator	it;
+	iterator	it;
 
 	vector.push_back(0);
 	vector.push_back(1);

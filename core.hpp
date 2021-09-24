@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/09/20 21:15:07 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 21:20:22 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ class	core
 		typedef	const T*								const_pointer;
 		typedef	Iterator								iterator;
 		typedef	ConstIterator							const_iterator;
-		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef	ft::reverse_iterator<iterator, iterator, const_iterator>			reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator, iterator, const_iterator>	const_reverse_iterator;
 		typedef	std::ptrdiff_t							difference_type;
 		typedef	std::size_t								size_type;
 
 	protected:
-		typedef	Item											_item;
-		typedef	_item*											_item_ptr;
-		typedef core< T, Alloc, Item, Iterator, ConstIterator >	_self;
+		typedef	Item		_item;
+		typedef	_item*		_item_ptr;
+		typedef core		_self;
 
 		allocator_type			*_alloc;
 		iterator				*_begin;
@@ -60,13 +60,13 @@ class	core
 		{
 			_alloc		= &((allocator_type &)(alloc));  // May change that
 			_begin		= new iterator(&_front, &_back, NULL);
-			_cbegin		= new const_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), NULL);
+			_cbegin		= new const_iterator(&_front, &_back, NULL);
 			_end 		= new iterator(&_front, &_back, NULL);
-			_cend		= new const_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), NULL);
+			_cend		= new const_iterator(&_front, &_back, NULL);
 			_rbegin		= new reverse_iterator(&_front, &_back, NULL);
-			_crbegin	= new const_reverse_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), NULL);
+			_crbegin	= new const_reverse_iterator(&_front, &_back, NULL);
 			_rend		= new reverse_iterator(&_front, &_back, NULL);
-			_crend		= new const_reverse_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), NULL);
+			_crend		= new const_reverse_iterator(&_front, &_back, NULL);
 			_size		= 0;
 			_front		= NULL;
 			_back		= NULL;
@@ -89,10 +89,8 @@ class	core
 		{};
 
 	protected:
-		core(const core &src)
-		{
-			*this = src;
-		};
+		core(const core &)
+		{};
 
 	public:
 		virtual	~core(void)
@@ -117,7 +115,7 @@ class	core
 			delete _begin;
 			_begin = new iterator(&_front, &_back, newfront);
 			delete _cbegin;
-			_cbegin = new const_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), newfront);
+			_cbegin = new const_iterator(&_front, &_back, newfront);
 		}
 
 		void		_update_back(_item_ptr newback)
@@ -126,7 +124,7 @@ class	core
 			delete _rbegin;
 			_rbegin = new reverse_iterator(&_front, &_back, newback);
 			delete _crbegin;
-			_crbegin = new const_reverse_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), newback);
+			_crbegin = new const_reverse_iterator(&_front, &_back, newback);
 		}
 
 		void		_update(_item_ptr newfront, _item_ptr newback)
@@ -137,11 +135,11 @@ class	core
 			delete _begin;
 			_begin = new iterator(&_front, &_back, newfront);
 			delete _cbegin;
-			_cbegin = new const_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), newfront);
+			_cbegin = new const_iterator(&_front, &_back, newfront);
 			delete _rbegin;
 			_rbegin = new reverse_iterator(&_front, &_back, newback);
 			delete _crbegin;
-			_crbegin = new const_reverse_iterator(const_cast<const _item**>(&_front), const_cast<const _item**>(&_back), newback);
+			_crbegin = new const_reverse_iterator(&_front, &_back, newback);
 		}
 
 

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:13:57 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 14:04:01 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,8 @@ int	vector_nm_equal(container &vector)
 
 	return (0);
 }
+
+
+// other non-memeber to do
 
 #endif

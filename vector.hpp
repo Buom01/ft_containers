@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:39:01 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 21:03:00 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include <stdexcept>
+# include <iostream>  // remove me
 # include "utils.hpp"
 # include "core.hpp"
 # include "vector_iterator.hpp"
@@ -23,10 +24,10 @@ namespace ft
 {
 
 template< class T, class Alloc = std::allocator<T> >
-class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >
+class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<T, const T> >
 {
-	typedef vector< T, Alloc >								_self;
-	typedef	ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >	_parent;
+	typedef vector																		_self;
+	typedef	ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<T, const T> >	_parent;
 
 
 	using typename _parent::_item;
@@ -126,7 +127,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			insert(*_parent::_end, first, last);
 		};
 
-		vector(const vector &x)
+		vector(const vector &x): _parent(x)
 		{
 			_init(x.get_allocator());
 			*this = x;
@@ -325,7 +326,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		{
 			size_type	position_index	= _get_iterator_index(position);
 
-			insert(position, 1u, val);
+			insert(position, 1, val);
 
 			return (ft::advance(begin(), position_index));
 		}
@@ -347,7 +348,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		}
 
 		template <class InputIterator>
-		void		insert(iterator position, InputIterator first, InputIterator last)
+		void		insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		{
 			size_type	n				= static_cast<size_type>(ft::distance<InputIterator>(first, last));
 			size_type	position_index	= _get_iterator_index(position);
@@ -386,7 +387,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 
 		iterator	erase(iterator position)
 		{
-			return (erase(position, ++position));
+			return (erase(position, ft::advance(position, 1)));
 		}
 
 		void		swap(_self &x)

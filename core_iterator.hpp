@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:32:52 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 18:56:01 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 namespace ft
 {
 
-template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
 class	iterator
 {
 	public:
@@ -28,9 +28,10 @@ class	iterator
 		typedef	Reference		reference;
 
 	protected:
-		typedef	T				_value_type;
+		typedef iterator		_self;
+		typedef	T				_value_type;  // could be removed ?
 		typedef	T				_item;
-		typedef	pointer			_item_ptr;
+		typedef	T*				_item_ptr;
 		typedef	std::size_t		_size_type;
 
 		_item_ptr	*_front;
@@ -62,44 +63,27 @@ class	iterator
 		};
 
 
-		iterator	&operator=(const iterator &ref)
-		{
-			if (this != &ref)
-			{
-				_front = ref.getFront();
-				_back = ref.getBack();
-				_elem = ref.getElem();
-			}
-
-			return (*this);
-		};
-
-		bool		operator==(const iterator &ref)
+		bool		operator==(const _self &ref) const
 		{
 			return (ref.getElem() == _elem);
 		};
 
-		bool		operator!=(const iterator &ref)
+		bool		operator!=(const _self &ref) const
 		{
 			return (ref.getElem() != _elem);
 		};
 
-		_item	*getElem(void) const
+		_item_ptr	getElem(void) const
 		{
 			return (_elem);
 		};
 
-		_item	**getElemPtr(void)
-		{
-			return (&_elem);
-		};
-
-		_item	**getFront(void) const
+		_item_ptr	*getFront(void) const
 		{
 			return (_front);
 		};
 
-		_item	**getBack(void) const
+		_item_ptr	*getBack(void) const
 		{
 			return (_back);
 		};

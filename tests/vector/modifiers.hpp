@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 13:30:22 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/21 15:29:03 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,28 +244,28 @@ int		vector_insert_2(container &vector)
 {
 	typename container::iterator	pos;
 
-	vector.insert(vector.end(), 0u, 0);
+	vector.insert(vector.end(), 0, 0);
 	if (vector.size() != 0 || !vector.empty())
 		return (1);
 
-	vector.insert(vector.begin(), 0u, 0);
+	vector.insert(vector.begin(), 0, 0);
 	if (vector.size() != 0 || !vector.empty())
 		return (2);
 
-	vector.insert(vector.end(), 1u, 1);
+	vector.insert(vector.end(), 1, 1);
 	if (vector.size() != 1 || vector.empty())
 		return (3);
 
-	vector.insert(vector.end(), 2u, 3);
+	vector.insert(vector.end(), 2, 3);
 	if (vector.size() != 3 || vector.empty())
 		return (4);
 
-	vector.insert(vector.begin(), 3u, 0);
+	vector.insert(vector.begin(), 3, 0);
 	if (vector.size() != 6 || vector.empty())
 		return (5);
 
 	std::advance(pos = vector.end(), -2);
-	vector.insert(pos, 4u, 2);
+	vector.insert(pos, 4, 2);
 	if (vector.size() != 10 || vector.empty())
 		return (6);
 
