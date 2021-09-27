@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/09/24 21:20:22 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/24 22:05:45 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ class	core
 		typedef	const T*								const_pointer;
 		typedef	Iterator								iterator;
 		typedef	ConstIterator							const_iterator;
-		typedef	ft::reverse_iterator<iterator, iterator, const_iterator>			reverse_iterator;
-		typedef	ft::reverse_iterator<const_iterator, iterator, const_iterator>	const_reverse_iterator;
+		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 		typedef	std::ptrdiff_t							difference_type;
 		typedef	std::size_t								size_type;
 

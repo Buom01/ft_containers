@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modifiers.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 14:24:18 by user              #+#    #+#             */
-/*   Updated: 2021/06/15 22:54:26 by bastien          ###   ########.fr       */
+/*   Updated: 2021/09/21 15:29:03 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,26 +228,26 @@ bool	list_insert_2(container &list)
 	typename container::iterator	pos;
 	typename container::iterator	ret;
 
-	list.insert(list.end(), 0u, 0);
+	list.insert(list.end(), 0, 0);
 	if (list.size() != 0)
 		return (false);
-	list.insert(list.begin(), 0u, 0);
+	list.insert(list.begin(), 0, 0);
 	if (list.size() != 0)
 		return (false);
-	list.insert(list.end(), 1u, 1);
+	list.insert(list.end(), 1, 1);
 	if (list.size() != 1)
 		return (false);
-	list.insert(list.end(), 2u, 3);
+	list.insert(list.end(), 2, 3);
 	if (list.size() != 3)
 		return (false);
-	list.insert(list.begin(), 3u, 0);
+	list.insert(list.begin(), 3, 0);
 	if (list.size() != 6)
 		return (false);
 
 	pos = list.end();
 	--pos;
 	--pos;
-	list.insert(pos, 4u, 2);
+	list.insert(pos, 4, 2);
 	if (list.size() != 10)
 		return (false);
 
@@ -312,11 +312,11 @@ bool	list_resize(container &list)
 template <class container>
 bool	list_assign_1(container &list)
 {
-	list.assign(0u, 0);
+	list.assign(0, 0);
 	if (list.size() != 0)
 		return (false);
 
-	list.assign(10u, 0);
+	list.assign(10, 0);
 	return (true);
 }
 
@@ -325,7 +325,7 @@ bool	list_assign_2(container &list)
 {
 	list.push_back(2);
 
-	list.assign(10u, 1);
+	list.assign(10, 1);
 	return (true);
 }
 
@@ -334,8 +334,8 @@ bool	list_assign_3(container &list)
 {
 	list.push_back(2);
 
-	list.assign(10u, 1);
-	list.assign(5u, 2);
+	list.assign(10, 1);
+	list.assign(5, 2);
 	return (true);
 }
 

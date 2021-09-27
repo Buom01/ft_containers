@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/09/24 18:56:01 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/27 13:32:34 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@
 namespace ft
 {
 
-template< class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T& >
+template< class Category, class T>
 class	iterator
 {
 	public:
 		typedef	Category		iterator_category;
 		typedef	T				value_type;
-		typedef	Distance		difference_type;
-		typedef	Pointer			pointer;
-		typedef	Reference		reference;
+		typedef	std::ptrdiff_t	difference_type;
+		typedef	T*				pointer;
+		typedef	T&				reference;
 
 	protected:
-		typedef iterator		_self;
-		typedef	T				_value_type;  // could be removed ?
-		typedef	T				_item;
-		typedef	T*				_item_ptr;
-		typedef	std::size_t		_size_type;
+		typedef	typename remove_const<T>::type		_nonconst;
+		typedef iterator							_self;
+		typedef ft::iterator<Category, _nonconst>	_core;
+		typedef	_nonconst							_item;
+		typedef	_nonconst*							_item_ptr;
+		typedef	std::size_t							_size_type;
 
 		_item_ptr	*_front;
 		_item_ptr	*_back;
@@ -46,7 +47,7 @@ class	iterator
 			_elem = NULL;
 		};
 
-		iterator(const iterator &src)
+		iterator(const _core &src)
 		{
 			*this = src;
 		};
@@ -58,20 +59,21 @@ class	iterator
 			_elem = elem;
 		};
 
+		_self	&operator=(const _core &ref)
+		{
+			if (this != static_cast<const void *>(&ref))
+			{
+				_front = ref.getFront();
+				_back = ref.getBack();
+				_elem = ref.getElem();
+			}
+
+			return (*this);
+		};
+
 		virtual	~iterator(void)
-		{
-		};
+		{};
 
-
-		bool		operator==(const _self &ref) const
-		{
-			return (ref.getElem() == _elem);
-		};
-
-		bool		operator!=(const _self &ref) const
-		{
-			return (ref.getElem() != _elem);
-		};
 
 		_item_ptr	getElem(void) const
 		{
@@ -87,6 +89,18 @@ class	iterator
 		{
 			return (_back);
 		};
+};
+
+template< class L_Category, class L_T, class R_Category, class R_T >
+bool	operator==(const iterator<L_Category, L_T> &lhs, const iterator<R_Category, R_T> &rhs)
+{
+	return (lhs.getElem() == rhs.getElem());
+};
+
+template< class L_Category, class L_T, class R_Category, class R_T >
+bool	operator!=(const iterator<L_Category, L_T> &lhs, const iterator<R_Category, R_T> &rhs)
+{
+	return (lhs.getElem() != rhs.getElem());
 };
 
 }

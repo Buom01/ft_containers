@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/24 21:03:00 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/27 14:23:40 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ namespace ft
 {
 
 template< class T, class Alloc = std::allocator<T> >
-class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<T, const T> >
+class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >
 {
-	typedef vector																		_self;
-	typedef	ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<T, const T> >	_parent;
+	typedef vector																	_self;
+	typedef	ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<const T> >	_parent;
 
 
 	using typename _parent::_item;
@@ -409,56 +409,61 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		}
 
 		// relational operators
-		// vector<bool>
 };
 
 }
 
 
-// template< class T, class Alloc >
-// bool operator==(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
-// {
-// 	typename ft::vector<T,Alloc>::const_iterator	lit	= lhs.begin();
-// 	typename ft::vector<T,Alloc>::const_iterator	rit	= rhs.begin();
-
-// 	if (lhs.size() != rhs.size())
-// 		return (false);
-	
-// 	while (lit != lhs.end() || rit != rhs.end())
-// 	{
-// 		if (*lit != *rhs)
-// 			return (false);
-		
-// 		++lit;
-// 		++rhs;
-// 	}
-	
-// 	return (true);
-// }
-
 template< class T, class Alloc >
-bool operator==(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+bool	operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
 {
-	typename ft::vector<T,Alloc>::size_type	i	= 0;
+	typename ft::vector<T, Alloc>::const_iterator	lit	= lhs.begin();
+	typename ft::vector<T, Alloc>::const_iterator	rit	= rhs.begin();
 
 	if (lhs.size() != rhs.size())
 		return (false);
 	
-	while (i < lhs.size())
+	while (lit != lhs.end() || rit != rhs.end())
 	{
-		if (lhs.at(i) != rhs.at(i))
+		if (*lit != *rit)
 			return (false);
 		
-		++i;
+		++lit;
+		++rit;
 	}
 	
 	return (true);
 }
 
 template< class T, class Alloc >
-bool operator!=(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+bool	operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
 {
 	return (!(lhs == rhs));
+}
+
+
+template< class T, class Alloc >
+bool	operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template< class T, class Alloc >
+bool	operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template< class T, class Alloc >
+bool	operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	return (!(lhs < rhs));
+}
+
+template< class T, class Alloc >
+bool	operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+	return (!(lhs <= rhs));
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:50:18 by badam             #+#    #+#             */
-/*   Updated: 2021/09/21 16:16:39 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/27 14:18:00 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 namespace ft
 {
+
+template<class T>
+struct remove_const {
+	typedef T type;
+};
+template<class T>
+struct remove_const<const T> {
+	typedef typename remove_const<T>::type type;
+};
 
 template <class T, T v>
 struct integral_constant {
@@ -70,6 +79,21 @@ struct is_integral<unsigned long long int>: integral_constant<bool, true> {};
 template<bool Cond, class T = void> struct enable_if {};
 template<class T> struct enable_if<true, T> { typedef T type; };
 
+
+template <class InputIterator1, class InputIterator2>
+bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
+{
+	while (first1 != last1)
+	{
+		if (first2 == last2 || *first2 < *first1)
+			return false;
+		else if (*first1 < *first2)
+			return true;
+		++first1;
+		++first2;
+	}
+	return (first2 != last2);
+}
 
 
 template <class InputIterator>
