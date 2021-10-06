@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/27 14:23:40 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/28 17:15:41 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include <stdexcept>
+# include <cmath>
 # include <iostream>  // remove me
 # include "utils.hpp"
 # include "core.hpp"
@@ -60,7 +61,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		void		_extend_size(size_type n)
 		{
 			if (_parent::_size + n > _capacity)
-				_ensure_capacity(_parent::_size + n + 10);
+				_ensure_capacity(_parent::_size + n/* + 10*/);  // Set capacity same as Linux
 		}
 
 		void		_memmove(_item_ptr dst, _item_ptr src, size_type n)
@@ -98,7 +99,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 				_parent::_update(NULL, NULL);
 		}
 
-		void		_init(const allocator_type &alloc, size_type capacity = 10)
+		void		_init(const allocator_type &alloc, size_type capacity = 1/*0*/)  // Set capacity same as Linux
 		{
 			_capacity = 0;
 			_content = NULL;
@@ -155,46 +156,6 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			return (*this);
 		};
 
-		iterator				begin(void)
-		{
-			return (*_parent::_begin);
-		};
-
-		const_iterator			begin(void) const
-		{
-			return (*_parent::_cbegin);
-		};
-
-		iterator				end(void)
-		{
-			return (*_parent::_end);
-		}
-
-		const_iterator			end(void) const
-		{
-			return (*_parent::_cend);
-		}
-
-		reverse_iterator		rbegin(void)
-		{
-			return (*_parent::_rbegin);
-		};
-
-		const_reverse_iterator	rbegin(void) const
-		{
-			return (*_parent::_crbegin);
-		};
-
-		reverse_iterator		rend(void)
-		{
-			return (*_parent::_rend);
-		}
-
-		const_reverse_iterator	rend(void) const
-		{
-			return (*_parent::_crend);
-		}
-
 		size_type	max_size(void) const
 		{
 			return (_parent::_max_size());
@@ -226,8 +187,8 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			pointer		oldcontent	= _content;
 
 			if (n > max_size())
-				throw new std::length_error("n");
-			if (n + 100 > _capacity && n < _capacity)
+				throw std::length_error("n");
+			if (n + 10 > _capacity && n < _capacity)  // Set capacity same as Linux
 				return ;
 
 			_content = (*_parent::_alloc).allocate(n, oldcontent);
@@ -256,7 +217,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		reference		at(size_type n)
 		{
 			if (n < 0 || n >= _parent::_size)
-				throw new std::out_of_range("n");
+				throw std::out_of_range("n");
 
 			return (_content[n]);
 		} 
@@ -264,7 +225,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		const_reference	at(size_type n) const
 		{
 			if (n < 0 || n >= _parent::_size)
-				throw new std::out_of_range("n");
+				throw std::out_of_range("n");
 
 			return (_content[n]);
 		} 
@@ -319,7 +280,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 
 		void	pop_back(void)
 		{
-			erase(--(end())); 
+			erase(--(this->end())); 
 		}
 
 		iterator	insert(iterator position, const value_type &val)
@@ -328,7 +289,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 
 			insert(position, 1, val);
 
-			return (ft::advance(begin(), position_index));
+			return (ft::advance(this->begin(), position_index));
 		}
 
 		void		insert(iterator position, size_type n, const value_type &val)
@@ -380,9 +341,9 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			_parent::_size -= n;
 			_autoupdate();
 
-			reserve(_parent::_size + 10);
+			reserve(_parent::_size /*+ 10*/);  // Set capacity same as Linux
 
-			return (ft::advance(begin(), first_index));
+			return (ft::advance(this->begin(), first_index));
 		}
 
 		iterator	erase(iterator position)
@@ -400,72 +361,17 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 
 		void		clear(void)
 		{
-			erase(begin(), end());
+			erase(this->begin(), this->end());
 		}
 
 		allocator_type	get_allocator(void) const
 		{
 			return (_parent::_get_allocator());
 		}
-
-		// relational operators
 };
 
+// non member std::swap template
+
 }
-
-
-template< class T, class Alloc >
-bool	operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	typename ft::vector<T, Alloc>::const_iterator	lit	= lhs.begin();
-	typename ft::vector<T, Alloc>::const_iterator	rit	= rhs.begin();
-
-	if (lhs.size() != rhs.size())
-		return (false);
-	
-	while (lit != lhs.end() || rit != rhs.end())
-	{
-		if (*lit != *rit)
-			return (false);
-		
-		++lit;
-		++rit;
-	}
-	
-	return (true);
-}
-
-template< class T, class Alloc >
-bool	operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	return (!(lhs == rhs));
-}
-
-
-template< class T, class Alloc >
-bool	operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-}
-
-template< class T, class Alloc >
-bool	operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	return (!(rhs < lhs));
-}
-
-template< class T, class Alloc >
-bool	operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	return (!(lhs < rhs));
-}
-
-template< class T, class Alloc >
-bool	operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
-{
-	return (!(lhs <= rhs));
-}
-
-
 
 #endif

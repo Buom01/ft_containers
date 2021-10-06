@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/09/27 13:32:34 by badam            ###   ########.fr       */
+/*   Updated: 2021/09/30 15:50:05 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@ class	iterator
 		_item_ptr	*_front;
 		_item_ptr	*_back;
 		_item_ptr	_elem;
+
+
+		difference_type	_modulo(difference_type n)
+		{
+			n = (n % (*_back - *_front + 1));
+
+			if (n < 0)
+			{
+				while (_elem + n < *_front)
+					n += *_back - *_front + 1;
+			}
+			if (n > 0)
+			{
+				while (_elem + n > *_back + 1)
+					n -= *_back - *_front + 1;
+			}
+
+			return (n);
+		}
 
 	public:
 		iterator(void)

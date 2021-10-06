@@ -6,22 +6,21 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/09/24 22:05:45 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/05 15:41:10 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CORE_HPP
 # define CORE_HPP
 
+# include <limits>
 # include "reverse_iterator.hpp"
 
 
 namespace ft
 {
 
-template<
-	class T, class Alloc, class Item, class Iterator, class ConstIterator
->
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
 class	core
 {
 	public:
@@ -145,8 +144,12 @@ class	core
 
 		size_type	_max_size(void) const
 		{
-			return (_alloc->max_size());
-			//return (std::numeric_limits<size_type>::max());
+			size_type	max_size_value	= _alloc->max_size();
+			
+			if (static_cast<unsigned long long>(std::numeric_limits<difference_type>::max()) < static_cast<unsigned long long>(max_size_value))
+				return (std::numeric_limits<difference_type>::max());
+			else
+				return (max_size_value);
 		}
 
 		void			_swap(_self &x)
@@ -180,7 +183,101 @@ class	core
 		{
 			return (_size);
 		}
+
+		iterator				begin(void)
+		{
+			return (*_begin);
+		};
+
+		const_iterator			begin(void) const
+		{
+			return (*_cbegin);
+		};
+
+		iterator				end(void)
+		{
+			return (*_end);
+		}
+
+		const_iterator			end(void) const
+		{
+			return (*_cend);
+		}
+
+		reverse_iterator		rbegin(void)
+		{
+			return (*_rbegin);
+		};
+
+		const_reverse_iterator	rbegin(void) const
+		{
+			return (*_crbegin);
+		};
+
+		reverse_iterator		rend(void)
+		{
+			return (*_rend);
+		}
+
+		const_reverse_iterator	rend(void) const
+		{
+			return (*_crend);
+		}
 };
+
+
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator==(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	ConstIterator	lit	= lhs.begin();
+	ConstIterator	rit	= rhs.begin();
+
+	if (lhs.size() != rhs.size())
+		return (false);
+	
+	while (lit != lhs.end() || rit != rhs.end())
+	{
+		if (*lit != *rit)
+			return (false);
+		
+		++lit;
+		++rit;
+	}
+	
+	return (true);
+}
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator!=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	return (!(lhs == rhs));
+}
+
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator<(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator<=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator>(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	return (!(lhs <= rhs));
+}
+
+template< class T, class Alloc, class Item, class Iterator, class ConstIterator >
+bool	operator>=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
+{
+	return (!(lhs < rhs));
+}
 
 }
 

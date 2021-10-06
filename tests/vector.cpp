@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/09/24 21:04:38 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/05 15:08:18 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	iterator(std::string selection)
 	test(
 		vector_iterator_2< std::vector<E>, std::vector<E>::const_iterator >,
 		vector_iterator_2< ft::vector<E>, ft::vector<E>::const_iterator >,
-		"vector_iterator_2",
+		"vector_iterator_2_const",
 		selection
 	);
 
@@ -186,6 +186,202 @@ void	iterator(std::string selection)
 		vector_reverse_iterator_2< std::vector<E>, std::vector<E>::const_reverse_iterator >,
 		vector_reverse_iterator_2< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
 		"vector_reverse_iterator_2",
+		selection
+	);
+
+	test(
+		vector_iterator_contructor_eq_deref< std::vector<E>, std::vector<E>::iterator , std::vector<E>::iterator , std::vector<E>::const_iterator >,
+		vector_iterator_contructor_eq_deref< ft::vector<E>, ft::vector<E>::iterator , ft::vector<E>::iterator , ft::vector<E>::const_iterator >,
+		"vector_iterator_contructor_eq_deref",
+		selection
+	);
+
+	test(
+		vector_iterator_contructor_eq_deref_reverse< std::vector<E>, std::vector<E>::reverse_iterator , std::vector<E>::reverse_iterator , std::vector<E>::const_reverse_iterator >,
+		vector_iterator_contructor_eq_deref_reverse< ft::vector<E>, ft::vector<E>::reverse_iterator , ft::vector<E>::reverse_iterator , ft::vector<E>::const_reverse_iterator >,
+		"vector_iterator_contructor_eq_deref_reverse",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_diff_1< std::vector<E>, std::vector<E>::iterator, std::vector<E>::iterator >,
+		vector_iterator_operator_diff_1< ft::vector<E>, ft::vector<E>::iterator, ft::vector<E>::iterator >,
+		"vector_iterator_operator_diff_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_1< std::vector<E>, std::vector<E>::const_iterator, std::vector<E>::const_iterator >,
+		vector_iterator_operator_diff_1< ft::vector<E>, ft::vector<E>::const_iterator, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_diff_1_const",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_1< std::vector<E>, std::vector<E>::const_iterator, std::vector<E>::iterator >,
+		vector_iterator_operator_diff_1< ft::vector<E>, ft::vector<E>::const_iterator, ft::vector<E>::iterator >,
+		"vector_iterator_operator_diff_1_mixed_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_1< std::vector<E>, std::vector<E>::iterator, std::vector<E>::const_iterator >,
+		vector_iterator_operator_diff_1< ft::vector<E>, ft::vector<E>::iterator, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_diff_1_mixed_2",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_diff_reverse_1< std::vector<E>, std::vector<E>::reverse_iterator, std::vector<E>::reverse_iterator >,
+		vector_iterator_operator_diff_reverse_1< ft::vector<E>, ft::vector<E>::reverse_iterator, ft::vector<E>::reverse_iterator >,
+		"vector_iterator_operator_diff_reverse_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_reverse_1< std::vector<E>, std::vector<E>::const_reverse_iterator, std::vector<E>::const_reverse_iterator >,
+		vector_iterator_operator_diff_reverse_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator, ft::vector<E>::const_reverse_iterator >,
+		"vector_iterator_operator_diff_reverse_1_const",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_reverse_1< std::vector<E>, std::vector<E>::const_reverse_iterator, std::vector<E>::reverse_iterator >,
+		vector_iterator_operator_diff_reverse_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator, ft::vector<E>::reverse_iterator >,
+		"vector_iterator_operator_diff_reverse_1_mixed_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_diff_reverse_1< std::vector<E>, std::vector<E>::reverse_iterator, std::vector<E>::const_reverse_iterator >,
+		vector_iterator_operator_diff_reverse_1< ft::vector<E>, ft::vector<E>::reverse_iterator, ft::vector<E>::const_reverse_iterator >,
+		"vector_iterator_operator_diff_reverse_1_mixed_2",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_sum_diff_1< std::vector<E>, std::vector<E>::iterator >,
+		vector_iterator_operator_sum_diff_1< ft::vector<E>, ft::vector<E>::iterator >,
+		"vector_iterator_operator_sum_diff_1",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_sum_diff_1< std::vector<E>, std::vector<E>::const_iterator >,
+		vector_iterator_operator_sum_diff_1< ft::vector<E>, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_sum_diff_1_const",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_sum_diff_1< std::vector<E>, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_operator_sum_diff_1< ft::vector<E>, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_operator_sum_diff_1",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_sum_diff_1< std::vector<E>, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_operator_sum_diff_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_operator_sum_diff_1_const",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_compare_1< std::vector<E>, std::vector<E>::iterator, std::vector<E>::iterator >,
+		vector_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::iterator, ft::vector<E>::iterator >,
+		"vector_iterator_operator_compare_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_compare_1< std::vector<E>, std::vector<E>::const_iterator, std::vector<E>::const_iterator >,
+		vector_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::const_iterator, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_compare_1_const",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_compare_1< std::vector<E>, std::vector<E>::const_iterator, std::vector<E>::iterator >,
+		vector_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::const_iterator, ft::vector<E>::iterator >,
+		"vector_iterator_operator_compare_1_mixed",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_compare_1< std::vector<E>, std::vector<E>::reverse_iterator, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::reverse_iterator, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_operator_compare_1",
+		selection
+	);
+	
+	test(
+		vector_reverse_iterator_operator_compare_1< std::vector<E>, std::vector<E>::const_reverse_iterator, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_operator_compare_1_const",
+		selection
+	);
+	
+	test(
+		vector_reverse_iterator_operator_compare_1< std::vector<E>, std::vector<E>::const_reverse_iterator, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_operator_compare_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_operator_compare_1_mixed",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_equal_add_del_1< std::vector<E>, std::vector<E>::iterator >,
+		vector_iterator_operator_equal_add_del_1< ft::vector<E>, ft::vector<E>::iterator >,
+		"vector_iterator_operator_equal_add_del_1",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_equal_add_del_1< std::vector<E>, std::vector<E>::const_iterator >,
+		vector_iterator_operator_equal_add_del_1< ft::vector<E>, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_equal_add_del_1_const",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_equal_add_del_1< std::vector<E>, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_operator_equal_add_del_1< ft::vector<E>, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_operator_equal_add_del_1",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_equal_add_del_1< std::vector<E>, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_operator_equal_add_del_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_operator_equal_add_del_1_const",
+		selection
+	);
+
+	test(
+		vector_iterator_operator_brackets_1< std::vector<E>, std::vector<E>::iterator >,
+		vector_iterator_operator_brackets_1< ft::vector<E>, ft::vector<E>::iterator >,
+		"vector_iterator_operator_brackets_1",
+		selection
+	);
+	
+	test(
+		vector_iterator_operator_brackets_1< std::vector<E>, std::vector<E>::const_iterator >,
+		vector_iterator_operator_brackets_1< ft::vector<E>, ft::vector<E>::const_iterator >,
+		"vector_iterator_operator_brackets_1_const",
+		selection
+	);
+
+	test(
+		vector_reverse_iterator_operator_brackets_1< std::vector<E>, std::vector<E>::reverse_iterator >,
+		vector_reverse_iterator_operator_brackets_1< ft::vector<E>, ft::vector<E>::reverse_iterator >,
+		"vector_reverse_iterator_operator_brackets_1",
+		selection
+	);
+	
+	test(
+		vector_reverse_iterator_operator_brackets_1< std::vector<E>, std::vector<E>::const_reverse_iterator >,
+		vector_reverse_iterator_operator_brackets_1< ft::vector<E>, ft::vector<E>::const_reverse_iterator >,
+		"vector_reverse_iterator_operator_brackets_1_const",
 		selection
 	);
 }

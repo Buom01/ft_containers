@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 00:47:07 by badam             #+#    #+#             */
-/*   Updated: 2021/09/27 12:57:31 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/05 16:15:24 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ template< class Iterator >
 class reverse_iterator: public Iterator
 {
 	typedef reverse_iterator	_self;
+	typedef Iterator			_parent;
 
 	protected:
 		using typename Iterator::_item_ptr;
@@ -27,9 +28,13 @@ class reverse_iterator: public Iterator
 	
 	public:
 		using typename Iterator::difference_type;
+		using typename Iterator::reference;
 	
 	public:
 		reverse_iterator(void): Iterator()
+		{};
+
+		reverse_iterator(const Iterator &src): Iterator(src)
 		{};
 
 		reverse_iterator(const _core &src): Iterator(src)
@@ -78,35 +83,15 @@ class reverse_iterator: public Iterator
 			return dynamic_cast<_self &>(Iterator::operator+=(n));
 		};
 
-		_self	&operator+(difference_type n) const
+		reference	operator[](difference_type n) const
 		{
-			return dynamic_cast<_self &>(Iterator::operator-(n));
-		};
+			return (*(*Iterator::_back - n));
+		}
 
-		_self	&operator-(difference_type n) const
+		_parent		base(void) const
 		{
-			return dynamic_cast<_self &>(Iterator::operator+(n));
-		};
-
-		bool	operator<=(const _self &ref) const
-		{
-			return (Iterator::operator>=(ref));
-		};
-
-		bool	operator<(const _self &ref) const
-		{
-			return (Iterator::operator>(ref));
-		};
-
-		bool	operator>=(const _self &ref) const
-		{
-			return (Iterator::operator<=(ref));
-		};
-
-		bool	operator>(const _self &ref) const
-		{
-			return (Iterator::operator<(ref));
-		};
+			return (*this);
+		}
 };
 
 }
