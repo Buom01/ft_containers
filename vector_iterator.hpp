@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/10/05 16:36:32 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 14:33:00 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 	typedef ft::iterator<std::random_access_iterator_tag, T >	_parent;
 
 	protected: 
-		using typename _parent::_core;
 		using typename _parent::_item;
-		using typename _parent::_item_ptr;
 		using typename _parent::_size_type;
 
 	public:
+		using typename _parent::_core;
+		using typename _parent::_item_ptr;
+		
 		using typename _parent::iterator_category;
 		using typename _parent::value_type;
 		using typename _parent::difference_type;
@@ -47,7 +48,7 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 		vector_iterator(const _core &src): _parent(src)
 		{};
 
-		vector_iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem): _parent(front, back, elem)
+		vector_iterator(_item_ptr front, _item_ptr back, _item_ptr elem): _parent(front, back, elem)
 		{};
 
 		virtual	~vector_iterator(void)
@@ -67,8 +68,8 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 		_self		&operator++(void)
 		{
 			if (_parent::_elem == NULL)
-				_parent::_elem = *_parent::_front;
-			else if (_parent::_elem == *_parent::_back)
+				_parent::_elem = _parent::_front;
+			else if (_parent::_elem == _parent::_back)
 				_parent::_elem = NULL;
 			else
 				++_parent::_elem;
@@ -87,8 +88,8 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 		_self		&operator--(void)
 		{
 			if (_parent::_elem == NULL)
-				_parent::_elem = *_parent::_back;
-			else if (_parent::_elem == *_parent::_front)
+				_parent::_elem = _parent::_back;
+			else if (_parent::_elem == _parent::_front)
 				_parent::_elem = NULL;
 			else
 				--_parent::_elem;
@@ -111,11 +112,11 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 			if (n < 0)
 				(*this) -= -n;
 			else if (_parent::_elem == NULL && n)
-				_parent::_elem = *_parent::_front + (n - 1);
+				_parent::_elem = _parent::_front + (n - 1);
 			else
 			{
 				_parent::_elem += n;
-				if (_parent::_elem == *_parent::_back + 1)
+				if (_parent::_elem == _parent::_back + 1)
 					_parent::_elem = NULL;
 			}
 
@@ -129,20 +130,34 @@ class	vector_iterator: public ft::iterator< std::random_access_iterator_tag, T >
 			if (n < 0)
 				(*this) += -n;
 			else if (_parent::_elem == NULL && n)
-				_parent::_elem = *_parent::_back - (n - 1);
+				_parent::_elem = _parent::_back - (n - 1);
 			else
 			{
 				_parent::_elem -= n;
-				if (_parent::_elem == *_parent::_front - 1)
+				if (_parent::_elem == _parent::_front - 1)
 					_parent::_elem = NULL;
 			}
 
 			return (*this);
 		};
 
+		_self		operator+(difference_type n) const
+		{
+			_self	tmp(*this);
+
+			return (tmp += n);
+		};
+
+		_self		operator-(difference_type n) const
+		{
+			_self	tmp(*this);
+
+			return (tmp -= n);
+		};
+
 		reference	operator[](difference_type n) const
 		{
-			return (*(*_parent::_front + n));
+			return (*(_parent::_front + n));
 		}
 };
 
@@ -179,22 +194,6 @@ bool	operator>(const vector_iterator<L_T> &lhs, const vector_iterator<R_T> &rhs)
 
 
 template< class T>
-vector_iterator<T>		operator+(const vector_iterator<T> &ref, const int nb)
-{
-	vector_iterator<T>	tmp(ref);
-	
-	return (tmp += nb);
-};
-
-template< class T>
-vector_iterator<T>		operator-(const vector_iterator<T> &ref, const int nb)
-{
-	vector_iterator<T>	tmp(ref);
-
-	return (tmp -= nb);
-};
-
-template< class T>
 vector_iterator<T>		operator+(const int nb, const vector_iterator<T> &ref)
 {
 	return (ref + nb);
@@ -207,80 +206,12 @@ typename vector_iterator<L_T>::difference_type	operator-(const vector_iterator<L
 		return (0);
 	
 	if (!rit.getElem())
-		return lit.getElem() - *(rit.getBack()) - 1;
+		return lit.getElem() - lit.getBack() - 1;
 
 	if (!lit.getElem())
-		return *(lit.getBack()) + 1 - rit.getElem();
+		return rit.getBack() + 1 - rit.getElem();
 		
 	return lit.getElem() - rit.getElem();
-}
-
-template< class L_T, class R_T >
-bool	operator<=(const reverse_iterator< vector_iterator<L_T> > &lhs, const reverse_iterator< vector_iterator<R_T> > &rhs)
-{
-	if (lhs.getElem() == rhs.getElem())
-		return (true);
-	return (lhs < rhs);
-};
-
-template< class L_T, class R_T >
-bool	operator<(const reverse_iterator< vector_iterator<L_T> > &lhs, const reverse_iterator< vector_iterator<R_T> > &rhs)
-{
-	if (!lhs.getElem())
-		return (false);
-	if (!rhs.getElem())
-		return (true);
-	return (static_cast< vector_iterator<L_T> >(lhs) > static_cast< vector_iterator<R_T> >(rhs));
-};
-
-template< class L_T, class R_T >
-bool	operator>=(const reverse_iterator< vector_iterator<L_T> > &lhs, const reverse_iterator< vector_iterator<R_T> > &rhs)
-{
-	return (!(lhs < rhs));
-};
-
-template< class L_T, class R_T >
-bool	operator>(const reverse_iterator< vector_iterator<L_T> > &lhs, const reverse_iterator< vector_iterator<R_T> > &rhs)
-{
-	return (!(lhs <= rhs));
-};
-
-template< class T>
-reverse_iterator< vector_iterator<T> >		operator+(const reverse_iterator< vector_iterator<T> > &ref, const int nb)
-{
-	reverse_iterator< vector_iterator<T> >	tmp(ref);
-	
-	return (tmp += nb);
-};
-
-template< class T>
-reverse_iterator< vector_iterator<T> >		operator-(const reverse_iterator< vector_iterator<T> > &ref, const int nb)
-{
-	reverse_iterator< vector_iterator<T> >	tmp(ref);
-	
-	return (tmp -= nb);
-};
-
-template< class T>
-reverse_iterator< vector_iterator<T> >		operator+(const int nb, const reverse_iterator< vector_iterator<T> > &ref)
-{
-	return (ref + nb);
-};
-
-template< class L_T, class R_T >
-typename reverse_iterator< vector_iterator<L_T> >::difference_type
-		operator-(const reverse_iterator< vector_iterator<L_T> > &lit, const reverse_iterator< vector_iterator<R_T> > &rit)
-{
-	if (rit.getElem() == lit.getElem())
-		return (0);
-	
-	if (!rit.getElem())
-		return *(rit.getFront()) - 1 - lit.getElem();
-
-	if (!lit.getElem())
-		return rit.getElem() - *(lit.getFront()) + 1;
-		
-	return rit.getElem() - lit.getElem();
 }
 
 }

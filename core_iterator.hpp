@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/09/30 15:50:05 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/21 14:05:20 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,48 +35,38 @@ class	iterator
 		typedef	_nonconst*							_item_ptr;
 		typedef	std::size_t							_size_type;
 
-		_item_ptr	*_front;
-		_item_ptr	*_back;
+		_item_ptr	_front;
+		_item_ptr	_back;
 		_item_ptr	_elem;
 
 
 		difference_type	_modulo(difference_type n)
 		{
-			n = (n % (*_back - *_front + 1));
+			n = (n % (_back - _front + 1));
 
 			if (n < 0)
 			{
-				while (_elem + n < *_front)
-					n += *_back - *_front + 1;
+				while (_elem + n < _front)
+					n += _back - _front + 1;
 			}
 			if (n > 0)
 			{
-				while (_elem + n > *_back + 1)
-					n -= *_back - *_front + 1;
+				while (_elem + n > _back + 1)
+					n -= _back - _front + 1;
 			}
 
 			return (n);
 		}
 
 	public:
-		iterator(void)
-		{
-			_front = NULL;
-			_back = NULL;
-			_elem = NULL;
-		};
+		iterator(void): _front(NULL), _back(NULL), _elem(NULL)
+		{};
 
-		iterator(const _core &src)
-		{
-			*this = src;
-		};
+		iterator(const _core &src): _front(src.getFront()),  _back(src.getBack()),  _elem(src.getElem())
+		{};
 
-		iterator(_item_ptr *front, _item_ptr *back, _item_ptr elem)
-		{
-			_front = front;
-			_back = back;
-			_elem = elem;
-		};
+		iterator(_item_ptr front, _item_ptr back, _item_ptr elem): _front(front), _back(back), _elem(elem)
+		{};
 
 		_self	&operator=(const _core &ref)
 		{
@@ -99,12 +89,12 @@ class	iterator
 			return (_elem);
 		};
 
-		_item_ptr	*getFront(void) const
+		_item_ptr	getFront(void) const
 		{
 			return (_front);
 		};
 
-		_item_ptr	*getBack(void) const
+		_item_ptr	getBack(void) const
 		{
 			return (_back);
 		};

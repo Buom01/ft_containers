@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/10/05 13:15:10 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/22 16:12:12 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ namespace ft
 template< class T, class Container = ft::vector<T> >
 class stack
 {
-	typedef stack		_self;
-	typedef Container	_parent;
+	typedef stack< T, Container >	_self;
 
 	public:
-		typedef	container_type	Container;
-		using typename _parent::value_type;
-		using typename _parent::size_type;
-		using typename _parent::reference;
-		using typename _parent::const_reference;
+		typedef				Container					container_type;
+		typedef typename	Container::value_type		value_type;
+		typedef typename	Container::size_type		size_type;
+		typedef typename	Container::reference		reference;
+		typedef typename	Container::const_reference	const_reference;
 
 	protected:
 		Container	c;
@@ -76,44 +75,38 @@ class stack
 		{
 			c.pop_back();
 		};
+
+
+		friend bool	operator==(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c == rhs.c);
+		}
+		
+		friend bool	operator!=(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c != rhs.c);
+		}
+		
+		friend bool	operator<(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c < rhs.c);
+		}
+		
+		friend bool	operator<=(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c <= rhs.c);
+		}
+		
+		friend bool	operator>(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c > rhs.c);
+		}
+		
+		friend bool	operator>=(const _self &lhs, const _self &rhs)
+		{
+			return (lhs.c >= rhs.c);
+		}
 };
-
-
-template< class T, class Container >
-bool	operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs)
-{
-	return (lhs.c == rhs.c);
-}
-
-template< class T, class Container >
-bool	operator!=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
-{
-	return (lhs.c != rhs.c);
-}
-
-template< class T, class Container >
-bool	operator<(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
-{
-	return (lhs.c < rhs.c);
-}
-
-template< class T, class Container >
-bool	operator<=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
-{
-	return (lhs.c <= rhs.c);
-}
-
-template< class T, class Container >
-bool	operator>(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
-{
-	return (lhs.c > rhs.c);
-}
-
-template< class T, class Container >
-bool	operator>=(const ft::core<T, Alloc, Item, Iterator, ConstIterator> &lhs, const ft::core<T, Alloc, Item, Iterator, ConstIterator> &rhs)
-{
-	return (lhs.c >= rhs.c);
-}
 
 }
 

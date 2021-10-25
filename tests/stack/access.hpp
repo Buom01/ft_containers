@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   access.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 17:07:57 by user              #+#    #+#             */
-/*   Updated: 2021/10/22 17:33:20 by badam            ###   ########.fr       */
+/*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
+/*   Updated: 2021/10/22 18:07:02 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.cpp"
-#include "stack.cpp"
+#ifndef TESTS_STACK_ACCESS_HPP
+# define TESTS_STACK_ACCESS_HPP
 
-bool	maydo(std::string testname, std::string selection)
+template <class container>
+int	stack_access(container &stack)
 {
-	return (testname.rfind(selection, 0) == 0);
-}
+	if (stack.size() != 0 || !stack.empty())
+		return (1);
 
-int	main(int argc, char **argv)
-{
-	std::string	selection;
+	stack.push(1);
+	if (stack.top() != 1)
+		return (2);
+	
+	if (stack.size() != 1 || stack.empty())
+		return (3);
 
-	if (argc >= 2)
-		selection = *(argv + 1);
-	else
-		selection = "";
-
-	vector_tests(selection);
-	stack_tests(selection);
+	stack.push(2);
+	if (stack.top() != 2)
+		return (4);
+	
+	if (stack.size() != 2 || stack.empty())
+		return (5);
 
 	return (0);
 }
+
+#endif
+

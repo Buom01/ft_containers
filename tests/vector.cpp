@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/10/05 15:08:18 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 13:49:53 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "vector/modifiers.hpp"
 #include "vector/nonmember.hpp"
 
-void	members(std::string selection)
+void	vector_members(std::string selection)
 {
 	test(
 		vector_memberstypes_1< std::vector<E> >,
@@ -93,7 +93,7 @@ void	members(std::string selection)
 		selection
 	);
 }
-void	access(std::string selection)
+void	vector_access(std::string selection)
 {
 	test(
 		vector_access_1< std::vector<E> >,
@@ -131,7 +131,7 @@ void	access(std::string selection)
 	);
 }
 
-void	iterator(std::string selection)
+void	vector_iterator(std::string selection)
 {
 	test(
 		vector_iterator_1< std::vector<E>, std::vector<E>::iterator >,
@@ -358,6 +358,13 @@ void	iterator(std::string selection)
 	);
 
 	test(
+		vector_reverse_iterator_operator_equal_with_iterator< std::vector<E>, std::vector<E>::reverse_iterator, std::vector<E>::iterator >,
+		vector_reverse_iterator_operator_equal_with_iterator< ft::vector<E>, ft::vector<E>::reverse_iterator, ft::vector<E>::iterator >,
+		"vector_reverse_iterator_operator_equal_with_iterator",
+		selection
+	);
+
+	test(
 		vector_iterator_operator_brackets_1< std::vector<E>, std::vector<E>::iterator >,
 		vector_iterator_operator_brackets_1< ft::vector<E>, ft::vector<E>::iterator >,
 		"vector_iterator_operator_brackets_1",
@@ -390,7 +397,7 @@ void	iterator(std::string selection)
 ** empty() and size() members are both
 ** tested along other tests
 */
-void	capacity(std::string selection)
+void	vector_capacity(std::string selection)
 {
 	test(
 		vector_capacity_maxsize< std::vector<E> >,
@@ -407,7 +414,7 @@ void	capacity(std::string selection)
 	);
 }
 
-void	modifiers(std::string selection)
+void	vector_modifiers(std::string selection)
 {
 	test(
 		vector_push_back< std::vector<E> >,
@@ -501,27 +508,42 @@ void	modifiers(std::string selection)
 	);
 }
 
-void	nonmemeber(std::string selection)
+void	vector_nonmemeber(std::string selection)
 {
 	test(
-		vector_nm_equal< std::vector<E> >,
-		vector_nm_equal< ft::vector<E> >,
-		"vector_nm_equal",
+		vector_nm_std_swap< std::vector<E> >,
+		vector_nm_ft_swap< ft::vector<E> >,
+		"vector_nm_swap",
 		selection
 	);
+
+	test(
+		vector_nm_equal_not_equal< std::vector<E> >,
+		vector_nm_equal_not_equal< ft::vector<E> >,
+		"vector_nm_equal_not_equal",
+		selection
+	);
+
+	test(
+		vector_nm_compare< std::vector<E> >,
+		vector_nm_compare< ft::vector<E> >,
+		"vector_nm_compare",
+		selection
+	);
+
+	// should do supplementary test with string
 }
 
-void	do_tests(std::string selection)
+void	vector_tests(std::string selection)
 {
 	// SHOULD TEST TIME !
 
-	members(selection);
-	access(selection); 
-	iterator(selection);  // should test consts
-	// Iterator in details should also be tested (const / reversed too)
-	capacity(selection);
-	modifiers(selection);
-	nonmemeber(selection);
+	vector_members(selection);
+	vector_access(selection); 
+	vector_iterator(selection);
+	vector_capacity(selection);
+	vector_modifiers(selection);
+	vector_nonmemeber(selection);
 }
 
 #endif

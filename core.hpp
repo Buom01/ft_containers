@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/10/05 15:41:10 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 14:19:31 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,18 @@ class	core
 
 		void		_init(const allocator_type &alloc)
 		{
-			_alloc		= &((allocator_type &)(alloc));  // May change that
-			_begin		= new iterator(&_front, &_back, NULL);
-			_cbegin		= new const_iterator(&_front, &_back, NULL);
-			_end 		= new iterator(&_front, &_back, NULL);
-			_cend		= new const_iterator(&_front, &_back, NULL);
-			_rbegin		= new reverse_iterator(&_front, &_back, NULL);
-			_crbegin	= new const_reverse_iterator(&_front, &_back, NULL);
-			_rend		= new reverse_iterator(&_front, &_back, NULL);
-			_crend		= new const_reverse_iterator(&_front, &_back, NULL);
+			_alloc		= &(const_cast<allocator_type &>(alloc));
 			_size		= 0;
 			_front		= NULL;
 			_back		= NULL;
+			_begin		= new iterator(_front, _back, NULL);
+			_cbegin		= new const_iterator(_front, _back, NULL);
+			_end 		= new iterator(_front, _back, NULL);
+			_cend		= new const_iterator(_front, _back, NULL);
+			_rbegin		= new reverse_iterator(_front, _back, NULL);
+			_crbegin	= new const_reverse_iterator(_front, _back, NULL);
+			_rend		= new reverse_iterator(_front, _back, NULL);
+			_crend		= new const_reverse_iterator(_front, _back, NULL);
 		}
 
 		void		_destroy()
@@ -110,20 +110,12 @@ class	core
 
 		void		_update_front(_item_ptr newfront)
 		{
-			_front = newfront;
-			delete _begin;
-			_begin = new iterator(&_front, &_back, newfront);
-			delete _cbegin;
-			_cbegin = new const_iterator(&_front, &_back, newfront);
+			_update(newfront, _back);
 		}
 
 		void		_update_back(_item_ptr newback)
 		{
-			_back = newback;
-			delete _rbegin;
-			_rbegin = new reverse_iterator(&_front, &_back, newback);
-			delete _crbegin;
-			_crbegin = new const_reverse_iterator(&_front, &_back, newback);
+			_update(_front, newback);
 		}
 
 		void		_update(_item_ptr newfront, _item_ptr newback)
@@ -132,13 +124,24 @@ class	core
 			_back = newback;
 
 			delete _begin;
-			_begin = new iterator(&_front, &_back, newfront);
+			_begin = new iterator(_front, _back, _front);
 			delete _cbegin;
-			_cbegin = new const_iterator(&_front, &_back, newfront);
+			_cbegin = new const_iterator(_front, _back, _front);
+
+			delete _end;
+			_end = new iterator(_front, _back, NULL);
+			delete _cend;
+			_cend = new const_iterator(_front, _back, NULL);
+
 			delete _rbegin;
-			_rbegin = new reverse_iterator(&_front, &_back, newback);
+			_rbegin = new reverse_iterator(_front, _back, _back);
 			delete _crbegin;
-			_crbegin = new const_reverse_iterator(&_front, &_back, newback);
+			_crbegin = new const_reverse_iterator(_front, _back, _back);
+
+			delete _rend;
+			_rend		= new reverse_iterator(_front, _back, NULL);
+			delete _crend;
+			_crend		= new const_reverse_iterator(_front, _back, NULL);
 		}
 
 

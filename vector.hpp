@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/09/28 17:15:41 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 14:24:47 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdexcept>
 # include <cmath>
-# include <iostream>  // remove me
 # include "utils.hpp"
 # include "core.hpp"
 # include "vector_iterator.hpp"
@@ -61,7 +60,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		void		_extend_size(size_type n)
 		{
 			if (_parent::_size + n > _capacity)
-				_ensure_capacity(_parent::_size + n/* + 10*/);  // Set capacity same as Linux
+				_ensure_capacity(_parent::_size + n);
 		}
 
 		void		_memmove(_item_ptr dst, _item_ptr src, size_type n)
@@ -99,7 +98,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 				_parent::_update(NULL, NULL);
 		}
 
-		void		_init(const allocator_type &alloc, size_type capacity = 1/*0*/)  // Set capacity same as Linux
+		void		_init(const allocator_type &alloc, size_type capacity = 10)
 		{
 			_capacity = 0;
 			_content = NULL;
@@ -188,10 +187,10 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 
 			if (n > max_size())
 				throw std::length_error("n");
-			if (n + 10 > _capacity && n < _capacity)  // Set capacity same as Linux
+			if (n + 10 > _capacity && n < _capacity)
 				return ;
 
-			_content = (*_parent::_alloc).allocate(n, oldcontent);
+			_content = _parent::_alloc->allocate(n, oldcontent);
 			while (i < _parent::_size)
 			{
 				_parent::_alloc->construct(_content + i, oldcontent[i]);
@@ -341,7 +340,7 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			_parent::_size -= n;
 			_autoupdate();
 
-			reserve(_parent::_size /*+ 10*/);  // Set capacity same as Linux
+			reserve(_parent::_size);
 
 			return (ft::advance(this->begin(), first_index));
 		}
@@ -356,7 +355,6 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 			_parent::_swap_pointer(&_capacity, &x._capacity);
 			_parent::_swap_pointer(&_content, &x._content);
 			_parent::_swap(x);
-			_autoupdate();
 		}
 
 		void		clear(void)
@@ -370,7 +368,11 @@ class vector: public ft::core< T, Alloc, T, vector_iterator<T>, vector_iterator<
 		}
 };
 
-// non member std::swap template
+template< class T, class Alloc >
+void swap( ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs )
+{
+	lhs.swap(rhs);
+}
 
 }
 

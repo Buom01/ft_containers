@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/10/05 16:40:19 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 14:25:22 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,6 +406,10 @@ int	vector_iterator_operator_sum_diff_1(container &vector)
 template <class container, class iterator>
 int	vector_reverse_iterator_operator_sum_diff_1(container &vector)
 {
+	iterator	it;
+	E			val;
+	E			bval;
+
 	vector.push_back(0);
 	vector.push_back(1);
 	vector.push_back(2);
@@ -415,15 +419,17 @@ int	vector_reverse_iterator_operator_sum_diff_1(container &vector)
 	vector.push_back(6);
 	vector.push_back(7);
 
-	iterator	it = vector.rbegin();
-
+	it = vector.rbegin();
 	it = it + 7;
 	it = 3 + it;
 	it = it - 4;
 
-	E	val = *it;
+	val = *it;
+	bval = *(it.base());
+	
 	vector.push_back(val);
-
+	vector.push_back(bval);
+	
 	return (0);
 }
 
@@ -531,6 +537,23 @@ int	vector_reverse_iterator_operator_equal_add_del_1(container &vector)
 
 	vector.push_back(intermeditate);
 	vector.push_back(final);
+
+	return (0);
+}
+
+template <class container, class reverse_iterator, class iterator>
+int	vector_reverse_iterator_operator_equal_with_iterator(container &vector)
+{
+	vector.push_back(1);
+	vector.push_back(2);
+	vector.push_back(3);
+
+	iterator			it(vector.begin());
+	reverse_iterator	rit(it);
+
+	vector.push_back(rit.base() == it);
+	vector.push_back((++rit).base() == it);
+	vector.push_back(rit == --rit);
 
 	return (0);
 }

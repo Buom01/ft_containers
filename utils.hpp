@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:50:18 by badam             #+#    #+#             */
-/*   Updated: 2021/09/27 14:18:00 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/25 14:51:09 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, Input
 
 
 template <class InputIterator>
-InputIterator	advance(InputIterator it, typename InputIterator::difference_type n)  // safe way. Maye use "+=" and "-="
+InputIterator	advance(InputIterator it, typename InputIterator::difference_type n)  // may use "+=" and "-="
 {
 	if (n > 0)
 	{
@@ -112,7 +112,7 @@ InputIterator	advance(InputIterator it, typename InputIterator::difference_type 
 }
 
 template <class InputIterator>
-typename InputIterator::difference_type	distance(InputIterator first, InputIterator last)  // using the universal way. May calculate ptr diff if possible
+typename InputIterator::difference_type	distance(InputIterator first, InputIterator last)  // may use iterator diff when possible
 {
 	typename InputIterator::difference_type	i	= 0;
 
