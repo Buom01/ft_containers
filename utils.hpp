@@ -6,12 +6,13 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:50:18 by badam             #+#    #+#             */
-/*   Updated: 2021/10/25 14:51:09 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/15 22:15:42 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 # define UTILS_HPP
+
 
 namespace ft
 {
@@ -20,10 +21,16 @@ template<class T>
 struct remove_const {
 	typedef T type;
 };
+
 template<class T>
 struct remove_const<const T> {
 	typedef typename remove_const<T>::type type;
 };
+
+// template<class T1, class T2>
+// struct remove_const< pair<T1, const T2> > {
+// 	typedef typename remove_const< pair<T1, T2> >::type type;
+// };
 
 template <class T, T v>
 struct integral_constant {
@@ -120,6 +127,175 @@ typename InputIterator::difference_type	distance(InputIterator first, InputItera
 		++i;
 	
 	return i;
+}
+
+template <class T1, class T2>
+struct pair
+{
+	typedef	typename	remove_const<T1>::type	T1_core;
+	typedef	typename	remove_const<T2>::type	T2_core;
+	
+	T1	first;
+	T2	second;
+
+	pair(void)
+	{
+	};
+
+	pair(const T1 &x, const T2 &y): first(x), second(y)
+	{
+	};
+
+	pair(const pair<T1_core, T2_core> &p): first(p.first), second(p.second)
+	{
+	};
+
+	pair	&operator=(const pair<T1_core, T2_core> &ref)
+	{
+		if (this != &ref)
+		{
+			first = ref.first;
+			second = ref.second;
+		}
+
+		return (*this);
+	}
+};
+
+template< class T1, class T2 >
+bool	operator==(const ft::pair<T1,T2> &lhs,const ft::pair<T1,T2> &rhs)
+{
+	return (lhs.first == rhs.first && lhs.second == rhs.second);
+}
+
+template< class T1, class T2 >
+bool	operator!=(const ft::pair<T1,T2> &lhs,const ft::pair<T1,T2> &rhs)
+{
+	return (!(lhs == rhs));
+}
+
+template<class T1, class T2>
+bool	operator<(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	if (lhs.first < rhs.first)
+		return (true);
+	else if (lhs.first > rhs.first)
+		return (false);
+	else
+		return (lhs.second < rhs.second);
+}
+
+template<class T1, class T2>
+bool	operator<=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template<class T1, class T2>
+bool	operator>(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(lhs <= rhs));
+}
+
+template<class T1, class T2>
+bool	operator>=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(lhs < rhs));
+}
+
+template <class T1, class T2>
+pair<T1, T2>	make_pair(T1 t, T2 u)
+{
+	pair<T1, T2>	elem(t, u);
+
+	return (elem);
+}
+
+/*
+**	ft::pair and std::pair mixing
+*/
+
+template< class T1, class T2 >
+bool	operator==(const std::pair<T1,T2> &lhs,const ft::pair<T1,T2> &rhs)
+{
+	return (lhs.first == rhs.first && lhs.second == rhs.second);
+}
+
+template< class T1, class T2 >
+bool	operator!=(const std::pair<T1,T2> &lhs,const ft::pair<T1,T2> &rhs)
+{
+	return (!(lhs == rhs));
+}
+
+template<class T1, class T2>
+bool	operator<(const std::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	if (lhs.first < rhs.first)
+		return (true);
+	else if (lhs.first > rhs.first)
+		return (false);
+	else
+		return (lhs.second < rhs.second);
+}
+
+template<class T1, class T2>
+bool	operator<=(const std::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template<class T1, class T2>
+bool	operator>(const std::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(lhs <= rhs));
+}
+
+template<class T1, class T2>
+bool	operator>=(const std::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs)
+{
+	return (!(lhs < rhs));
+}
+
+
+template< class T1, class T2 >
+bool	operator==(const ft::pair<T1,T2> &lhs,const std::pair<T1,T2> &rhs)
+{
+	return (lhs.first == rhs.first && lhs.second == rhs.second);
+}
+
+template< class T1, class T2 >
+bool	operator!=(const ft::pair<T1,T2> &lhs,const std::pair<T1,T2> &rhs)
+{
+	return (!(lhs == rhs));
+}
+
+template<class T1, class T2>
+bool	operator<(const ft::pair<T1, T2> &lhs, const std::pair<T1, T2> &rhs)
+{
+	if (lhs.first < rhs.first)
+		return (true);
+	else if (lhs.first > rhs.first)
+		return (false);
+	else
+		return (lhs.second < rhs.second);
+}
+
+template<class T1, class T2>
+bool	operator<=(const ft::pair<T1, T2> &lhs, const std::pair<T1, T2> &rhs)
+{
+	return (!(rhs < lhs));
+}
+
+template<class T1, class T2>
+bool	operator>(const ft::pair<T1, T2> &lhs, const std::pair<T1, T2> &rhs)
+{
+	return (!(lhs <= rhs));
+}
+
+template<class T1, class T2>
+bool	operator>=(const ft::pair<T1, T2> &lhs, const std::pair<T1, T2> &rhs)
+{
+	return (!(lhs < rhs));
 }
 
 }

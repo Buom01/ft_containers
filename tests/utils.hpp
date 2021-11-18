@@ -6,15 +6,30 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/10/25 11:58:57 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/16 17:36:45 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include "tests.hpp"
+#include "../utils.hpp"
 
 bool	maydo(std::string testname, std::string selection);
+
+template <class T1, class T2>
+std::ostream& operator<<(std::ostream& out, ft::pair<T1, T2> &x ) 
+{
+	out << "[" << x.first << ", " << x.second << "]";
+	return out;
+}
+
+template <class T1, class T2>
+std::ostream& operator<<(std::ostream& out, std::pair<T1, T2> &x ) 
+{
+	out << "[" << x.first << ", " << x.second << "]";
+	return out;
+}
 
 template< class iterator >
 void	dump(iterator i, iterator end)

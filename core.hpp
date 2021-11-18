@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/10/25 14:19:31 by badam            ###   ########.fr       */
+/*   Updated: 2021/10/27 14:59:29 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ template< class T, class Alloc, class Item, class Iterator, class ConstIterator 
 class	core
 {
 	public:
-		typedef	T										value_type;
-		typedef	Alloc									allocator_type;
-		typedef	T&										reference;
-		typedef	const T&								const_reference;
-		typedef	T*										pointer;
-		typedef	const T*								const_pointer;
-		typedef	Iterator								iterator;
-		typedef	ConstIterator							const_iterator;
-		typedef	ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-		typedef	std::ptrdiff_t							difference_type;
-		typedef	std::size_t								size_type;
+		typedef				T										value_type;
+		typedef				Alloc									allocator_type;
+		typedef	typename	Alloc::reference						reference;
+		typedef	typename	Alloc::const_reference					const_reference;
+		typedef	typename	Alloc::pointer							pointer;
+		typedef	typename	Alloc::const_pointer					const_pointer;
+		typedef				Iterator								iterator;
+		typedef				ConstIterator							const_iterator;
+		typedef				ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef				ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef				std::ptrdiff_t							difference_type;
+		typedef				std::size_t								size_type;
 
 	protected:
 		typedef	Item		_item;

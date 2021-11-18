@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/10/22 16:46:04 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/16 16:04:48 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ int	vector_contructors(container &vector)
 		return (8);
 
 	container	vector6(vector);
-	if (vector5.get_allocator() != alloc)
+	if (vector6.get_allocator() != alloc)
 		return (6);
-	if (vector5.size() != 3 || vector5.empty())
+	if (vector6.size() != 3 || vector6.empty())
 		return (7);
-	if (vector5[0] != 1 || vector5[1] != 2 || vector5[2] != 3)
+	if (vector6[0] != 1 || vector6[1] != 2 || vector6[2] != 3)
 		return (8);
 
 	return (0);
