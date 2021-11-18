@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/11/09 17:36:36 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/18 15:24:22 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 		using typename _parent::_item;
 		using typename _parent::_size_type;
 
+
 	public:
 		using typename _parent::_core;
 		using typename _parent::_item_ptr;
@@ -54,6 +55,24 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 		virtual	~map_iterator(void)
 		{};
 
+	private:
+		bool	_is_on_right_branch(Item *n)
+		{
+			if (!n->parent)
+				return (false);
+			
+			return (n->parent->right_child == n);
+		}
+
+		Item	*_get_leftmost(Item *n)
+		{
+			while (n->left_child)
+				n = n->left_child;
+			
+			return (n);
+		}
+
+	public:
 
 		reference	operator*(void) const
 		{
@@ -74,21 +93,14 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 			else
 			{
 				if (_parent::_elem->right_child)
+					_parent::_elem = _get_leftmost(_parent::_elem->right_child);
+				else if (_is_on_right_branch(_parent::_elem))
 				{
-					_parent::_elem = _parent::_elem->right_child;
-					while (_parent::_elem->left_child)
-						_parent::_elem = _parent::_elem->left_child;
+					while (_is_on_right_branch(_parent::_elem))
+						_parent::_elem = _parent::_elem->parent;
 				}
 				else
-				{
-					Item	*previous	= _parent::_elem;
-					_parent::_elem = _parent::_elem->parent;
-
-					while (_parent::_elem && previous != _parent::_elem->left_child)
-						previous = _parent::_elem;
-					if (!_parent::_elem)
-						_parent::_elem = previous->right_child;
-				}
+					_parent::_elem = NULL;
 			}
 
 			return (*this);

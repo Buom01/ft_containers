@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/11/16 18:28:58 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/18 19:55:05 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdexcept>
 # include <cmath>
+# include <iostream>  // remove me
 # include "utils.hpp"
 # include "core.hpp"
 # include "map_iterator.hpp"
@@ -98,6 +99,24 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 			_parent::_init(alloc);
 		}
 
+		void	_dump(node *n, size_t indent = 0)
+		{
+			size_t	i	= 0;
+			
+			while (i++ < indent)
+				std::cout << "  ";
+			
+			if (n)
+			{
+				std::cout << "- " << n->data->first << " (=" << n->data->second << ") - " << (n->red ? "Red" : "Black") << std::endl;
+			
+				_dump(n->left_child, indent + 1);
+				_dump(n->right_child, indent + 1);
+			}
+			else
+				std::cout << "- (nil node) - Black" << std::endl;
+		}
+
 		value_type	*_create_node_value(const value_type &val, const void *tip)
 		{
 			value_type	*node_value;
@@ -112,6 +131,110 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 		{
 			return (n == _content);
 		}
+
+		bool	_check_root_color(void)
+		{
+			if (_content && _content->red)
+			{
+				std::cout << "=== ROOT IS NOT BLACK ===" << std::endl;
+				return (true);
+			}
+			else
+				return (false);
+		}
+
+		bool	_check_red_child_color(node *n)
+		{
+			bool	got_error	= false;
+
+			if (!n)
+				return (false);
+
+			if (n->red)
+			{
+				
+				if (n->left_child && n->left_child->red && (got_error = true))
+					std::cout << "=== DOUBLE RED FOR [" << n->data->first << "] WITH LEFT CHILD ===" << std::endl;
+				if (n->right_child && n->right_child->red && (got_error = true))
+					std::cout << "=== DOUBLE RED FOR [" << n->data->first << "] WITH RIGHT CHILD ===" << std::endl;
+			}
+
+			got_error |= _check_red_child_color(n->left_child);
+			got_error |= _check_red_child_color(n->right_child);
+
+			return (got_error);
+		}
+
+		bool	_check_parenting(node *n)
+		{
+			bool	got_error	= false;
+
+			if (!n)
+				return (false);
+
+			if (n->left_child && n->left_child->parent != n && (got_error = true))
+				std::cout << "=== WRONG PARENT FOR [" << n->left_child->data->first << "] THAT MAY BE [" << n->data->first << "] ===" << std::endl;
+			if (n->right_child && n->right_child->parent != n && (got_error = true))
+				std::cout << "=== WRONG PARENT FOR [" << n->right_child->data->first << "] THAT MAY BE [" << n->data->first << "] ===" << std::endl;
+
+			got_error |= _check_parenting(n->left_child);
+			got_error |= _check_parenting(n->right_child);
+
+			return (got_error);
+		}
+
+		bool	_check_black_depth(node *n, int count = 0, int *depth = NULL)
+		{
+			int	shared_depth	= 0;
+
+			if (!depth)
+				depth = &shared_depth;
+
+			if (!n || !n->red)
+				++count;
+			if (!n)
+			{
+				if (*depth > 0)
+				{
+					if (*depth != count)
+					{
+						std::cout << "=== BLACK DEPTH NOT EQUAL; GOT " << count << " AGAINST " << *depth << std::endl;
+						return (true);
+					}
+					else
+						return (false);
+				}
+				else
+					*depth = count;
+				return (false);
+			}
+			else
+			{
+				bool	got_error	= false;
+
+				got_error |= _check_black_depth(n->left_child, count, depth);
+				got_error |= _check_black_depth(n->right_child, count, depth);
+
+				return (got_error);
+			}
+		}
+
+		void	_assert_rbt_rules(void)
+		{
+			bool	got_error	= false;
+
+			got_error |= _check_root_color();
+			got_error |= _check_red_child_color(_content);
+			got_error |= _check_parenting(_content);
+			got_error |= _check_black_depth(_content);
+
+			if (got_error)
+			{
+				std::cout << "While tree looks like:" << std::endl;
+				_dump(_content);
+			}
+		}
+
 		char	_count_children(node *n)
 		{
 			return (!!(n->right_child) + !!(n->left_child));
@@ -333,6 +456,7 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 
 		virtual	~map(void)
 		{
+			_assert_rbt_rules();
 			clear();
 		};
 
@@ -401,6 +525,9 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 
 				_insert_rebalance(new_node);
 				extremities = _autoupdate();
+
+				_assert_rbt_rules();
+				
 				return ft::make_pair(iterator(extremities.first, extremities.second, _content), true);
 			}
 		}
@@ -427,6 +554,7 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 		{
 			_delete(position.getElem());
 			--_parent::_size;
+			_assert_rbt_rules();
 		}
 
 		void	erase(iterator first, iterator last)
@@ -568,10 +696,30 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T>, map_ite
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
 
-		mapped_type		&operator[](const key_type& key)
+		mapped_type			&operator[](const key_type& key)
 		{
 			return (insert(ft::make_pair(key, T())).first->second);
 		}
+
+		mapped_type			&at(const Key& key)
+		{
+			iterator	it	= find(key);
+
+			if (it == _parent::end())
+				throw std::out_of_range("key");
+
+			return (it->second);
+		} 
+
+		const mapped_type	&at(const Key& key) const
+		{
+			const_iterator	it	= find(key);
+
+			if (it == _parent::end())
+				throw std::out_of_range("key");
+
+			return (it->second);
+		} 
 		
 		allocator_type	get_allocator(void) const
 		{
