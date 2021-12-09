@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/11/18 14:53:12 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/22 16:35:05 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,6 @@ int	map_access_3(container &map)
 	map.insert(pair("e", 4));
 
 	it = map.begin();
-
-	if (map.find("a")->first != "a" || map.find("a")->second != 0)
-		return (1);
-	if (map.find("e")->first != "e" || map.find("e")->second != 4)
-		return (2);
-
-	return (0);
-}
-
-template <class container, class pair>
-int	map_access_4(container &map)
-{
-	map.insert(pair("d", 3));
-	map.insert(pair("a", 0));
-	map.insert(pair("c", 2));
-	map.insert(pair("e", 4));
-	map.insert(pair("b", 1));
 
 	if (map.at("a") != map["a"] || map["a"] != 0)
 		return (1);

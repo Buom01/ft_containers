@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/11/18 15:24:22 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/28 14:06:37 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,33 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 		{};
 
 	private:
-		bool	_is_on_right_branch(Item *n)
+		bool	_is_rightchild(Item *n)
 		{
 			if (!n->parent)
 				return (false);
 			
 			return (n->parent->right_child == n);
 		}
+		bool	_is_leftchild(Item *n)
+		{
+			if (!n->parent)
+				return (false);
+			
+			return (n->parent->left_child == n);
+		}
 
 		Item	*_get_leftmost(Item *n)
 		{
 			while (n->left_child)
 				n = n->left_child;
+			
+			return (n);
+		}
+
+		Item	*_get_rightmost(Item *n)
+		{
+			while (n->right_child)
+				n = n->right_child;
 			
 			return (n);
 		}
@@ -94,13 +109,14 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 			{
 				if (_parent::_elem->right_child)
 					_parent::_elem = _get_leftmost(_parent::_elem->right_child);
-				else if (_is_on_right_branch(_parent::_elem))
+				else if (_is_rightchild(_parent::_elem))
 				{
-					while (_is_on_right_branch(_parent::_elem))
+					while (_is_rightchild(_parent::_elem))
 						_parent::_elem = _parent::_elem->parent;
+					_parent::_elem = _parent::_elem->parent;
 				}
 				else
-					_parent::_elem = NULL;
+					_parent::_elem = _parent::_elem->parent;
 			}
 
 			return (*this);
@@ -123,21 +139,15 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 			else
 			{
 				if (_parent::_elem->left_child)
+					_parent::_elem = _get_rightmost(_parent::_elem->left_child);
+				else if (_is_leftchild(_parent::_elem))
 				{
-					_parent::_elem = _parent::_elem->left_child;
-					while (_parent::_elem->right_child)
-						_parent::_elem = _parent::_elem->right_child;
+					while (_is_leftchild(_parent::_elem))
+						_parent::_elem = _parent::_elem->parent;
+					_parent::_elem = _parent::_elem->parent;
 				}
 				else
-				{
-					Item	*previous	= _parent::_elem;
 					_parent::_elem = _parent::_elem->parent;
-
-					while (_parent::_elem && previous != _parent::_elem->right_child)
-						previous = _parent::_elem;
-					if (!_parent::_elem)
-						_parent::_elem = previous->left_child;
-				}
 			}
 
 			return (*this);

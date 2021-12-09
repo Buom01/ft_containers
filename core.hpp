@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:49:04 by badam             #+#    #+#             */
-/*   Updated: 2021/10/27 14:59:29 by badam            ###   ########.fr       */
+/*   Updated: 2021/11/28 14:13:34 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,26 @@ class	core
 		};
 
 	protected:
+		iterator	_get_iterator(_item_ptr elem)
+		{
+			return (iterator(_front, _back, elem));
+		}
+
+		const_iterator	_get_const_iterator(_item_ptr elem) const
+		{
+			return (const_iterator(_front, _back, elem));
+		}
+
+		iterator	_get_reverse_iterator(_item_ptr elem)
+		{
+			return (reverse_iterator(_front, _back, elem));
+		}
+
+		const_iterator	_get_const_reverse_iterator(_item_ptr elem) const
+		{
+			return (const_reverse_iterator(_front, _back, elem));
+		}
+
 		template <class ptr>
 		void	_swap_pointer(ptr *a, ptr *b)
 		{
@@ -139,18 +159,20 @@ class	core
 			_crbegin = new const_reverse_iterator(_front, _back, _back);
 
 			delete _rend;
-			_rend		= new reverse_iterator(_front, _back, NULL);
+			_rend = new reverse_iterator(_front, _back, NULL);
 			delete _crend;
-			_crend		= new const_reverse_iterator(_front, _back, NULL);
+			_crend = new const_reverse_iterator(_front, _back, NULL);
+
 		}
 
 
-		size_type	_max_size(void) const
+		size_type	_max_size(unsigned long long max = std::numeric_limits<difference_type>::max() / sizeof(_item)) const
 		{
-			size_type	max_size_value	= _alloc->max_size();
+			std::allocator<_item>	max_size_allocator;
+			size_type	max_size_value	= max_size_allocator.max_size();
 			
-			if (static_cast<unsigned long long>(std::numeric_limits<difference_type>::max()) < static_cast<unsigned long long>(max_size_value))
-				return (std::numeric_limits<difference_type>::max());
+			if (max < static_cast<unsigned long long>(max_size_value))
+				return (max);
 			else
 				return (max_size_value);
 		}
