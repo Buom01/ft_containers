@@ -247,6 +247,9 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 					if (key_comp()(i.getElem()->data->first, p.getElem()->data->first))
 					{
 						std::cout << "=== ELEMENTS ARE NOT IN ORDER AT :" << p.getElem()->data->first << " ===" << std::endl;
+						_dump(_content);
+						while (true)
+							;
 						return (true);
 					}
 				}
@@ -431,51 +434,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 			_set_red(gparent);
 		}
 
-/*
-		void	_insert_unrotate(node *n)
-		{
-			std::cout << "--- IN _insert_unrotate ---" <<std::endl;
-			_check_parenting(_content);
-			_dump(_content);
-
-			node	*parent			= n->parent;
-			node	*gparent		= parent->parent;
-			node	**gparent_child;
-			node 	*tmp;
-
-			if (!gparent)
-				gparent_child = &_content;
-			else if (_is_leftchild(parent))
-				gparent_child = &(gparent->left_child);
-			else
-				gparent_child = &(gparent->right_child);
-			
-
-			if (_is_leftchild(parent))
-			{
-				tmp = n->left_child;
-				n->left_child = parent;
-				parent->right_child = tmp;
-			}
-			else
-			{
-				tmp = n->right_child;
-				n->right_child = parent;
-				parent->left_child = tmp;
-			}
-			if (tmp)
-				tmp->parent = parent;
-			parent->parent = n;
-
-			n->parent = gparent;
-			*gparent_child = n;
-
-			_check_parenting(_content);
-			std::cout << "--- OUT _insert_unrotate ---" <<std::endl;
-		}
-
-		*/
-
 		void	_insert_unrotate(node *n)
 		{
 			std::cout << "--- IN _insert_unrotate ---" <<std::endl;
@@ -604,11 +562,14 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 				std::cout << "[1.2.1]" << std::endl;
 				if (_is_red(sibling->left_child) || _is_red(sibling->right_child))
 				{
-					std::cout << "[1.2.1.1]" << std::endl;
+					std::cout << "[1.2.1.1]" << std::endl;  // Had to "keep inorder relations unchanged" : https://youtu.be/_c30ot0Kcis?t=562
 					node	*gparent			= parent->parent;
 					node	**gparent_child;
 					node	**sibling_red_child;
 					node	**sibling_other_child;
+
+					// if (key_comp()(sibling->right_child->data->first, sibling->left_child->data->first))
+					// had to manage the side to keep inorder
 
 					if (_is_black(sibling->right_child))
 					{
