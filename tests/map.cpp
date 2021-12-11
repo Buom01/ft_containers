@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/11/18 13:31:57 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/01 00:11:32 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,12 @@ void	map_access(std::string selection)
 		selection
 	);
 
-// 	test(
-// 		map_access_3< std::map<std::string, E>, std::pair<std::string, E> >,
-// 		map_access_3< ft::map<std::string, E>, ft::pair<std::string, E> >,
-// 		"map_access_3",
-// 		selection
-// 	);
-
-// 	test(
-// 		map_access_4< std::map<std::string, E>, std::pair<std::string, E> >,
-// 		map_access_4< ft::map<std::string, E>, ft::pair<std::string, E> >,
-// 		"map_access_4",
-// 		selection
-// 	);
-
-// 	test(
-// 		map_access_5< std::map<std::string, E>, std::pair<std::string, E> >,
-// 		map_access_5< ft::map<std::string, E>, ft::pair<std::string, E> >,
-// 		"map_access_5",
-// 		selection
-// 	);
+	test(
+		map_access_3< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_access_3< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_access_3",
+		selection
+	);
 }
 
 // void	map_iterator(std::string selection)
@@ -364,116 +350,144 @@ void	map_access(std::string selection)
 ** empty() and size() members are both
 ** tested along other tests
 */
-// void	map_capacity(std::string selection)
-// {
-// 	test(
-// 		map_capacity_maxsize< std::map<E> >,
-// 		map_capacity_maxsize< ft::map<E> >,
-// 		"map_capacity_maxsize",
-// 		selection
-// 	);
+void	map_capacity(std::string selection)
+{
+	test(
+		map_capacity_maxsize< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_capacity_maxsize< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_capacity_maxsize",
+		selection
+	);
+}
 
-// 	test(
-// 		map_capacity_reservecapacity< std::map<E> >,
-// 		map_capacity_reservecapacity< ft::map<E> >,
-// 		"map_capacity_reservecapacity",
-// 		selection
-// 	);
-// }
+void	map_modifiers(std::string selection)
+{
+	test(
+		map_tricky_insert_1< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_1< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_1",
+		selection
+	);
+	
+	test(
+		map_tricky_insert_2< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_2< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_2",
+		selection
+	);
 
-// void	map_modifiers(std::string selection)
-// {
-// 	test(
-// 		map_push_back< std::map<E> >,
-// 		map_push_back< ft::map<E> >,
-// 		"map_push_back",
-// 		selection
-// 	);
+	test(
+		map_tricky_insert_3< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_3< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_3",
+		selection
+	);
+
+	test(
+		map_tricky_insert_4< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_4< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_4",
+		selection
+	);
+
+	test(
+		map_tricky_insert_5< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_5< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_5",
+		selection
+	);
+
+	test(
+		map_tricky_insert_6< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_tricky_insert_6< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_tricky_insert_6",
+		selection
+	);
+
+	test(
+		map_epic_insert_1< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_epic_insert_1< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_epic_insert_1",
+		selection
+	);
 	
-// 	test(
-// 		map_pop_back< std::map<E> >,
-// 		map_pop_back< ft::map<E> >,
-// 		"map_pop_back",
-// 		selection
-// 	);
+	test(
+		map_clear< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_clear< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_clear",
+		selection
+	);
 	
-// 	test(
-// 		map_clear< std::map<E> >,
-// 		map_clear< ft::map<E> >,
-// 		"map_clear",
-// 		selection
-// 	);
+	test(
+		map_swap< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_swap< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_swap",
+		selection
+	);
 	
-// 	test(
-// 		map_swap< std::map<E> >,
-// 		map_swap< ft::map<E> >,
-// 		"map_swap",
-// 		selection
-// 	);
+	test(
+		map_erase_1< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_1< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_1",
+		selection
+	);
 	
-// 	test(
-// 		map_erase< std::map<E> >,
-// 		map_erase< ft::map<E> >,
-// 		"map_erase",
-// 		selection
-// 	);
+	test(
+		map_erase_2< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_2< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_2",
+		selection
+	);
 	
-// 	test(
-// 		map_insert_1< std::map<E> >,
-// 		map_insert_1< ft::map<E> >,
-// 		"map_insert_1",
-// 		selection
-// 	);
+	test(
+		map_erase_3< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_3< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_3",
+		selection
+	);
 	
-// 	test(
-// 		map_insert_2< std::map<E> >,
-// 		map_insert_2< ft::map<E> >,
-// 		"map_insert_2",
-// 		selection
-// 	);
+	test(
+		map_erase_4< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_4< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_4",
+		selection
+	);
 	
-// 	test(
-// 		map_insert_3< std::map<E> >,
-// 		map_insert_3< ft::map<E> >,
-// 		"map_insert_3",
-// 		selection
-// 	);
+	test(
+		map_erase_5< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_5< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_5",
+		selection
+	);
 	
-// 	test(
-// 		map_resize_1< std::map<E> >,
-// 		map_resize_1< ft::map<E> >,
-// 		"map_resize_1",
-// 		selection
-// 	);
+	test(
+		map_erase_6< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_6< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_6",
+		selection
+	);
 	
-// 	test(
-// 		map_resize_2< std::map<E> >,
-// 		map_resize_2< ft::map<E> >,
-// 		"map_resize_2",
-// 		selection
-// 	);
+	test(
+		map_erase_7< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_7< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_7",
+		selection
+	);
 	
-// 	test(
-// 		map_resize_3< std::map<E> >,
-// 		map_resize_3< ft::map<E> >,
-// 		"map_resize_3",
-// 		selection
-// 	);
+	test(
+		map_erase_8< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_8< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_8",
+		selection
+	);
 	
-// 	test(
-// 		map_resize_4< std::map<E> >,
-// 		map_resize_4< ft::map<E> >,
-// 		"map_resize_4",
-// 		selection
-// 	);
-	
-// 	test(
-// 		map_resize_5< std::map<E> >,
-// 		map_resize_5< ft::map<E> >,
-// 		"map_resize_5",
-// 		selection
-// 	);
-// }
+	test(
+		map_erase_9< std::map<std::string, E>, std::pair<std::string, E> >,
+		map_erase_9< ft::map<std::string, E>, ft::pair<std::string, E> >,
+		"map_erase_9",
+		selection
+	);
+}
 
 // void	map_nonmemeber(std::string selection)
 // {
@@ -497,8 +511,6 @@ void	map_access(std::string selection)
 // 		"map_nm_compare",
 // 		selection
 // 	);
-
-// 	// should do supplementary test with string
 // }
 
 void	map_ultrabasic(std::string selection)
@@ -527,8 +539,8 @@ void	map_tests(std::string selection)
 	map_members(selection);
 	map_access(selection); 
 	// map_iterator(selection);
-	// map_capacity(selection);
-	// map_modifiers(selection);
+	map_capacity(selection);
+	map_modifiers(selection);
 	// map_nonmemeber(selection);
 }
 
