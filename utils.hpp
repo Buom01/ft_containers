@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:50:18 by badam             #+#    #+#             */
-/*   Updated: 2021/11/15 22:15:42 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 04:07:51 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,25 @@ typename InputIterator::difference_type	distance(InputIterator first, InputItera
 	
 	return i;
 }
+
+
+template< class Arg1, class Arg2, class Result >
+struct binary_function
+{
+	typedef	Result	result_type;
+	typedef	Arg1		first_argument_type;
+	typedef	Arg2		second_argument_type;
+};
+
+template< class T >
+struct less: binary_function< T, T, bool >
+{
+	bool operator()( const T& lhs, const T& rhs ) const
+	{
+		return lhs < rhs;
+	}
+};
+
 
 template <class T1, class T2>
 struct pair

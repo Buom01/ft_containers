@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/14 03:11:25 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 04:08:04 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ struct map_node
 		};
 };
 
-template< class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >  // should use ft::pair and ft::less
+template< class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, map_iterator< pair<const Key, T>, map_node<Key, T, Alloc> >, map_iterator< const pair<const Key, T>, map_node<Key, T, Alloc> > >
 {
 	typedef map																_self;
@@ -746,7 +746,7 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 			return (*this);
 		};
 
-		class value_compare: public std::binary_function<value_type, value_type, bool>  // should be implanted in ft ?
+		class value_compare: public binary_function<value_type, value_type, bool>
 		{
 			protected:
 				key_compare	comp;
