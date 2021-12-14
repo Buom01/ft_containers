@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/02 14:43:15 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 03:11:25 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,8 +248,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 					{
 						std::cout << "=== ELEMENTS ARE NOT IN ORDER AT :" << p.getElem()->data->first << " ===" << std::endl;
 						_dump(_content);
-						while (true)
-							;
 						return (true);
 					}
 				}
@@ -350,12 +348,9 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 
 		node	*_get_node_predecessor(node *n)
 		{
-			std::cout << "predecessor of " << n->data->first;
 			iterator	it	= _parent::_get_iterator(n);
 
 			--it;
-
-			std::cout << " is " << it.getElem()->data->first << std::endl;
 
 			return (it.getElem());
 		}
@@ -391,7 +386,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 				b->left_child->parent = b;
 
 			_check_parenting(_content);
-			_dump(_content);
 		}
 
 		void	_insert_rotate(node *n)
@@ -436,9 +430,7 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 
 		void	_insert_unrotate(node *n)
 		{
-			std::cout << "--- IN _insert_unrotate ---" <<std::endl;
 			_check_parenting(_content);
-			_dump(_content);
 
 			node	*parent			= n->parent;
 			node	*gparent		= parent->parent;
@@ -473,7 +465,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 			*gparent_child = n;
 
 			_check_parenting(_content);
-			std::cout << "--- OUT _insert_unrotate ---" <<std::endl;
 		}
 
 		void	_insert_autorotate(node *n)
@@ -559,19 +550,51 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 
 			if	(_is_black(sibling))
 			{
-				std::cout << "[1.2.1]" << std::endl;
-				if (_is_red(sibling->left_child) || _is_red(sibling->right_child))
+				if ((_is_red(sibling->left_child) ) || (_is_red(sibling->right_child) ))
 				{
-					std::cout << "[1.2.1.1]" << std::endl;  // Had to "keep inorder relations unchanged" : https://youtu.be/_c30ot0Kcis?t=562
 					node	*gparent			= parent->parent;
 					node	**gparent_child;
 					node	**sibling_red_child;
 					node	**sibling_other_child;
 
-					// if (key_comp()(sibling->right_child->data->first, sibling->left_child->data->first))
-					// had to manage the side to keep inorder
+					if (parent->right_child == sibling && !_is_red(sibling->right_child))
+					{
+						node	*new_sibling		= sibling->left_child;
+						node	*new_red_child	= sibling;
 
-					if (_is_black(sibling->right_child))
+						parent->right_child = new_sibling;
+						new_sibling->parent = parent;
+
+						new_red_child->left_child = new_sibling->right_child;
+						if (new_red_child->right_child)
+							new_red_child->left_child->parent = new_red_child;
+
+						new_sibling->right_child = new_red_child;
+						new_red_child->parent = new_sibling;
+						
+						sibling = new_sibling;
+					}
+					else if (parent->left_child == sibling && !_is_red(sibling->left_child))
+					{
+						node	*new_sibling		= sibling->right_child;
+						node	*new_red_child	= sibling;
+
+						parent->left_child = new_sibling;
+						new_sibling->parent = parent;
+
+						new_red_child->right_child = new_sibling->left_child;
+						if (new_red_child->right_child)
+							new_red_child->right_child->parent = new_red_child;
+
+						new_sibling->left_child = new_red_child;
+						new_red_child->parent = new_sibling;
+
+						sibling = new_sibling;
+					}
+
+					_check_parenting(_content);
+
+					if (parent->left_child == sibling)
 					{
 						sibling_red_child = &(sibling->left_child);
 						sibling_other_child = &(sibling->right_child);
@@ -618,7 +641,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 				}
 				else
 				{
-					std::cout << "[1.2.1.2]" << std::endl;
 					_set_red(sibling);
 					if (_is_red(parent))
 						_set_black(parent);
@@ -629,7 +651,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 			else
 			{
 				node	*new_sibling;
-				std::cout << "[1.2.2]" << std::endl;
 
 				if (_is_rightchild(sibling))
 					new_sibling = sibling->left_child;
@@ -646,13 +667,10 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 
 		void	_delete(node *elem)
 		{
-			std::cout << "=== DELETING " << elem->data->first  << " ===" << std::endl;
-			_dump(_content);
 			_check_parenting(_content);
 
 			if (_count_children(elem) <= 1)
 			{
-				std::cout << "[1]" << std::endl;
 				node	*parent			= elem->parent;
 				node	*sibling		= _get_sibling(elem);
 				bool	black			= _is_black(elem);
@@ -666,20 +684,11 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 			}
 			else
 			{
-				std::cout << "[2]" << std::endl;
 				node	*predecessor	=	_get_node_predecessor(elem);
 
 				_node_swap(elem, predecessor);
-
-				_dump(_content);
-
-				std::cout << "then delete " << elem->data->first << std::endl;
-
 				_delete(elem);
 			}
-			
-			std::cout << "=== DELETED ===" << std::endl;
-			_dump(_content);
 		}
 
 		void	_cleanup(node *n)
@@ -770,8 +779,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 				return (ft::make_pair(it, false));
 			else
 			{
-				// std::cout << "=== INSERTING " << val.first  << " ===" << std::endl;
-
 				node					*new_node;
 				node					**insert_point	= &_content;
 				node					*parent			= NULL;
@@ -792,8 +799,6 @@ class map: public ft::core< pair<const Key, T>, Alloc, map_node<Key, T, Alloc>, 
 
 				_insert_rebalance(new_node);
 				_autoupdate();
-
-				// std::cout << "=== INSERTED " << val.first  << " ===" << std::endl;
 
 				_assert_rbt_rules();
 				
