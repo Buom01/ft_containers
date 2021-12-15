@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/11/16 18:29:54 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 15:13:25 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,6 @@ int	map_contructors_2(container &map)
 	map.insert(pair("a", 1));
 	map.insert(pair("bb", 2));
 	map.insert(pair("cc", 3));
-
-	// if (map.find("dd") == map.end())
-	// 	return (1);
 
 	container	map5(map.begin(), map.end(), cmpByStringLength());
 	if (map5.get_allocator() != alloc)

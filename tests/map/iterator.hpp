@@ -6,39 +6,39 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/10/28 23:49:03 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 23:19:51 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_MAP_ITERATOR_HPP
 # define TESTS_MAP_ITERATOR_HPP
 
-template <class container, class iterator>
+template <class container, class pair, class iterator>
 int	map_iterator_1(container &map)
 {
 	iterator	it;
 
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
+	map.insert(pair("c", 2));
+	map.insert(pair("d", 3));
+	map.insert(pair("e", 4));
 
 	it = map.begin();
 
-	if (*it != 0)
+	if (it->first != "a")
 		return (1);
-	if (*(++it) != 1)
+	if ((++it)->first != "b")
 		return (2);
-	if (*(++it) != 2)
+	if ((++it)->first != "c")
 		return (3);
-	if (*(++it) != 3)
+	if ((++it)->first != "d")
 		return (4);
-	if (*(--it) != 2)
+	if ((--it)->first != "c")
 		return (5);
-	if (*(it++) != 2)
+	if ((it++)->first != "c")
 		return (6);
-	if (*(++it) != 4)
+	if ((++it)->first != "e")
 		return (7);
 	if (++it != map.end())
 		return (8);
@@ -46,108 +46,113 @@ int	map_iterator_1(container &map)
 	return (0);
 }
 
-template <class container, class iterator>
+template <class container, class pair, class iterator>
 int	map_iterator_2(container &map)
 {
 	iterator	it;
 
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
+
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
+	map.insert(pair("c", 2));
+	map.insert(pair("d", 3));
+	map.insert(pair("e", 4));
 
 	it = map.begin();
 
 	std::advance(it, 4);
 
-	if (*it != 4)
+	if (it->first != "e")
 		return (1);
-	if (*(--it) != 3)
+	if ((--it)->first != "d")
 		return (2);
-	if (*(--it) != 2)
+	if ((--it)->first != "c")
 		return (3);
-	if (*(--it) != 1)
+	if ((--it)->first != "b")
 		return (4);
-	if (*(++it) != 2)
+	if ((++it)->first != "c")
 		return (5);
-	if (*(it--) != 2)
+	if ((it--)->first != "c")
 		return (6);
-	if (*(--it) != 0)
+	if ((--it)->first != "a")
 		return (7);
-
+	if (it != map.begin())
+		return (8);
 	return (0);
 }
 
-template <class container, class iterator>
+template <class container, class pair, class iterator>
 int	map_reverse_iterator_1(container &map)
 {
 	iterator	it;
 
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
+	map.insert(pair("c", 2));
+	map.insert(pair("d", 3));
+	map.insert(pair("e", 4));
+
 
 	it = map.rbegin();
 
-	if (*it != 4)
+	if (it->first != "e")
 		return (1);
-	if (*(++it) != 3)
+	if ((++it)->first != "d")
 		return (2);
-	if (*(++it) != 2)
+	if ((++it)->first != "c")
 		return (3);
-	if (*(++it) != 1)
+	if ((++it)->first != "b")
 		return (4);
-	if (*(--it) != 2)
+	if ((--it)->first != "c")
 		return (5);
-	if (*(it++) != 2)
+	if ((it++)->first != "c")
 		return (6);
-	if (*(++it) != 0)
+	if ((++it)->first != "a")
 		return (7);
 	if (++it != map.rend())
 		return (8);
 	return (0);
 }
 
-template <class container, class iterator>
+template <class container, class pair, class iterator>
 int	map_reverse_iterator_2(container &map)
 {
 	iterator	it;
 
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
+	map.insert(pair("c", 2));
+	map.insert(pair("d", 3));
+	map.insert(pair("e", 4));
 
 	it = map.rbegin();
 
 	std::advance(it, 4);
 
-	if (*it != 0)
+	if (it->first != "a")
 		return (1);
-	if (*(--it) != 1)
+	if ((--it)->first != "b")
 		return (2);
-	if (*(--it) != 2)
+	if ((--it)->first != "c")
 		return (3);
-	if (*(--it) != 3)
+	if ((--it)->first != "d")
 		return (4);
-	if (*(++it) != 2)
+	if ((++it)->first != "c")
 		return (5);
-	if (*(it--) != 2)
+	if ((it--)->first != "c")
 		return (6);
-	if (*(--it) != 4)
+	if ((--it)->first != "e")
 		return (7);
+	if (it != map.rbegin())
+		return (8);
 	return (0);
 }
 
-template <class container, class iterator_a, class iterator_b, class iterator_c>
+template <class container, class pair, class iterator_a, class iterator_b, class iterator_c>
 int	map_iterator_contructor_eq_deref(container &map)
 {
-	map.push_back(0);
-	map.push_back(1);
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
 
 	iterator_a	a;
 	a = map.begin();
@@ -187,16 +192,16 @@ int	map_iterator_contructor_eq_deref(container &map)
 	if (!(a == c) || !(a != b) || !(b != c))
 		return (8);
 
-	*b = 2;
+	b->second = 2;
 
 	return (0);
 }
 
-template <class container, class iterator_a, class iterator_b, class iterator_c>
+template <class container, class pair, class iterator_a, class iterator_b, class iterator_c>
 int	map_iterator_contructor_eq_deref_reverse(container &map)
 {
-	map.push_back(0);
-	map.push_back(1);
+	map.insert(pair("a", 0));
+	map.insert(pair("b", 1));
 
 	iterator_a	a;
 	a = map.rbegin();
@@ -236,204 +241,12 @@ int	map_iterator_contructor_eq_deref_reverse(container &map)
 	if (!(a == c) || !(a != b) || !(b != c))
 		return (8);
 
-	*b = 2;
+	b->second = 2;
 
 	return (0);
 }
 
-template <class container, class iterator_a, class iterator_b>
-int	map_iterator_operator_diff_1(container &map)
-{
-	iterator_a	it;
-	iterator_b	ite;
-
-	it	= map.begin();
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= ++(map.begin());
-	ite	= map.end();
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= ++(map.begin());
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= ++(++(map.begin()));
-
-	map.push_back(ite - it);
-	
-	it	= map.begin();
-	ite	= ++(++(++(map.begin())));
-
-	map.push_back(ite - it);
-	
-	it	= ++(map.begin());
-	ite	= ++(map.begin());
-
-	map.push_back(ite - it);
-
-	it	= ++(map.begin());
-	ite	= ++(++(map.begin()));
-
-	map.push_back(ite - it);
-
-	it	= ++(map.begin());
-	ite	= ++(++(++(map.begin())));
-
-	map.push_back(ite - it);
-
-	return (0);
-}
-
-template <class container, class iterator_a, class iterator_b>
-int	map_iterator_operator_diff_reverse_1(container &map)
-{
-	iterator_a	it;
-	iterator_b	ite;
-
-	it	= map.rbegin();
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= ++(map.rbegin());
-	ite	= map.rend();
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= ++(map.rbegin());
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= ++(++(map.rbegin()));
-
-	map.push_back(ite - it);
-	
-	it	= map.rbegin();
-	ite	= ++(++(++(map.rbegin())));
-
-	map.push_back(ite - it);
-	
-	it	= ++(map.rbegin());
-	ite	= ++(map.rbegin());
-
-	map.push_back(ite - it);
-
-	it	= ++(map.rbegin());
-	ite	= ++(++(map.rbegin()));
-
-	map.push_back(ite - it);
-
-	it	= ++(map.rbegin());
-	ite	= ++(++(++(map.rbegin())));
-
-	map.push_back(ite - it);
-
-	return (0);
-}
-
-template <class container, class iterator>
-int	map_iterator_operator_sum_diff_1(container &map)
-{
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
-	map.push_back(5);
-	map.push_back(6);
-	map.push_back(7);
-
-	iterator	it = map.begin();
-
-	it = it + 7;
-	it = 3 + it;
-	it = it - 4;
-
-	E	val = *it;
-	map.push_back(val);
-	
-	return (0);
-}
-
-template <class container, class iterator>
-int	map_reverse_iterator_operator_sum_diff_1(container &map)
-{
-	iterator	it;
-	E			val;
-	E			bval;
-
-	map.push_back(0);
-	map.push_back(1);
-	map.push_back(2);
-	map.push_back(3);
-	map.push_back(4);
-	map.push_back(5);
-	map.push_back(6);
-	map.push_back(7);
-
-	it = map.rbegin();
-	it = it + 7;
-	it = 3 + it;
-	it = it - 4;
-
-	val = *it;
-	bval = *(it.base());
-	
-	map.push_back(val);
-	map.push_back(bval);
-	
-	return (0);
-}
-
-template <class container, class iterator_a, class iterator_b>
+template <class container, class pair, class iterator_a, class iterator_b>
 int	map_iterator_operator_compare_1(container &map)
 {
 	container	a;

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:08:39 by badam             #+#    #+#             */
-/*   Updated: 2021/11/23 20:21:05 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/14 15:32:16 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 # include <sstream>
 
 template <class container, class pair>
-int	map_capacity_maxsize(container &map)
+int	map_capacity(container &map)
 {
 	typename container::size_type	maxsize1	= map.max_size();
 	int								i			= 0;
 	std::stringstream				key;
 
+	map.insert(pair("empty1", map.empty()));
 
 	while (i < 10)
 	{
@@ -37,6 +38,9 @@ int	map_capacity_maxsize(container &map)
 	if (maxsize1 < 128)
 		return (2);
 	
+	map.insert(pair("empty2", map.empty()));
+	map.insert(pair("size", map.size()));
+
 	return (0);
 }
 
