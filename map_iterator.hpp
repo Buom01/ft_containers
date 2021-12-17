@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/11/28 14:06:37 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/17 14:57:05 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,6 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 
 		_self		&operator+=(difference_type n)
 		{
-			n = _parent::_modulo(n);
-
 			if (n < 0)
 				(*this) -= -n;
 			else
@@ -178,8 +176,6 @@ class	map_iterator: public ft::iterator< std::random_access_iterator_tag, T, Ite
 
 		_self		&operator-=(difference_type n)
 		{
-			n = -_parent::_modulo(-n);
-			
 			if (n < 0)
 				(*this) += -n;
 			else
