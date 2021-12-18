@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 17:11:35 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 18:37:18 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -994,59 +994,27 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 				return (1);
 		}
 
-		iterator		lower_bound(const Key &key)  // Duplicate code !
+		iterator		lower_bound(const Key &key)
 		{
-			node	*cursor = _content;
+			iterator	it	= _parent::begin();
 
-			while (cursor)
-			{
-				if (key_comp()(key, cursor->key()))
-				{
-					if (cursor->left_child)
-						cursor = cursor->left_child;
-					else
-						break;
-				}
-				else if (key_comp()(cursor->key(), key))
-				{
-					cursor = cursor->right_child;
-				}
-				else
-					break;
-			}
-
-			if (cursor)
-				return (_parent::_get_iterator(cursor));
-			return (_parent::end());
+			while (it != _parent::end() && key_comp()(_getKey(*it), key))
+				++it;
+			
+			return (it);
 		}
 
 		const_iterator	lower_bound(const Key &key) const
 		{
-			node	*cursor = _content;
+			const_iterator	it	= _parent::begin();
 
-			while (cursor)
-			{
-				if (key_comp()(key, cursor->key()))
-				{
-					if (cursor->left_child)
-						cursor = cursor->left_child;
-					else
-						break;
-				}
-				else if (key_comp()(cursor->key(), key))
-				{
-					cursor = cursor->right_child;
-				}
-				else
-					break;
-			}
-
-			if (cursor)
-				return (_parent::_get_const_iterator(cursor));
-			return (_parent::end());
+			while (it != _parent::end() && key_comp()(_getKey(*it), key))
+				++it;
+			
+			return (it);
 		}
 
-		iterator		upper_bound(const Key &key)  // Duplicate code !
+		iterator		upper_bound(const Key &key)
 		{
 			node	*cursor = _content;
 			node	*last_upper	= NULL;
