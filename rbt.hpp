@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 16:37:14 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 17:11:35 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ struct rbt_node
 			return (*data);
 		}
 
-		Key		_key(pair<Key, T> *data)
+		Key		_key(pair<const Key, T> *data)
 		{
 			return (data->first);
 		}
@@ -55,7 +55,7 @@ struct rbt_node
 			return (*data);
 		}
 
-		T		_value(pair<Key, T> *data)
+		T		_value(pair<const Key, T> *data)
 		{
 			return (data->second);
 		}
@@ -66,7 +66,7 @@ struct rbt_node
 			return (_key(this->data));
 		}
 
-		Key	value(void)
+		T	value(void)
 		{
 			return (_value(this->data));
 		}
@@ -84,7 +84,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 	public:
 		typedef Key		key_type;
-		typedef T		rbtped_type;
+		typedef T		mapped_type;
 		typedef	Compare key_compare;
 
 		using typename _parent::value_type;
@@ -111,7 +111,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			return (item);
 		}
 
-		static const Key	&_getKey(const pair<Key, T> &item)
+		static const Key	&_getKey(const pair<const Key, T> &item)
 		{
 			return (item.first);
 		}
@@ -121,7 +121,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			return (item);
 		}
 
-		static const T		&_getValue(const pair<Key, T> &item)
+		static const T		&_getValue(const pair<const Key, T> &item)
 		{
 			return (item.second);
 		}
@@ -131,7 +131,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 		// 	return (key);
 		// }
 
-		// pair<Key, T>	_newItem(const Key key)
+		// pair<const Key, T>	_newItem(const Key key)
 		// {
 		// 	return (ft::make_pair(key, T()));
 		// }
@@ -832,7 +832,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		pair<iterator, bool>	insert(const value_type &val)
 		{
-			iterator	it	= find(_getKey(val));
+			iterator	it	= find(this->_getKey(val));
 
 			if (it != _parent::end())
 				return (ft::make_pair(it, false));
@@ -1112,31 +1112,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
 
-		// rbtped_type			&operator[](const key_type& key)   // rbt only
-		// {
-		// 	return (_getVal(*insert(_newItem(key)).first));
-		// }
-
-		// rbtped_type			&at(const Key& key)  // rbt only
-		// {
-		// 	iterator	it	= find(key);
-
-		// 	if (it == _parent::end())
-		// 		throw std::out_of_range("key");
-
-		// 	return (_getVal(*it));
-		// } 
-
-		// const rbtped_type	&at(const Key& key) const  // rbt only
-		// {
-		// 	const_iterator	it	= find(key);
-
-		// 	if (it == _parent::end())
-		// 		throw std::out_of_range("key");
-
-		// 	return (_getVal(*it));
-		// } 
-		
 		allocator_type	get_allocator(void) const
 		{
 			return (_parent::_get_allocator());

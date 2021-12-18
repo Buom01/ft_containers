@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 16:25:17 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 16:48:36 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "utils.hpp"
 # include "rbt.hpp"
-
 
 namespace ft
 {
@@ -51,12 +50,12 @@ class set: public rbt<T, T, T, Compare, Alloc>
 		{};
 
 		template< class InputIt >
-		set( InputIt first, InputIt last, const Compare& comp = Compare(), const Alloc& alloc = Alloc() ): _parent(first, last, comp, alloc)
+		set( InputIt first, InputIt last, const Compare& comp = Compare(), const Alloc& alloc = Alloc() ):
+			_parent(first, last, comp, alloc)
 		{};
 
 		set( const set& other ): _parent(other)
 		{}
-
 
 		virtual		~set(void)
 		{};
