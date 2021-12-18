@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/17 16:38:00 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 16:37:14 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,44 @@ struct rbt_node
 			alloc->construct(data, val);
 		};
 
-		template <class Item>
-		Item	key(void)
+	protected:
+		Key		_key(Key *data)
 		{
 			return (*data);
 		}
 
-		template <class Key>
-		Key		key(void)
+		Key		_key(pair<Key, T> *data)
 		{
 			return (data->first);
 		}
 
-		template <class Item>
-		Item	value(void)
+		T		_value(T *data)
 		{
 			return (*data);
 		}
 
-		template <class Key>
-		T		value(void)
+		T		_value(pair<Key, T> *data)
 		{
 			return (data->second);
+		}
+
+	public:
+		Key	key(void)
+		{
+			return (_key(this->data));
+		}
+
+		Key	value(void)
+		{
+			return (_value(this->data));
 		}
 };
 
 template< class Key, class T, class Item, class Compare = less<Key>, class Alloc = std::allocator<Item> >
-class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iterator< Item, rbt_node<Key, T, Item, Alloc> >, map_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >
+class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< Item, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >
 {
-	typedef map																_self;
-	typedef	ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iterator< Item, rbt_node<Key, T, Item, Alloc> >, map_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >	_parent;
+	typedef rbt		_self;
+	typedef	ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< Item, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >	_parent;
 
 
 	using typename _parent::_item;
@@ -76,7 +84,7 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 	public:
 		typedef Key		key_type;
-		typedef T		mapped_type;
+		typedef T		rbtped_type;
 		typedef	Compare key_compare;
 
 		using typename _parent::value_type;
@@ -93,40 +101,40 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 		using typename _parent::const_reverse_iterator;
 
 	protected:
-		typedef rbt_node<Key, T, Alloc>		node;
+		typedef rbt_node<Key, T, Item, Alloc>		node;
 
 		key_compare	*_key_compare;
 		node		*_content;
 
-		Key	&_getKey(Item &item)
+		static const Key	&_getKey(const Key &item)
 		{
 			return (item);
 		}
 
-		Key	&_getKey(Item &item)
+		static const Key	&_getKey(const pair<Key, T> &item)
 		{
 			return (item.first);
 		}
 
-		T	&_getValue(Item &item)
+		static const T		&_getValue(const T &item)
 		{
 			return (item);
 		}
 
-		T	&_getValue(Item &item)
+		static const T		&_getValue(const pair<Key, T> &item)
 		{
 			return (item.second);
 		}
 
-		Item	_newItem(Key key)
-		{
-			return (key);
-		}
+		// Key				_newItem(const Key key)
+		// {
+		// 	return (key);
+		// }
 
-		Item	_newItem(Key key)
-		{
-			return (ft::make_pair(key, T());
-		}
+		// pair<Key, T>	_newItem(const Key key)
+		// {
+		// 	return (ft::make_pair(key, T()));
+		// }
 
 		void		_autoupdate(void)
 		{
@@ -238,7 +246,7 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 			if (n->left_child && n->left_child->parent != n && (got_error = true))
 				std::cout << "=== WRONG PARENT FOR [" << n->left_child->key() << "] THAT MAY BE [" << n->key() << "] ===" << std::endl;
 			if (n->right_child && n->right_child->parent != n && (got_error = true))
-				std::cout << "=== WRONG PARENT FOR [" << n->right_child->key*() << "] THAT MAY BE [" << n->key() << "] ===" << std::endl;
+				std::cout << "=== WRONG PARENT FOR [" << n->right_child->key() << "] THAT MAY BE [" << n->key() << "] ===" << std::endl;
 
 			if (got_error)
 				return (got_error);
@@ -944,9 +952,9 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(key, cursor->data->first))
+				if (key_comp()(key, cursor->key()))
 					cursor = cursor->left_child;
-				else if (key_comp()(cursor->data->first, key))
+				else if (key_comp()(cursor->key(), key))
 					cursor = cursor->right_child;
 				else
 					break;
@@ -963,9 +971,9 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(key, cursor->data->first))
+				if (key_comp()(key, cursor->key()))
 					cursor = cursor->left_child;
-				else if (key_comp()(cursor->data->first, key))
+				else if (key_comp()(cursor->key(), key))
 					cursor = cursor->right_child;
 				else
 					break;
@@ -992,14 +1000,14 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(key, cursor->data->first))
+				if (key_comp()(key, cursor->key()))
 				{
 					if (cursor->left_child)
 						cursor = cursor->left_child;
 					else
 						break;
 				}
-				else if (key_comp()(cursor->data->first, key))
+				else if (key_comp()(cursor->key(), key))
 				{
 					cursor = cursor->right_child;
 				}
@@ -1018,14 +1026,14 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(key, cursor->data->first))
+				if (key_comp()(key, cursor->key()))
 				{
 					if (cursor->left_child)
 						cursor = cursor->left_child;
 					else
 						break;
 				}
-				else if (key_comp()(cursor->data->first, key))
+				else if (key_comp()(cursor->key(), key))
 				{
 					cursor = cursor->right_child;
 				}
@@ -1045,14 +1053,14 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(cursor->data->first, key))
+				if (key_comp()(cursor->key(), key))
 				{
 					if (cursor->right_child)
 						cursor = cursor->right_child;
 					else
 						break;
 				}
-				else if (key_comp()(key, cursor->data->first))
+				else if (key_comp()(key, cursor->key()))
 				{
 					last_upper = cursor;
 					cursor = cursor->left_child;
@@ -1073,14 +1081,14 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 
 			while (cursor)
 			{
-				if (key_comp()(cursor->data->first, key))
-				{upper_bound
+				if (key_comp()(cursor->key(), key))
+				{
 					if (cursor->right_child)
 						cursor = cursor->right_child;
 					else
 						break;
 				}
-				else if (key_comp()(key, cursor->data->first))
+				else if (key_comp()(key, cursor->key()))
 				{
 					last_upper = cursor;
 					cursor = cursor->left_child;
@@ -1104,12 +1112,12 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 			return ft::make_pair(lower_bound(key), upper_bound(key));
 		}
 
-		// mapped_type			&operator[](const key_type& key)   // map only
+		// rbtped_type			&operator[](const key_type& key)   // rbt only
 		// {
 		// 	return (_getVal(*insert(_newItem(key)).first));
 		// }
 
-		// mapped_type			&at(const Key& key)  // map only
+		// rbtped_type			&at(const Key& key)  // rbt only
 		// {
 		// 	iterator	it	= find(key);
 
@@ -1119,7 +1127,7 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 		// 	return (_getVal(*it));
 		// } 
 
-		// const mapped_type	&at(const Key& key) const  // map only
+		// const rbtped_type	&at(const Key& key) const  // rbt only
 		// {
 		// 	const_iterator	it	= find(key);
 
@@ -1135,8 +1143,8 @@ class map: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, map_iter
 		}
 };
 
-template< class T, class Alloc >
-void swap( ft::rbt<T,Alloc>& lhs, ft::rbt<T,Alloc>& rhs )
+template< class Key, class T, class Item, class Compare, class Alloc >
+void swap( ft::rbt<Key, T, Item, Compare, Alloc>& lhs, ft::rbt<Key, T, Item, Compare, Alloc>& rhs )
 {
 	lhs.swap(rhs);
 }
