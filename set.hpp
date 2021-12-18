@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 16:48:36 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 21:54:33 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ namespace ft
 {
 
 template< class T, class Compare = less<T>, class Alloc = std::allocator<T> >
-class set: public rbt<T, T, T, Compare, Alloc>
+class set: public rbt<T, T, T, const T, Compare, Alloc>
 {
 	typedef set< T, Compare, Alloc >		_self;
-	typedef rbt< T, T, T, Compare, Alloc >	_parent;
+	typedef rbt< T, T, T, const T, Compare, Alloc >	_parent;
 
 	public:
 		typedef typename	_parent::key_type				key_type;

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 17:13:36 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 21:56:56 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ namespace ft
 {
 
 template< class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
-class map: public rbt<Key, T, pair<const Key, T>, Compare, Alloc>
+class map: public rbt<Key, T, pair<const Key, T>, pair<const Key, T>, Compare, Alloc>
 {
 	typedef map												_self;
-	typedef	rbt<Key, T, pair<const Key, T>, Compare, Alloc>	_parent;
+	typedef	rbt<Key, T, pair<const Key, T>, pair<const Key, T>, Compare, Alloc>	_parent;
 
 	public:
 		typedef typename	_parent::key_type				key_type;

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 18:37:18 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 21:56:12 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ struct rbt_node
 		}
 };
 
-template< class Key, class T, class Item, class Compare = less<Key>, class Alloc = std::allocator<Item> >
-class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< Item, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >
+template< class Key, class T, class Item, class PublicItem, class Compare = less<Key>, class Alloc = std::allocator<Item> >
+class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< PublicItem, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const PublicItem, rbt_node<Key, T, Item, Alloc> > >
 {
 	typedef rbt		_self;
-	typedef	ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< Item, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const Item, rbt_node<Key, T, Item, Alloc> > >	_parent;
+	typedef	ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iterator< PublicItem, rbt_node<Key, T, Item, Alloc> >, rbt_iterator< const PublicItem, rbt_node<Key, T, Item, Alloc> > >	_parent;
 
 
 	using typename _parent::_item;

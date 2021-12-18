@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:23:55 by badam             #+#    #+#             */
-/*   Updated: 2021/11/03 15:23:09 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/18 20:37:05 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ class	iterator
 		typedef	T&				reference;
 
 	protected:
-		typedef	typename remove_const<T>::type			_nonconst;
-		typedef	typename remove_const<Item>::type		_nonconst_item;
-		typedef iterator								_self;
+		typedef	typename remove_const<T>::type						_nonconst;
+		typedef	typename remove_const<Item>::type					_nonconst_item;
+		typedef iterator											_self;
 		typedef ft::iterator<Category, _nonconst, _nonconst_item>	_core;
-		typedef	_nonconst_item							_item;
-		typedef	_nonconst_item*							_item_ptr;
-		typedef	std::size_t								_size_type;
+		typedef	_nonconst_item										_item;
+		typedef	_nonconst_item*										_item_ptr;
+		typedef	std::size_t											_size_type;
 
 		_item_ptr	_front;
 		_item_ptr	_back;
