@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/14 23:20:02 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/19 19:57:42 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ struct cmpByStringLength {
     }
 };
 
+#include <utility>
 #include "tests.hpp"
 #include "map/ultrabasic.hpp"
 #include "map/members.hpp"
@@ -26,7 +27,25 @@ struct cmpByStringLength {
 #include "map/iterator.hpp"
 #include "map/capacity.hpp"
 #include "map/modifiers.hpp"
+#include "map/observers.hpp"
 
+
+void	map_ultrabasic(std::string selection)
+{
+	test(
+		map_ub_insert< std::map<std::string, E> >,
+		map_ub_insert< ft::map<std::string, E> >,
+		"map_ub_insert",
+		selection
+	);
+
+	test(
+		map_ub_std_insert1< std::map<std::string, E> >,
+		map_ub_ft_insert1< ft::map<std::string, E> >,
+		"map_ub_insert1",
+		selection
+	);
+}
 
 void	map_members(std::string selection)
 {
@@ -411,22 +430,67 @@ void	map_modifiers(std::string selection)
 	);
 }
 
-void	map_ultrabasic(std::string selection)
+void	map_observers(std::string selection)
 {
 	test(
-		map_ub_insert< std::map<std::string, E> >,
-		map_ub_insert< ft::map<std::string, E> >,
-		"map_ub_insert",
+		map_keycomp_a< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_keycomp_a< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_keycomp_1",
+		selection
+	);
+	test(
+		map_keycomp_b< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_keycomp_b< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_keycomp_2",
 		selection
 	);
 
 	test(
-		map_ub_std_insert1< std::map<std::string, E> >,
-		map_ub_ft_insert1< ft::map<std::string, E> >,
-		"map_ub_insert1",
+		map_keycomp_a< std::map< std::string, E, cmpByStringLength >, std::pair<std::string, E> >,
+		map_keycomp_a< ft::map< std::string, E, cmpByStringLength >, ft::pair<std::string, E> >,
+		"map_keycomp_3",
+		selection
+	);
+
+	test(
+		map_keycomp_b< std::map< std::string, E, cmpByStringLength >, std::pair<std::string, E> >,
+		map_keycomp_b< ft::map< std::string, E, cmpByStringLength >, ft::pair<std::string, E> >,
+		"map_keycomp_4",
+		selection
+	);
+
+	test(
+		map_valuecomp_a< std::map< std::string, std::string >, std::pair<std::string, std::string> >,
+		map_valuecomp_a< ft::map< std::string, std::string >, ft::pair<std::string, std::string> >,
+		"map_valuecomp_1",
+		selection
+	);
+	test(
+		map_valuecomp_b< std::map< std::string, std::string >, std::pair<std::string, std::string> >,
+		map_valuecomp_b< ft::map< std::string, std::string >, ft::pair<std::string, std::string> >,
+		"map_valuecomp_2",
+		selection
+	);
+
+	test(
+		map_valuecomp_a< std::map< std::string, std::string, cmpByStringLength >, std::pair<std::string, std::string> >,
+		map_valuecomp_a< ft::map< std::string, std::string, cmpByStringLength >, ft::pair<std::string, std::string> >,
+		"map_valuecomp_3",
+		selection
+	);
+
+	test(
+		map_valuecomp_b< std::map< std::string, std::string, cmpByStringLength >, std::pair<std::string, std::string> >,
+		map_valuecomp_b< ft::map< std::string, std::string, cmpByStringLength >, ft::pair<std::string, std::string> >,
+		"map_valuecomp_4",
 		selection
 	);
 }
+
+// void	map_operations(std::string selection)
+// {
+	
+// }
 
 void	map_tests(std::string selection)
 {
@@ -439,6 +503,8 @@ void	map_tests(std::string selection)
 	map_iterator(selection);
 	map_capacity(selection);
 	map_modifiers(selection);
+	map_observers(selection);
+	// map_operations(selection);
 }
 
 #endif
