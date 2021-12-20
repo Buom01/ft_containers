@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 17:38:55 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:17:52 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,8 +423,6 @@ void	map_operations(std::string selection)
 
 void	map_tests(std::string selection)
 {
-	// SHOULD TEST TIME !
-
 	map_ultrabasic(selection);
 
 	map_members(selection);

@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:50:18 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 21:30:00 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:21:14 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ template<class T>
 struct remove_const<const T> {
 	typedef typename remove_const<T>::type type;
 };
-
-// template<class T1, class T2>
-// struct remove_const< pair<T1, const T2> > {
-// 	typedef typename remove_const< pair<T1, T2> >::type type;
-// };
 
 template <class T, T v>
 struct integral_constant {
@@ -120,7 +115,7 @@ InputIterator	advance(InputIterator it, typename InputIterator::difference_type 
 }
 
 template <class InputIterator>
-typename InputIterator::difference_type	distance(InputIterator first, InputIterator last)  // may use iterator diff when possible
+typename InputIterator::difference_type	distance(InputIterator first, InputIterator last)
 {
 	typename InputIterator::difference_type	i	= 0;
 

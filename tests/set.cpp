@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 18:22:37 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:17:55 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,8 +416,6 @@ void	set_operations(std::string selection)
 
 void	set_tests(std::string selection)
 {
-	// SHOULD TEST TIME !
-
 	set_ultrabasic(selection);
 
 	set_members(selection);

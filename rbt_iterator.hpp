@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 13:12:54 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 21:30:20 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:23:17 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ bool	operator<=(const rbt_iterator<L_T, L_I> &lhs, const rbt_iterator<R_T, R_I> 
 };
 
 template< class L_T, class L_I, class R_T, class R_I >
-bool	operator<(const rbt_iterator<L_T, L_I> &lhs, const rbt_iterator<R_T, R_I> &rhs)  // @TODO
+bool	operator<(const rbt_iterator<L_T, L_I> &lhs, const rbt_iterator<R_T, R_I> &rhs)
 {
 	if (!lhs.getElem())
 		return (false);
@@ -246,7 +246,7 @@ rbt_iterator<T, I>		operator+(const int nb, const rbt_iterator<T, I> &ref)
 };
 
 template< class L_T, class L_I, class R_T, class R_I >
-typename rbt_iterator<L_T, L_I>::difference_type	operator-(const rbt_iterator<L_T, L_I> &lit, const rbt_iterator<R_T, R_I> &rit)  // @TODO
+typename rbt_iterator<L_T, L_I>::difference_type	operator-(const rbt_iterator<L_T, L_I> &lit, const rbt_iterator<R_T, R_I> &rit)
 {
 	if (rit.getElem() == lit.getElem())
 		return (0);

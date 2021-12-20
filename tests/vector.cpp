@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/10/25 13:49:53 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:18:07 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -530,14 +530,10 @@ void	vector_nonmemeber(std::string selection)
 		"vector_nm_compare",
 		selection
 	);
-
-	// should do supplementary test with string
 }
 
 void	vector_tests(std::string selection)
 {
-	// SHOULD TEST TIME !
-
 	vector_members(selection);
 	vector_access(selection); 
 	vector_iterator(selection);

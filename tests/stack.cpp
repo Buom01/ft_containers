@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/10/25 13:51:12 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:18:02 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void	stack_nonmemeber(std::string selection)
 		"stack_nm_compare",
 		selection
 	);
-
-	// should do supplementary test with string
 }
 
 /*
@@ -94,8 +92,6 @@ void	stack_nonmemeber(std::string selection)
 */
 void	stack_tests(std::string selection)
 {
-	// SHOULD TEST TIME !
-
 	stack_members(selection);
 	stack_access(selection); 
 	stack_modifiers(selection);
