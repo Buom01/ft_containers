@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 21:11:11 by user              #+#    #+#             */
-/*   Updated: 2021/12/20 17:58:36 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 18:44:38 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #include <utility>
 #include <string>
+
 struct cmpByStringLength {
     bool operator()(const std::string& a, const std::string& b) const {
         return a.length() < b.length();
@@ -33,6 +34,5 @@ struct cmpByStringLength {
 # include "../map.hpp"
 # include <set>
 # include "../set.hpp"
-
 
 #endif

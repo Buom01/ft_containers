@@ -6,10 +6,11 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/12/20 18:02:21 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 18:59:02 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ctime>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -75,16 +76,43 @@ bool	isequal(iterator_a begin_a, iterator_a end_a,
 	return (true);
 }
 
+void	compare_time(std::clock_t time_a, std::clock_t time_b, std::clock_t time_c)
+{
+	float time_fct_a = float(time_b - time_a) / CLOCKS_PER_SEC;
+	float time_fct_b = float(time_c - time_b) / CLOCKS_PER_SEC;
+
+	if (time_fct_a > time_fct_b / 20 || time_fct_a == 0)
+		std::cout << "[TIME OK] ";
+	else
+	{
+		std::cout << "[TIME KO:" << std::endl;
+		std::cout << ">>>>>>>>" << std::endl;
+		std::cout << " std took " << time_fct_a << "sec" << std::endl;
+		std::cout << "--------" << std::endl;
+		std::cout << " ft took " << time_fct_b << "sec" << std::endl;
+		std::cout << ">>>>>>>>" << std::endl;
+		std::cout << "] ";
+	}
+}
+
 template< class container_a, class container_b >
 int	exectest(int (*test_fct_a)(container_a &a),
 		int (*test_fct_b)(container_b &b),
 		container_a &a, container_b &b)
 {
-	int	ret_a;
-	int	ret_b;
+	std::clock_t	time_a;
+	std::clock_t	time_b;
+	std::clock_t	time_c;
+	int				ret_a;
+	int				ret_b;
 
+	time_a = clock();
 	ret_a = test_fct_a(a);
+	time_b = clock();
 	ret_b = test_fct_b(b);
+	time_c = clock();
+
+	compare_time(time_a, time_b, time_c);
 
 	if (ret_a != 0)
 		return (-1 * ret_a);
@@ -171,9 +199,17 @@ int	stack_exectest(int (*test_fct_a)(container_a &a),
 {
 	int	ret_a;
 	int	ret_b;
+	std::clock_t	time_a;
+	std::clock_t	time_b;
+	std::clock_t	time_c;
 
+	time_a = clock();
 	ret_a = test_fct_a(a);
+	time_b = clock();
 	ret_b = test_fct_b(b);
+	time_c = clock();
+
+	compare_time(time_a, time_b, time_c);
 
 	if (ret_a != 0)
 		return (-1 * ret_a);
