@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 15:28:57 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 17:17:31 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,110 +182,12 @@ void	map_iterator(std::string selection)
 		selection
 	);
 
-	// test(
-	// 	map_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::iterator, std::map<std::string, E>::iterator >,
-	// 	map_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::iterator, ft::map<std::string, E>::iterator >,
-	// 	"map_iterator_operator_compare_1",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::const_iterator, std::map<std::string, E>::const_iterator >,
-	// 	map_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::const_iterator, ft::map<std::string, E>::const_iterator >,
-	// 	"map_iterator_operator_compare_1_const",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::const_iterator, std::map<std::string, E>::iterator >,
-	// 	map_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::const_iterator, ft::map<std::string, E>::iterator >,
-	// 	"map_iterator_operator_compare_1_mixed",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_reverse_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::reverse_iterator, std::map<std::string, E>::reverse_iterator >,
-	// 	map_reverse_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::reverse_iterator, ft::map<std::string, E>::reverse_iterator >,
-	// 	"map_reverse_iterator_operator_compare_1",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_reverse_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::const_reverse_iterator, std::map<std::string, E>::const_reverse_iterator >,
-	// 	map_reverse_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::const_reverse_iterator, ft::map<std::string, E>::const_reverse_iterator >,
-	// 	"map_reverse_iterator_operator_compare_1_const",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_reverse_iterator_operator_compare_1< std::map<std::string, E>, std::map<std::string, E>::const_reverse_iterator, std::map<std::string, E>::reverse_iterator >,
-	// 	map_reverse_iterator_operator_compare_1< ft::map<std::string, E>, ft::map<std::string, E>::const_reverse_iterator, ft::map<std::string, E>::reverse_iterator >,
-	// 	"map_reverse_iterator_operator_compare_1_mixed",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_iterator_operator_equal_add_del_1< std::map<std::string, E>, std::map<std::string, E>::iterator >,
-	// 	map_iterator_operator_equal_add_del_1< ft::map<std::string, E>, ft::map<std::string, E>::iterator >,
-	// 	"map_iterator_operator_equal_add_del_1",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_iterator_operator_equal_add_del_1< std::map<std::string, E>, std::map<std::string, E>::const_iterator >,
-	// 	map_iterator_operator_equal_add_del_1< ft::map<std::string, E>, ft::map<std::string, E>::const_iterator >,
-	// 	"map_iterator_operator_equal_add_del_1_const",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_reverse_iterator_operator_equal_add_del_1< std::map<std::string, E>, std::map<std::string, E>::reverse_iterator >,
-	// 	map_reverse_iterator_operator_equal_add_del_1< ft::map<std::string, E>, ft::map<std::string, E>::reverse_iterator >,
-	// 	"map_reverse_iterator_operator_equal_add_del_1",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_reverse_iterator_operator_equal_add_del_1< std::map<std::string, E>, std::map<std::string, E>::const_reverse_iterator >,
-	// 	map_reverse_iterator_operator_equal_add_del_1< ft::map<std::string, E>, ft::map<std::string, E>::const_reverse_iterator >,
-	// 	"map_reverse_iterator_operator_equal_add_del_1_const",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_reverse_iterator_operator_equal_with_iterator< std::map<std::string, E>, std::map<std::string, E>::reverse_iterator, std::map<std::string, E>::iterator >,
-	// 	map_reverse_iterator_operator_equal_with_iterator< ft::map<std::string, E>, ft::map<std::string, E>::reverse_iterator, ft::map<std::string, E>::iterator >,
-	// 	"map_reverse_iterator_operator_equal_with_iterator",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_iterator_operator_brackets_1< std::map<std::string, E>, std::map<std::string, E>::iterator >,
-	// 	map_iterator_operator_brackets_1< ft::map<std::string, E>, ft::map<std::string, E>::iterator >,
-	// 	"map_iterator_operator_brackets_1",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_iterator_operator_brackets_1< std::map<std::string, E>, std::map<std::string, E>::const_iterator >,
-	// 	map_iterator_operator_brackets_1< ft::map<std::string, E>, ft::map<std::string, E>::const_iterator >,
-	// 	"map_iterator_operator_brackets_1_const",
-	// 	selection
-	// );
-
-	// test(
-	// 	map_reverse_iterator_operator_brackets_1< std::map<std::string, E>, std::map<std::string, E>::reverse_iterator >,
-	// 	map_reverse_iterator_operator_brackets_1< ft::map<std::string, E>, ft::map<std::string, E>::reverse_iterator >,
-	// 	"map_reverse_iterator_operator_brackets_1",
-	// 	selection
-	// );
-	
-	// test(
-	// 	map_reverse_iterator_operator_brackets_1< std::map<std::string, E>, std::map<std::string, E>::const_reverse_iterator >,
-	// 	map_reverse_iterator_operator_brackets_1< ft::map<std::string, E>, ft::map<std::string, E>::const_reverse_iterator >,
-	// 	"map_reverse_iterator_operator_brackets_1_const",
-	// 	selection
-	// );
+	test(
+		map_reverse_iterator_operator_equal_with_iterator< std::map<std::string, E>, std::pair<std::string, E>, std::map<std::string, E>::reverse_iterator, std::map<std::string, E>::iterator >,
+		map_reverse_iterator_operator_equal_with_iterator< ft::map<std::string, E>, ft::pair<std::string, E>, ft::map<std::string, E>::reverse_iterator, ft::map<std::string, E>::iterator >,
+		"map_reverse_iterator_operator_equal_with_iterator",
+		selection
+	);
 }
 
 /*
@@ -508,6 +410,20 @@ void	map_operations(std::string selection)
 		map_lowerbound< std::map< std::string, E >, std::pair<std::string, E> >,
 		map_lowerbound< ft::map< std::string, E >, ft::pair<std::string, E> >,
 		"map_lowerbound",
+		selection
+	);
+
+	test(
+		map_upperbound< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_upperbound< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_upperbound",
+		selection
+	);
+
+	test(
+		map_equalrange< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_equalrange< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_equalrange",
 		selection
 	);
 }
