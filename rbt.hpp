@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 16:50:14 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 19:13:26 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdexcept>
 # include <cmath>
-# include <iostream>  // remove me
 # include "utils.hpp"
 # include "core.hpp"
 # include "rbt_iterator.hpp"
@@ -126,16 +125,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			return (item.second);
 		}
 
-		// Key				_newItem(const Key key)
-		// {
-		// 	return (key);
-		// }
-
-		// pair<const Key, T>	_newItem(const Key key)
-		// {
-		// 	return (ft::make_pair(key, T()));
-		// }
-
 		void		_autoupdate(void)
 		{
 			node	*first	= _content;
@@ -160,175 +149,9 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			_parent::_init(alloc);
 		}
 
-		bool	_dump(node *n, size_t indent = 0)
-		{
-			size_t	i	= 0;
-
-			if (indent > 20)
-			{
-				std::cout << "[....]" << std::endl;
-				return (false);
-			}
-			
-			while (i++ < indent)
-				std::cout << "  ";
-			
-			if (n)
-			{
-				std::cout << "- " << n->key() << " (=" << n->value() << ") - " << (_is_red(n) ? "Red" : "Black");
-				if (n->parent)
-					std::cout << " - parent is [" << n->parent->key() << "]";
-				std::cout << std::endl;
-			
-				if (!_dump(n->left_child, indent + 1) || !_dump(n->right_child, indent + 1))
-					return (false);
-			}
-			else
-				std::cout << "- (nil node) - Black" << std::endl;
-			return (true);
-		}
-
-		value_type	*_create_node_value(const value_type &val, const void *tip)
-		{
-			value_type	*node_value;
-			
-			node_value = _parent::_alloc->allocate(1, tip);
-			_parent::_alloc->construct(node_value, value_type(val));
-
-			return (node_value);
-		}
-
 		bool	_is_root(node *n)
 		{
 			return (n == _content);
-		}
-
-		bool	_check_root_color(void)
-		{
-			if (_is_red(_content))
-			{
-				std::cout << "=== ROOT IS NOT BLACK ===" << std::endl;
-				return (true);
-			}
-			else
-				return (false);
-		}
-
-		bool	_check_red_child_color(node *n)
-		{
-			bool	got_error	= false;
-
-			if (!n)
-				return (false);
-
-			if (_is_red(n))
-			{
-				
-				if (_is_red(n->left_child) && (got_error = true))
-					std::cout << "=== DOUBLE RED FOR [" << n->key() << "] WITH LEFT CHILD ===" << std::endl;
-				if (_is_red(n->right_child) && (got_error = true))
-					std::cout << "=== DOUBLE RED FOR [" << n->key() << "] WITH RIGHT CHILD ===" << std::endl;
-			}
-
-			got_error |= _check_red_child_color(n->left_child);
-			got_error |= _check_red_child_color(n->right_child);
-
-			return (got_error);
-		}
-
-		bool	_check_parenting(node *n)
-		{
-			bool	got_error	= false;
-
-			if (!n)
-				return (false);
-
-			if (n->left_child && n->left_child->parent != n && (got_error = true))
-				std::cout << "=== WRONG PARENT FOR [" << n->left_child->key() << "] THAT MAY BE [" << n->key() << "] ===" << std::endl;
-			if (n->right_child && n->right_child->parent != n && (got_error = true))
-				std::cout << "=== WRONG PARENT FOR [" << n->right_child->key() << "] THAT MAY BE [" << n->key() << "] ===" << std::endl;
-
-			if (got_error)
-				return (got_error);
-
-			got_error |= _check_parenting(n->left_child);
-			got_error |= _check_parenting(n->right_child);
-
-			return (got_error);
-		}
-
-		bool	_check_black_depth(node *n, int count = 0, int *depth = NULL)
-		{
-			int	shared_depth	= 0;
-
-			if (!depth)
-				depth = &shared_depth;
-
-			if (_is_black(n))
-				++count;
-			if (!n)
-			{
-				if (*depth > 0)
-				{
-					if (*depth != count)
-					{
-						std::cout << "=== BLACK DEPTH NOT EQUAL; GOT " << count << " AGAINST " << *depth << std::endl;
-						return (true);
-					}
-					else
-						return (false);
-				}
-				else
-					*depth = count;
-				return (false);
-			}
-			else
-			{
-				bool	got_error	= false;
-
-				got_error |= _check_black_depth(n->left_child, count, depth);
-				got_error |= _check_black_depth(n->right_child, count, depth);
-
-				return (got_error);
-			}
-		}
-
-		bool	_check_order(void)
-		{
-			iterator	i	= _parent::begin();
-			iterator	p;
-
-			while (i != _parent::end())
-			{
-				p = i++;
-				if (i != _parent::end())
-				{
-					if (key_comp()(i.getElem()->key(), p.getElem()->key()))
-					{
-						std::cout << "=== ELEMENTS ARE NOT IN ORDER AT :" << p.getElem()->key() << " ===" << std::endl;
-						_dump(_content);
-						return (true);
-					}
-				}
-			}
-			return (false);
-		}
-
-		void	_assert_rbt_rules(void)
-		{
-			bool	got_error	= false;
-
-			got_error |= _check_root_color();
-			got_error |= _check_red_child_color(_content);
-			got_error |= _check_parenting(_content);
-			got_error |= _check_black_depth(_content);
-			got_error |= _check_order();
-
-			if (got_error)
-			{
-				std::cout << "While tree looks like:" << std::endl;
-				_dump(_content);
-			}
 		}
 
 		char	_count_children(node *n)
@@ -443,14 +266,10 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 				a->left_child->parent = a;
 			if (b->left_child)
 				b->left_child->parent = b;
-
-			_check_parenting(_content);
 		}
 
 		void	_insert_rotate(node *n)
 		{
-			_check_parenting(_content);
-
 			node	*parent			= n->parent;
 			node	*gparent		= parent->parent;
 			node	*ggparent		= gparent->parent;
@@ -459,7 +278,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 			if (!ggparent)
 				ggparent_child	= &_content;
-			else if (ggparent->left_child == gparent)  // should use specialized functions
+			else if (ggparent->left_child == gparent)
 				ggparent_child = &(ggparent->left_child);
 			else
 				ggparent_child = &(ggparent->right_child);
@@ -468,7 +287,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			parent->parent = ggparent;
 			gparent->parent = parent;
 		
-			if (gparent->left_child == parent)  // should use specialized functions
+			if (gparent->left_child == parent)
 			{
 				tmp = parent->right_child;
 				parent->right_child = gparent;
@@ -489,8 +308,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		void	_insert_unrotate(node *n)
 		{
-			_check_parenting(_content);
-
 			node	*parent			= n->parent;
 			node	*gparent		= parent->parent;
 			node	**gparent_child;
@@ -522,8 +339,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 			n->parent = gparent;
 			*gparent_child = n;
-
-			_check_parenting(_content);
 		}
 
 		void	_insert_autorotate(node *n)
@@ -540,9 +355,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		void	_insert_rebalance(node *n)
 		{
-			_check_parenting(_content);
-
-
 			if (_is_root(n))
 				_set_black(n);
 			else
@@ -602,8 +414,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			if (!parent)
 				return ;
 			
-			_check_parenting(_content);
-			
 			if (!sibling)
 				return ;
 
@@ -650,8 +460,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 						sibling = new_sibling;
 					}
-
-					_check_parenting(_content);
 
 					if (parent->left_child == sibling)
 					{
@@ -726,8 +534,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		void	_delete(node *elem)
 		{
-			_check_parenting(_content);
-
 			if (_count_children(elem) <= 1)
 			{
 				node	*parent			= elem->parent;
@@ -788,7 +594,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		virtual	~rbt(void)
 		{
-			_assert_rbt_rules();
 			clear();
 		};
 
@@ -859,8 +664,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 				_insert_rebalance(new_node);
 				_autoupdate();
 
-				_assert_rbt_rules();
-				
 				return ft::make_pair(_parent::_get_iterator(new_node), true);
 			}
 		}
@@ -873,7 +676,7 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 		}
 
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last/*, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0*/)
+		void					insert(InputIterator first, InputIterator last)
 		{
 			InputIterator	it	= first;
 			while (it != last)
@@ -888,7 +691,6 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 			_delete(position.getElem());
 			--_parent::_size;
 			_autoupdate();
-			_assert_rbt_rules();
 		}
 
 		void	erase(iterator first, iterator last)
