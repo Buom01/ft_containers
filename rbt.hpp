@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 19:49:40 by badam             #+#    #+#             */
-/*   Updated: 2021/12/18 21:56:12 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 16:50:14 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1016,58 +1016,22 @@ class rbt: public ft::core< Item, Alloc, rbt_node<Key, T, Item, Alloc>, rbt_iter
 
 		iterator		upper_bound(const Key &key)
 		{
-			node	*cursor = _content;
-			node	*last_upper	= NULL;
+			iterator	it	= _parent::begin();
 
-			while (cursor)
-			{
-				if (key_comp()(cursor->key(), key))
-				{
-					if (cursor->right_child)
-						cursor = cursor->right_child;
-					else
-						break;
-				}
-				else if (key_comp()(key, cursor->key()))
-				{
-					last_upper = cursor;
-					cursor = cursor->left_child;
-				}
-				else
-					break;
-			}
-
-			if (last_upper)
-				return (_parent::_get_iterator(last_upper));
-			return (_parent::end());
+			while (it != _parent::end() && !key_comp()(key, _getKey(*it)))
+				++it;
+			
+			return (it);
 		}
 
 		const_iterator	upper_bound(const Key &key) const
 		{
-			node	*cursor = _content;
-			node	*last_upper	= NULL;
+			const_iterator	it	= _parent::begin();
 
-			while (cursor)
-			{
-				if (key_comp()(cursor->key(), key))
-				{
-					if (cursor->right_child)
-						cursor = cursor->right_child;
-					else
-						break;
-				}
-				else if (key_comp()(key, cursor->key()))
-				{
-					last_upper = cursor;
-					cursor = cursor->left_child;
-				}
-				else
-					break;
-			}
-
-			if (last_upper)
-				return (_parent::_get_const_iterator(last_upper));
-			return (_parent::end());
+			while (it != _parent::end() && !key_comp()(key, _getKey(*it)))
+				++it;
+			
+			return (it);
 		}
 		
 		pair<iterator,iterator>	equal_range(const Key &key)
