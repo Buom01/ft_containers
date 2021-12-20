@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/19 19:57:42 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 15:28:57 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ struct cmpByStringLength {
 #include "map/capacity.hpp"
 #include "map/modifiers.hpp"
 #include "map/observers.hpp"
+#include "map/operations.hpp"
 
 
 void	map_ultrabasic(std::string selection)
@@ -487,10 +488,29 @@ void	map_observers(std::string selection)
 	);
 }
 
-// void	map_operations(std::string selection)
-// {
-	
-// }
+void	map_operations(std::string selection)
+{
+	test(
+		map_find< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_find< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_find",
+		selection
+	);
+
+	test(
+		map_count< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_count< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_count",
+		selection
+	);
+
+	test(
+		map_lowerbound< std::map< std::string, E >, std::pair<std::string, E> >,
+		map_lowerbound< ft::map< std::string, E >, ft::pair<std::string, E> >,
+		"map_lowerbound",
+		selection
+	);
+}
 
 void	map_tests(std::string selection)
 {
@@ -504,7 +524,7 @@ void	map_tests(std::string selection)
 	map_capacity(selection);
 	map_modifiers(selection);
 	map_observers(selection);
-	// map_operations(selection);
+	map_operations(selection);
 }
 
 #endif
