@@ -6,7 +6,7 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:26:33 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 16:38:55 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 17:38:54 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	map_count(container &map)
 
 
 template <class container, class pair>
-static void    insert_lowerbound(std::string key, container &map, container &map2)
+static void    map_insert_lowerbound(std::string key, container &map, container &map2)
 {
     typename container::iterator  it  = map2.lower_bound(key);
     
@@ -126,39 +126,39 @@ int	map_lowerbound(container &map)
 	map2.insert(pair("q", 10));
 
 
-    insert_lowerbound<container, pair>("a", map, map2);
-    insert_lowerbound<container, pair>("b", map, map2);
-    insert_lowerbound<container, pair>("c", map, map2);
-    insert_lowerbound<container, pair>("d", map, map2);
-    insert_lowerbound<container, pair>("e", map, map2);
-    insert_lowerbound<container, pair>("f", map, map2);
-    insert_lowerbound<container, pair>("g", map, map2);
-    insert_lowerbound<container, pair>("h", map, map2);
-    insert_lowerbound<container, pair>("i", map, map2);
-    insert_lowerbound<container, pair>("j", map, map2);
-    insert_lowerbound<container, pair>("k", map, map2);
-    insert_lowerbound<container, pair>("l", map, map2);
-    insert_lowerbound<container, pair>("m", map, map2);
-    insert_lowerbound<container, pair>("n", map, map2);
-    insert_lowerbound<container, pair>("o", map, map2);
-    insert_lowerbound<container, pair>("p", map, map2);
-    insert_lowerbound<container, pair>("q", map, map2);
-    insert_lowerbound<container, pair>("r", map, map2);
-    insert_lowerbound<container, pair>("s", map, map2);
-    insert_lowerbound<container, pair>("t", map, map2);
-    insert_lowerbound<container, pair>("u", map, map2);
-    insert_lowerbound<container, pair>("v", map, map2);
-    insert_lowerbound<container, pair>("w", map, map2);
-    insert_lowerbound<container, pair>("x", map, map2);
-    insert_lowerbound<container, pair>("y", map, map2);
-    insert_lowerbound<container, pair>("z", map, map2);
+    map_insert_lowerbound<container, pair>("a", map, map2);
+    map_insert_lowerbound<container, pair>("b", map, map2);
+    map_insert_lowerbound<container, pair>("c", map, map2);
+    map_insert_lowerbound<container, pair>("d", map, map2);
+    map_insert_lowerbound<container, pair>("e", map, map2);
+    map_insert_lowerbound<container, pair>("f", map, map2);
+    map_insert_lowerbound<container, pair>("g", map, map2);
+    map_insert_lowerbound<container, pair>("h", map, map2);
+    map_insert_lowerbound<container, pair>("i", map, map2);
+    map_insert_lowerbound<container, pair>("j", map, map2);
+    map_insert_lowerbound<container, pair>("k", map, map2);
+    map_insert_lowerbound<container, pair>("l", map, map2);
+    map_insert_lowerbound<container, pair>("m", map, map2);
+    map_insert_lowerbound<container, pair>("n", map, map2);
+    map_insert_lowerbound<container, pair>("o", map, map2);
+    map_insert_lowerbound<container, pair>("p", map, map2);
+    map_insert_lowerbound<container, pair>("q", map, map2);
+    map_insert_lowerbound<container, pair>("r", map, map2);
+    map_insert_lowerbound<container, pair>("s", map, map2);
+    map_insert_lowerbound<container, pair>("t", map, map2);
+    map_insert_lowerbound<container, pair>("u", map, map2);
+    map_insert_lowerbound<container, pair>("v", map, map2);
+    map_insert_lowerbound<container, pair>("w", map, map2);
+    map_insert_lowerbound<container, pair>("x", map, map2);
+    map_insert_lowerbound<container, pair>("y", map, map2);
+    map_insert_lowerbound<container, pair>("z", map, map2);
 
 	return (0);
 }
 
 
 template <class container, class pair>
-static void    insert_upperbound(std::string key, container &map, container &map2)
+static void    map_insert_upperbound(std::string key, container &map, container &map2)
 {
     typename container::iterator  it  = map2.upper_bound(key);
     
@@ -184,39 +184,39 @@ int	map_upperbound(container &map)
 	map2.insert(pair("q", 10));
 
 
-    insert_upperbound<container, pair>("a", map, map2);
-    insert_upperbound<container, pair>("b", map, map2);
-    insert_upperbound<container, pair>("c", map, map2);
-    insert_upperbound<container, pair>("d", map, map2);
-    insert_upperbound<container, pair>("e", map, map2);
-    insert_upperbound<container, pair>("f", map, map2);
-    insert_upperbound<container, pair>("g", map, map2);
-    insert_upperbound<container, pair>("h", map, map2);
-    insert_upperbound<container, pair>("i", map, map2);
-    insert_upperbound<container, pair>("j", map, map2);
-    insert_upperbound<container, pair>("k", map, map2);
-    insert_upperbound<container, pair>("l", map, map2);
-    insert_upperbound<container, pair>("m", map, map2);
-    insert_upperbound<container, pair>("n", map, map2);
-    insert_upperbound<container, pair>("o", map, map2);
-    insert_upperbound<container, pair>("p", map, map2);
-    insert_upperbound<container, pair>("q", map, map2);
-    insert_upperbound<container, pair>("r", map, map2);
-    insert_upperbound<container, pair>("s", map, map2);
-    insert_upperbound<container, pair>("t", map, map2);
-    insert_upperbound<container, pair>("u", map, map2);
-    insert_upperbound<container, pair>("v", map, map2);
-    insert_upperbound<container, pair>("w", map, map2);
-    insert_upperbound<container, pair>("x", map, map2);
-    insert_upperbound<container, pair>("y", map, map2);
-    insert_upperbound<container, pair>("z", map, map2);
+    map_insert_upperbound<container, pair>("a", map, map2);
+    map_insert_upperbound<container, pair>("b", map, map2);
+    map_insert_upperbound<container, pair>("c", map, map2);
+    map_insert_upperbound<container, pair>("d", map, map2);
+    map_insert_upperbound<container, pair>("e", map, map2);
+    map_insert_upperbound<container, pair>("f", map, map2);
+    map_insert_upperbound<container, pair>("g", map, map2);
+    map_insert_upperbound<container, pair>("h", map, map2);
+    map_insert_upperbound<container, pair>("i", map, map2);
+    map_insert_upperbound<container, pair>("j", map, map2);
+    map_insert_upperbound<container, pair>("k", map, map2);
+    map_insert_upperbound<container, pair>("l", map, map2);
+    map_insert_upperbound<container, pair>("m", map, map2);
+    map_insert_upperbound<container, pair>("n", map, map2);
+    map_insert_upperbound<container, pair>("o", map, map2);
+    map_insert_upperbound<container, pair>("p", map, map2);
+    map_insert_upperbound<container, pair>("q", map, map2);
+    map_insert_upperbound<container, pair>("r", map, map2);
+    map_insert_upperbound<container, pair>("s", map, map2);
+    map_insert_upperbound<container, pair>("t", map, map2);
+    map_insert_upperbound<container, pair>("u", map, map2);
+    map_insert_upperbound<container, pair>("v", map, map2);
+    map_insert_upperbound<container, pair>("w", map, map2);
+    map_insert_upperbound<container, pair>("x", map, map2);
+    map_insert_upperbound<container, pair>("y", map, map2);
+    map_insert_upperbound<container, pair>("z", map, map2);
 
 	return (0);
 }
 
 
 template <class container, class pair>
-static void    insert_equalrange(std::string key, container &map, container &map2)
+static void    map_insert_equalrange(std::string key, container &map, container &map2)
 {
     if (map2.equal_range(key).first != map2.end())
         map.insert(pair(key + "_low", map2.equal_range(key).first->second));
@@ -245,32 +245,32 @@ int	map_equalrange(container &map)
 	map2.insert(pair("q", 10));
 
 
-    insert_equalrange<container, pair>("a", map, map2);
-    insert_equalrange<container, pair>("b", map, map2);
-    insert_equalrange<container, pair>("c", map, map2);
-    insert_equalrange<container, pair>("d", map, map2);
-    insert_equalrange<container, pair>("e", map, map2);
-    insert_equalrange<container, pair>("f", map, map2);
-    insert_equalrange<container, pair>("g", map, map2);
-    insert_equalrange<container, pair>("h", map, map2);
-    insert_equalrange<container, pair>("i", map, map2);
-    insert_equalrange<container, pair>("j", map, map2);
-    insert_equalrange<container, pair>("k", map, map2);
-    insert_equalrange<container, pair>("l", map, map2);
-    insert_equalrange<container, pair>("m", map, map2);
-    insert_equalrange<container, pair>("n", map, map2);
-    insert_equalrange<container, pair>("o", map, map2);
-    insert_equalrange<container, pair>("p", map, map2);
-    insert_equalrange<container, pair>("q", map, map2);
-    insert_equalrange<container, pair>("r", map, map2);
-    insert_equalrange<container, pair>("s", map, map2);
-    insert_equalrange<container, pair>("t", map, map2);
-    insert_equalrange<container, pair>("u", map, map2);
-    insert_equalrange<container, pair>("v", map, map2);
-    insert_equalrange<container, pair>("w", map, map2);
-    insert_equalrange<container, pair>("x", map, map2);
-    insert_equalrange<container, pair>("y", map, map2);
-    insert_equalrange<container, pair>("z", map, map2);
+    map_insert_equalrange<container, pair>("a", map, map2);
+    map_insert_equalrange<container, pair>("b", map, map2);
+    map_insert_equalrange<container, pair>("c", map, map2);
+    map_insert_equalrange<container, pair>("d", map, map2);
+    map_insert_equalrange<container, pair>("e", map, map2);
+    map_insert_equalrange<container, pair>("f", map, map2);
+    map_insert_equalrange<container, pair>("g", map, map2);
+    map_insert_equalrange<container, pair>("h", map, map2);
+    map_insert_equalrange<container, pair>("i", map, map2);
+    map_insert_equalrange<container, pair>("j", map, map2);
+    map_insert_equalrange<container, pair>("k", map, map2);
+    map_insert_equalrange<container, pair>("l", map, map2);
+    map_insert_equalrange<container, pair>("m", map, map2);
+    map_insert_equalrange<container, pair>("n", map, map2);
+    map_insert_equalrange<container, pair>("o", map, map2);
+    map_insert_equalrange<container, pair>("p", map, map2);
+    map_insert_equalrange<container, pair>("q", map, map2);
+    map_insert_equalrange<container, pair>("r", map, map2);
+    map_insert_equalrange<container, pair>("s", map, map2);
+    map_insert_equalrange<container, pair>("t", map, map2);
+    map_insert_equalrange<container, pair>("u", map, map2);
+    map_insert_equalrange<container, pair>("v", map, map2);
+    map_insert_equalrange<container, pair>("w", map, map2);
+    map_insert_equalrange<container, pair>("x", map, map2);
+    map_insert_equalrange<container, pair>("y", map, map2);
+    map_insert_equalrange<container, pair>("z", map, map2);
 
 	return (0);
 }

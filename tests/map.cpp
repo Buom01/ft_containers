@@ -6,20 +6,13 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 14:03:56 by badam             #+#    #+#             */
-/*   Updated: 2021/12/20 17:17:31 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 17:38:55 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_MAP_CPP
 # define TESTS_MAP_CPP
 
-struct cmpByStringLength {
-    bool operator()(const std::string& a, const std::string& b) const {
-        return a.length() < b.length();
-    }
-};
-
-#include <utility>
 #include "tests.hpp"
 #include "map/ultrabasic.hpp"
 #include "map/members.hpp"

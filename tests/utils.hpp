@@ -6,14 +6,23 @@
 /*   By: badam <badam@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:52:10 by user              #+#    #+#             */
-/*   Updated: 2021/11/16 17:36:45 by badam            ###   ########.fr       */
+/*   Updated: 2021/12/20 18:02:21 by badam            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "tests.hpp"
 #include "../utils.hpp"
+
+template <class T1, class T2>
+std::string	set_concat_pair(T1 key, T2 value)
+{
+	std::stringstream sstm;
+	sstm << key << "_" << value;
+	return (sstm.str());
+}
 
 bool	maydo(std::string testname, std::string selection);
 
